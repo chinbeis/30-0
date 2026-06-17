@@ -1,0 +1,232 @@
+{
+  "khabib": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Khabib_nurmagomedov.jpg/330px-Khabib_nurmagomedov.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Khabib_Nurmagomedov",
+    "title": "Khabib Nurmagomedov"
+  },
+  "islam": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Islam_Makhachev_2022_UFC_belt_%28cropped%29.png/330px-Islam_Makhachev_2022_UFC_belt_%28cropped%29.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Islam_Makhachev",
+    "title": "Islam Makhachev"
+  },
+  "oliveira": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Charles_Oliveira_do_Bronxs.jpg/330px-Charles_Oliveira_do_Bronxs.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Charles_Oliveira",
+    "title": "Charles Oliveira"
+  },
+  "poirier": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/6/6c/DustinPoirier.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Dustin_Poirier",
+    "title": "Dustin Poirier"
+  },
+  "gaethje": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/UFC_Freedom_250%2C_the_mixed_martial_arts_event_produced_by_the_Ultimate_Fighting_Championship%2C_Sunday%2C_June_14%2C_2026%2C_in_the_Grand_Foyer_of_the_White_House_-_67%28cropped%29.jpg/330px-thumbnail.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Justin_Gaethje",
+    "title": "Justin Gaethje"
+  },
+  "mcgregor": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Conor_McGregor_mugshot_%282019%29.jpg/330px-Conor_McGregor_mugshot_%282019%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Conor_McGregor",
+    "title": "Conor McGregor"
+  },
+  "volkanovski": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Alexander_Volkanovski_at_UFC_232.jpg/330px-Alexander_Volkanovski_at_UFC_232.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Alexander_Volkanovski",
+    "title": "Alexander Volkanovski"
+  },
+  "aldo": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Jos%C3%A9_Aldo%2C_UFC_189_World_Tour_London_%282%29_%28cropped%29.jpg/330px-Jos%C3%A9_Aldo%2C_UFC_189_World_Tour_London_%282%29_%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Jos%C3%A9_Aldo",
+    "title": "José Aldo"
+  },
+  "holloway": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Blue_Angels%27_VIP_Rider_Max_Holloway_%281%29_%28cropped%29.jpg/330px-Blue_Angels%27_VIP_Rider_Max_Holloway_%281%29_%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Max_Holloway",
+    "title": "Max Holloway"
+  },
+  "topuria": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Ilia_Topuria_in_the_Oval_Office_%28while_President_Donald_J._Trump_is_holding_a_meeting_with_UFC_fighters%29.jpg/330px-Ilia_Topuria_in_the_Oval_Office_%28while_President_Donald_J._Trump_is_holding_a_meeting_with_UFC_fighters%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Ilia_Topuria",
+    "title": "Ilia Topuria"
+  },
+  "gsp": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/2021_-_Centre_Stage_DG4_5765_%2851654942080%29_%28cropped%29.jpg/330px-2021_-_Centre_Stage_DG4_5765_%2851654942080%29_%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Georges_St-Pierre",
+    "title": "Georges St-Pierre"
+  },
+  "usman": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/KamaruUsmanPress2018.png/330px-KamaruUsmanPress2018.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Kamaru_Usman",
+    "title": "Kamaru Usman"
+  },
+  "diaz": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Nate_Diaz_Oct_2019.jpg/330px-Nate_Diaz_Oct_2019.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Nate_Diaz",
+    "title": "Nate Diaz"
+  },
+  "lawler": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Robbie_Lawler.png/330px-Robbie_Lawler.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Robbie_Lawler",
+    "title": "Robbie Lawler"
+  },
+  "silva": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Anderson_Silva.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Anderson_Silva",
+    "title": "Anderson Silva"
+  },
+  "adesanya": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Israel_Adesanya_at_UFC_230.jpg/330px-Israel_Adesanya_at_UFC_230.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Israel_Adesanya",
+    "title": "Israel Adesanya"
+  },
+  "whittaker": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Robert_Whittaker_2024.png/330px-Robert_Whittaker_2024.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Robert_Whittaker_(fighter)",
+    "title": "Robert Whittaker (fighter)"
+  },
+  "chimaev": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Khamzat_Chimaev_2022_%28cropped%29.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Khamzat_Chimaev",
+    "title": "Khamzat Chimaev"
+  },
+  "weidman": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Chris_Weidman_at_UFC_230.jpg/330px-Chris_Weidman_at_UFC_230.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Chris_Weidman",
+    "title": "Chris Weidman"
+  },
+  "jones": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Jon_Jones_-_Supporting_Brain_Health_Study.jpg/330px-Jon_Jones_-_Supporting_Brain_Health_Study.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Jon_Jones",
+    "title": "Jon Jones"
+  },
+  "cormier": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Daniel_Cormier_taking_a_picture_with_a_fan..jpg/330px-Daniel_Cormier_taking_a_picture_with_a_fan..jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Daniel_Cormier",
+    "title": "Daniel Cormier"
+  },
+  "pereira": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Alex_Pereira_in_the_Oval_Office_%28while_President_Donald_J._Trump_is_holding_a_meeting_with_UFC_fighters%29.jpg/330px-Alex_Pereira_in_the_Oval_Office_%28while_President_Donald_J._Trump_is_holding_a_meeting_with_UFC_fighters%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Alex_Pereira",
+    "title": "Alex Pereira"
+  },
+  "rua": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/MauricioRua.png/330px-MauricioRua.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Maur%C3%ADcio_Rua",
+    "title": "Maurício Rua"
+  },
+  "gustafsson": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Alexander_%22The_Mauler%22_Gustafsson_2014.jpg/330px-Alexander_%22The_Mauler%22_Gustafsson_2014.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Alexander_Gustafsson",
+    "title": "Alexander Gustafsson"
+  },
+  "jones_hw": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Stipe_Miocic_%2848086643396%29_%28cropped%29.jpg/330px-Stipe_Miocic_%2848086643396%29_%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Stipe_Miocic",
+    "title": "Stipe Miocic"
+  },
+  "ngannou": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Francis_Ngannou_2023_%28cropped%29.png/330px-Francis_Ngannou_2023_%28cropped%29.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Francis_Ngannou",
+    "title": "Francis Ngannou"
+  },
+  "dc_hw": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Cain_Velasquez.jpg/330px-Cain_Velasquez.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Cain_Velasquez",
+    "title": "Cain Velasquez"
+  },
+  "fedor": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Fedor_Emelianenko_Dec_2015.jpg/330px-Fedor_Emelianenko_Dec_2015.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Fedor_Emelianenko",
+    "title": "Fedor Emelianenko"
+  },
+  "werdum": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Fabricio_Werdum.jpg/330px-Fabricio_Werdum.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Fabr%C3%ADcio_Werdum",
+    "title": "Fabrício Werdum"
+  },
+  "sterling": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Alijamain_Sterling_at_UFC_228.jpg/330px-Alijamain_Sterling_at_UFC_228.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Aljamain_Sterling",
+    "title": "Aljamain Sterling"
+  },
+  "ohamalley": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Sean_O%27Malley_in_2024.jpg/330px-Sean_O%27Malley_in_2024.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Sean_O'Malley_(fighter)",
+    "title": "Sean O'Malley (fighter)"
+  },
+  "dillashaw": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/TJ_Dillashaw.png/330px-TJ_Dillashaw.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/T.J._Dillashaw",
+    "title": "T.J. Dillashaw"
+  },
+  "cruz": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Dom_Cruz_2.png/330px-Dom_Cruz_2.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Dominick_Cruz",
+    "title": "Dominick Cruz"
+  },
+  "obrien_dvalishvili": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Merab_Dvalishvili_at_UFC_316_%28cropped%29.jpg/330px-Merab_Dvalishvili_at_UFC_316_%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Merab_Dvalishvili",
+    "title": "Merab Dvalishvili"
+  },
+  "dj": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Demetrious_Johnson_2024.png/330px-Demetrious_Johnson_2024.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Demetrious_Johnson",
+    "title": "Demetrious Johnson"
+  },
+  "figueiredo": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Deiveson_Figueiredo_2024.jpg/330px-Deiveson_Figueiredo_2024.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Deiveson_Figueiredo",
+    "title": "Deiveson Figueiredo"
+  },
+  "moreno": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Brandon_Moreno_February_2021.jpg/330px-Brandon_Moreno_February_2021.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Brandon_Moreno",
+    "title": "Brandon Moreno"
+  },
+  "pantoja": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Pantoja_2025.jpg/330px-Pantoja_2025.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Alexandre_Pantoja",
+    "title": "Alexandre Pantoja"
+  },
+  "nunes": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Ceremonial_weigh_ins_-_Amanda_Nunes_vs_Julianna_Pe%C3%B1a_UFC_269_%28cropped%29.jpg/330px-Ceremonial_weigh_ins_-_Amanda_Nunes_vs_Julianna_Pe%C3%B1a_UFC_269_%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Amanda_Nunes",
+    "title": "Amanda Nunes"
+  },
+  "shevchenko": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Valentina_Shevchenko_2020.jpg/330px-Valentina_Shevchenko_2020.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Valentina_Shevchenko",
+    "title": "Valentina Shevchenko"
+  },
+  "zhang": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/%E5%BC%A0%E4%BC%9F%E4%B8%BD.png/330px-%E5%BC%A0%E4%BC%9F%E4%B8%BD.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Zhang_Weili",
+    "title": "Zhang Weili"
+  },
+  "rousey": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Rousey_HOF_2018_%28cropped%29.jpg/330px-Rousey_HOF_2018_%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Ronda_Rousey",
+    "title": "Ronda Rousey"
+  },
+  "jedrzejczyk": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Joanna_J%C4%99drzejczyk.png/330px-Joanna_J%C4%99drzejczyk.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Joanna_J%C4%99drzejczyk",
+    "title": "Joanna Jędrzejczyk"
+  },
+  "ferguson": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Tony_Ferguson_2025.jpg/330px-Tony_Ferguson_2025.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Tony_Ferguson",
+    "title": "Tony Ferguson"
+  },
+  "masvidal": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Jorge_Masvidal_2023.jpg/330px-Jorge_Masvidal_2023.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Jorge_Masvidal",
+    "title": "Jorge Masvidal"
+  },
+  "cerrone": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/VCJCS_hosts_USO_Spring_Tour_160312-D-HU462-263.jpg/330px-VCJCS_hosts_USO_Spring_Tour_160312-D-HU462-263.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Donald_Cerrone",
+    "title": "Donald Cerrone"
+  }
+}

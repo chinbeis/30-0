@@ -169,6 +169,41 @@ mapper from real UFCStats/octagon-api raw stats → the 7 ratings (not built yet
 
 ---
 
+## Second game: "Can You Become the GOAT?" (`lib/goat/`)
+
+A separate trait-draft game sharing the same infra. You build ONE fighter by
+picking a trait from a fighter in each of 7 categories (Striking, Wrestling,
+Submissions, Cardio, Chin, Fight IQ, **Physique**), then run a **13-fight
+undefeated gauntlet** to triple champ. Engine is pure/deterministic like the 30-0
+engine; reuses `rng.ts` and the fighter data.
+
+- `lib/goat/attributes.ts` — category → fighter-rating mapping; hidden ratings,
+  qualitative tags only.
+- `lib/goat/board.ts` — 7-round board; **wider pool** = `FIGHTERS` +
+  `EXTRA_FIGHTERS` (`lib/game/fighters-extended.ts`, ~27 mid/low-tier fighters) so
+  triples can offer weak options. Physique round forces 3 distinct divisions.
+- `lib/goat/engine.ts` — `composeFighter` (fuse traits), `simulateCareer`
+  (career ends at FIRST loss), synergies/diminishing returns, physique trade-offs
+  (big frame = power but cardio strain in title rounds; small frame = punished
+  moving up divisions), GOAT score, tiers (Amateur→…→**THE GOAT**), weak-link
+  attribution + narrative.
+- **Calibration (tough by design):** skilled build 13-0 ≈ **3.6%**; **12-1 (lost
+  the triple-champ fight) ≈ 8.0%** — the final boss (opp 103) is the wall, so the
+  near-miss is ~2× more common than glory. Random builds ≈ 0.1%. The knobs:
+  `SCALE` + the `LADDER` opponent curve in `engine.ts`. Re-run
+  `npx vitest run lib/goat` after any change; keep 12-1 > 13-0.
+- **`EXTRA_FIGHTERS` only widens the GOAT pool** — the 30-0 game still uses
+  `FIGHTERS` alone, so its calibration is untouched.
+- ✅ **UI built:** `app/goat/page.tsx` + `app/goat/_game/Build.tsx` — start → 7
+  trait rounds → animated 13-rung career ladder → result (archetype, biggest
+  strength/weakness w/ source fighter, fused-fighter stat bars, synergies,
+  narrative, personal best in `localStorage` `goat:best`). Linked from the header.
+- **Not yet built:** DB persistence + leaderboard + challenge links for GOAT
+  (add a `game='goat'` discriminator on `runs`/`challenges` — reuse the 30-0
+  game's routes/queries).
+
+> Tests use `@/*` via `vitest.config.ts` (mirrors the tsconfig alias).
+
 ## Database (Neon Postgres)
 
 - Connection string lives in `.env.local` as `DATABASE_URL` (pooled, `-pooler`

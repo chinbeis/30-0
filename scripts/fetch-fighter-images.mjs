@@ -11,11 +11,26 @@ import { dirname, join } from "node:path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, "..");
 
-// Pull the id/name list straight out of fighters.ts without importing TS.
-const src = readFileSync(join(root, "lib/game/fighters.ts"), "utf8");
+// Pull the id/name list straight out of the fighter files without importing TS.
 const re = /id:\s*"([^"]+)",\s*name:\s*"([^"]+)"/g;
 const fighters = [];
-for (const m of src.matchAll(re)) fighters.push({ id: m[1], name: m[2] });
+for (const file of [
+  "lib/game/fighters.ts",
+  "lib/game/fighters-extended.ts",
+  "lib/game/fighters-current.ts",
+]) {
+  const src = readFileSync(join(root, file), "utf8");
+  for (const m of src.matchAll(re)) fighters.push({ id: m[1], name: m[2] });
+}
+
+// Preserve already-resolved photos; only fetch ids we don't have yet.
+const outPath = join(root, "lib/game/fighter-images.json");
+let existing = {};
+try {
+  existing = JSON.parse(readFileSync(outPath, "utf8"));
+} catch {
+  /* first run */
+}
 
 // Explicit Wikipedia titles for names that disambiguate to the wrong person.
 const TITLE_OVERRIDES = {
@@ -31,6 +46,16 @@ const TITLE_OVERRIDES = {
   "Stipe Miocic": "Stipe Miočić",
   "Fabricio Werdum": "Fabrício Werdum",
   "Cain Velasquez": "Cain Velasquez",
+  // current roster disambiguations
+  "Sean Brady": "Sean Brady (fighter)",
+  "Michael Morales": "Michael Morales (fighter)",
+  "Anthony Hernandez": "Anthony Hernandez (fighter)",
+  "Jean Silva": "Jean Silva (fighter)",
+  "Diego Lopes": "Diego Lopes (fighter)",
+  "Alex Perez": "Alex Perez (fighter)",
+  "Brandon Royval": "Brandon Royval",
+  "Song Yadong": "Song Yadong",
+  "Jared Cannonier": "Jared Cannonier",
 };
 
 const UA = "CanYouGo30-0/0.1 (educational game prototype; contact dev)";
@@ -60,11 +85,12 @@ async function fetchSummary(title) {
   return null;
 }
 
-const out = {};
+const out = { ...existing };
 let ok = 0;
 const misses = [];
 
 for (const f of fighters) {
+  if (out[f.id]) continue; // already resolved on a previous run
   const title = TITLE_OVERRIDES[f.name] ?? f.name;
   try {
     const data = await fetchSummary(title);
@@ -86,10 +112,9 @@ for (const f of fighters) {
   await new Promise((r) => setTimeout(r, 120));
 }
 
-writeFileSync(
-  join(root, "lib/game/fighter-images.json"),
-  JSON.stringify(out, null, 2) + "\n",
-);
+writeFileSync(outPath, JSON.stringify(out, null, 2) + "\n");
 
-console.log(`\nResolved ${ok}/${fighters.length} fighter photos.`);
+console.log(
+  `\nNewly resolved ${ok} photos. Total ${Object.keys(out).length}/${fighters.length}.`,
+);
 if (misses.length) console.log("No clean photo (will use monogram):", misses.join(", "));

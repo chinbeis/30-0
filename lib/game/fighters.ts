@@ -1,4 +1,5 @@
 import type { Fighter } from "./types";
+import { CURRENT_FIGHTERS } from "./fighters-current";
 
 // Seed pool for MVP. ~48 marquee fighters across eras/divisions.
 //
@@ -79,6 +80,9 @@ export const FIGHTERS: Fighter[] = [
   { id: "masvidal", name: "Jorge Masvidal", nickname: "Gamebred", division: "Welterweight", era: "Modern", striking: 86, grappling: 76, cardio: 80, durability: 82, fightIq: 78, experience: 90, finishing: 82 },
   { id: "cerrone", name: "Donald Cerrone", nickname: "Cowboy", division: "Lightweight", era: "2010s", striking: 84, grappling: 82, cardio: 82, durability: 78, fightIq: 76, experience: 96, finishing: 86 },
   { id: "till", name: "Darren Till", nickname: "The Gorilla", division: "Middleweight", era: "Modern", striking: 84, grappling: 70, cardio: 74, durability: 76, fightIq: 74, experience: 78, finishing: 76 },
+
+  // Current UFC men's top-10 (champions + contenders), merged in.
+  ...CURRENT_FIGHTERS,
 ];
 
 export const FIGHTERS_BY_ID: Record<string, Fighter> = Object.fromEntries(

@@ -3,9 +3,9 @@ import Image from "next/image";
 import { auth, signIn, signOut, googleEnabled } from "@/auth";
 
 const NAV = [
-  { href: "/", label: "Play" },
+  { href: "/", label: "30-0" },
+  { href: "/goat", label: "GOAT" },
   { href: "/leaderboard", label: "Leaderboard" },
-  { href: "/how-it-works", label: "How it works" },
 ];
 
 export async function SiteHeader() {

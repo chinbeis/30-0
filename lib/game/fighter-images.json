@@ -228,5 +228,315 @@
     "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/VCJCS_hosts_USO_Spring_Tour_160312-D-HU462-263.jpg/330px-VCJCS_hosts_USO_Spring_Tour_160312-D-HU462-263.jpg",
     "pageUrl": "https://en.wikipedia.org/wiki/Donald_Cerrone",
     "title": "Donald Cerrone"
+  },
+  "till": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Darren_Till_during_MMAanytt_interview_%28cropped%29.png/330px-Darren_Till_during_MMAanytt_interview_%28cropped%29.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Darren_Till",
+    "title": "Darren Till"
+  },
+  "sanchez": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/5/59/DiegoSanchez.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Diego_Sanchez",
+    "title": "Diego Sanchez"
+  },
+  "guida": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Clay_Guida.png/330px-Clay_Guida.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Clay_Guida",
+    "title": "Clay Guida"
+  },
+  "lauzon": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/JLauzon.jpg/330px-JLauzon.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Joe_Lauzon",
+    "title": "Joe Lauzon"
+  },
+  "jstephens": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Jeremy_Stephens_%28cropped%29.jpg/330px-Jeremy_Stephens_%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Jeremy_Stephens",
+    "title": "Jeremy Stephens"
+  },
+  "hardy": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Dan_Hardy.jpg/330px-Dan_Hardy.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Dan_Hardy",
+    "title": "Dan Hardy"
+  },
+  "bonnar": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/5/54/Stephan-bonnar-flickr-fight-launch.jpeg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Stephan_Bonnar",
+    "title": "Stephan Bonnar"
+  },
+  "forrest": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/8/87/USMC-100809-M-6457M-001_CROPPED.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Forrest_Griffin",
+    "title": "Forrest Griffin"
+  },
+  "dlewis": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Derrick_Lewis_after_UFC_239.jpg/330px-Derrick_Lewis_after_UFC_239.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Derrick_Lewis",
+    "title": "Derrick Lewis"
+  },
+  "arlovski": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Andrei_Arlovski_2018.jpg/330px-Andrei_Arlovski_2018.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Andrei_Arlovski",
+    "title": "Andrei Arlovski"
+  },
+  "cubswanson": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/CubSwanson04202017.jpg/330px-CubSwanson04202017.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Cub_Swanson",
+    "title": "Cub Swanson"
+  },
+  "mendes": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/3/3b/Chad_Mendes.jpeg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Chad_Mendes",
+    "title": "Chad Mendes"
+  },
+  "bjpenn": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/B.J._Penn%2C_2019.jpg/330px-B.J._Penn%2C_2019.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/B.J._Penn",
+    "title": "B.J. Penn"
+  },
+  "faber": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Urijah_Faber_24_July_2009.jpg/330px-Urijah_Faber_24_July_2009.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Urijah_Faber",
+    "title": "Urijah Faber"
+  },
+  "bisping": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/MichaelBispingProfile.png/330px-MichaelBispingProfile.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Michael_Bisping",
+    "title": "Michael Bisping"
+  },
+  "romero": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/2/24/Yoel_Romero.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Yoel_Romero",
+    "title": "Yoel Romero"
+  },
+  "gastelum": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Kelvin_Gastelum.jpg/330px-Kelvin_Gastelum.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Kelvin_Gastelum",
+    "title": "Kelvin Gastelum"
+  },
+  "costa": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/b/ba/Borrachinha_galo.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Paulo_Costa",
+    "title": "Paulo Costa"
+  },
+  "covington": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ColbyCovingtonFortJackson2022%28cropped%29.jpg/330px-ColbyCovingtonFortJackson2022%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Colby_Covington",
+    "title": "Colby Covington"
+  },
+  "gburns": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Gilbert_Burns_2024.png/330px-Gilbert_Burns_2024.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Gilbert_Burns",
+    "title": "Gilbert Burns"
+  },
+  "pettis": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/USO_Spring_2016_Entertainment_Tour_%28cropped%29.jpg/330px-USO_Spring_2016_Entertainment_Tour_%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Anthony_Pettis",
+    "title": "Anthony Pettis"
+  },
+  "jds": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Junior_dos_Santos.jpg/330px-Junior_dos_Santos.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Junior_dos_Santos",
+    "title": "Junior dos Santos"
+  },
+  "ealvarez": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Eddie_Alvarez.jpg/330px-Eddie_Alvarez.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Eddie_Alvarez",
+    "title": "Eddie Alvarez"
+  },
+  "blachowicz": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Jan_Blachowicz_at_UFC_Fight_Night_136.jpg/330px-Jan_Blachowicz_at_UFC_Fight_Night_136.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Jan_B%C5%82achowicz",
+    "title": "Jan Błachowicz"
+  },
+  "markhunt": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Mark_Hunt_on_22_November_2007.jpg/330px-Mark_Hunt_on_22_November_2007.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Mark_Hunt",
+    "title": "Mark Hunt"
+  },
+  "kkf": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Kaikarafrance.png/330px-Kaikarafrance.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Kai_Kara-France",
+    "title": "Kai Kara-France"
+  },
+  "kape": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/ManelKape2017.png/330px-ManelKape2017.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Manel_Kape",
+    "title": "Manel Kape"
+  },
+  "umar": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/UmarNurmagomedov.png/330px-UmarNurmagomedov.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Umar_Nurmagomedov",
+    "title": "Umar Nurmagomedov"
+  },
+  "yan": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Vladimir_Putin_at_award_ceremonies_%282026-04-22%29_24%28cropped%29.jpg/330px-Vladimir_Putin_at_award_ceremonies_%282026-04-22%29_24%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Petr_Yan",
+    "title": "Petr Yan"
+  },
+  "sandhagen": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/UFC%27s_Corey_Sandhagen_brings_his_fighting_spirit_to_the_1st_SOW_%281%29_%28cropped%29.jpg/330px-UFC%27s_Corey_Sandhagen_brings_his_fighting_spirit_to_the_1st_SOW_%281%29_%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Cory_Sandhagen",
+    "title": "Cory Sandhagen"
+  },
+  "vera": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Marlon_%22Chito%22_Vera_2019.jpg/330px-Marlon_%22Chito%22_Vera_2019.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Marlon_Vera",
+    "title": "Marlon Vera"
+  },
+  "font": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/FONT.jpg/330px-FONT.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Rob_Font",
+    "title": "Rob Font"
+  },
+  "cejudo": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Henry_Cejudo_%2854235464255%29_%28cropped%29.jpg/330px-Henry_Cejudo_%2854235464255%29_%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Henry_Cejudo",
+    "title": "Henry Cejudo"
+  },
+  "diegolopes": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Diego_Lopes_2026.jpg/330px-Diego_Lopes_2026.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Diego_Lopes_(fighter)",
+    "title": "Diego Lopes (fighter)"
+  },
+  "yair": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Carrera_con_Yair_%22Pantera%22_Rodr%C3%ADguez_-i---i-_%2830657689682%29_cropped.jpg/330px-Carrera_con_Yair_%22Pantera%22_Rodr%C3%ADguez_-i---i-_%2830657689682%29_cropped.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Yair_Rodr%C3%ADguez",
+    "title": "Yair Rodríguez"
+  },
+  "ortega": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Brian_Ortega_on_MMAnytt.jpg/330px-Brian_Ortega_on_MMAnytt.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Brian_Ortega",
+    "title": "Brian Ortega"
+  },
+  "arnoldallen": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Arnold_Allen_at_UFC_Fight_Night_147_in_London.jpg/330px-Arnold_Allen_at_UFC_Fight_Night_147_in_London.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Arnold_Allen",
+    "title": "Arnold Allen"
+  },
+  "emmett": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/2/25/Josh_Emmett.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Josh_Emmett",
+    "title": "Josh Emmett"
+  },
+  "arman": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Arman_Tsarukyan_2019.jpg/330px-Arman_Tsarukyan_2019.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Arman_Tsarukyan",
+    "title": "Arman Tsarukyan"
+  },
+  "hooker": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/DanHooker2016.png/330px-DanHooker2016.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Dan_Hooker",
+    "title": "Dan Hooker"
+  },
+  "gamrot": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Mateusz_Gamrot.jpg/330px-Mateusz_Gamrot.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Mateusz_Gamrot",
+    "title": "Mateusz Gamrot"
+  },
+  "dariush": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/MMA_Holiday_Tour_at_Al_Asad_Air_Base_11_%28cropped%29.jpg/330px-MMA_Holiday_Tour_at_Al_Asad_Air_Base_11_%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Beneil_Dariush",
+    "title": "Beneil Dariush"
+  },
+  "paddy": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/UFC_Star_Paddy_The_Baddy_Pimblett_tells_his_story_%28cropped%29.jpg/330px-UFC_Star_Paddy_The_Baddy_Pimblett_tells_his_story_%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Paddy_Pimblett",
+    "title": "Paddy Pimblett"
+  },
+  "belal": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Belal_Muhammad_UFC_%28cropped%29.jpg/330px-Belal_Muhammad_UFC_%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Belal_Muhammad",
+    "title": "Belal Muhammad"
+  },
+  "garry": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/e/ee/IanGarry.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Ian_Machado_Garry",
+    "title": "Ian Machado Garry"
+  },
+  "morales": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Michael_Morales._QUITO%2C_27_DE_MAYO_DEL_2025_%28cropped%29.jpg/330px-Michael_Morales._QUITO%2C_27_DE_MAYO_DEL_2025_%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Michael_Morales_(fighter)",
+    "title": "Michael Morales (fighter)"
+  },
+  "ddp": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/IMG-Dricus-Duplessis%28cropped%29.jpg/330px-IMG-Dricus-Duplessis%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Dricus_du_Plessis",
+    "title": "Dricus du Plessis"
+  },
+  "imavov": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Nassourdine_Imavov.jpg/330px-Nassourdine_Imavov.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Nassourdine_Imavov",
+    "title": "Nassourdine Imavov"
+  },
+  "strickland": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Sean_Strickland_at_UFN_200.png/330px-Sean_Strickland_at_UFN_200.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Sean_Strickland",
+    "title": "Sean Strickland"
+  },
+  "borralho": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Caio_Borralho_2025.jpg/330px-Caio_Borralho_2025.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Caio_Borralho",
+    "title": "Caio Borralho"
+  },
+  "cannonier": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Jared_Cannonier_at_UFC_Fight_Night_160_in_Copenhagen.jpg/330px-Jared_Cannonier_at_UFC_Fight_Night_160_in_Copenhagen.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Jared_Cannonier",
+    "title": "Jared Cannonier"
+  },
+  "dolidze": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Dolidze_2019.jpg/330px-Dolidze_2019.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Roman_Dolidze",
+    "title": "Roman Dolidze"
+  },
+  "ankalaev": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Magomed_Ankalaev_at_UFC_Fight_Night_136_in_Moscow%2C_Russia.jpg/330px-Magomed_Ankalaev_at_UFC_Fight_Night_136_in_Moscow%2C_Russia.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Magomed_Ankalaev",
+    "title": "Magomed Ankalaev"
+  },
+  "prochazka": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/JiriProchazka2022.png/330px-JiriProchazka2022.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Ji%C5%99%C3%AD_Proch%C3%A1zka",
+    "title": "Jiří Procházka"
+  },
+  "rountree": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Khalil_Rountree%2C_Jr.._%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Khalil_Rountree_Jr.",
+    "title": "Khalil Rountree Jr."
+  },
+  "reyes": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Dominick_Reyes_%2854451224096%29.jpg/330px-Dominick_Reyes_%2854451224096%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Dominick_Reyes",
+    "title": "Dominick Reyes"
+  },
+  "oezdemir": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Volkan_Oezdemir_at_UFC_Fight_Night_153_in_Stockholm%2C_Sweden.jpg/330px-Volkan_Oezdemir_at_UFC_Fight_Night_153_in_Stockholm%2C_Sweden.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Volkan_Oezdemir",
+    "title": "Volkan Oezdemir"
+  },
+  "gane": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/UFC_Freedom_250%2C_the_mixed_martial_arts_event_produced_by_the_Ultimate_Fighting_Championship%2C_Sunday%2C_June_14%2C_2026%2C_in_the_Grand_Foyer_of_the_White_House_-_64%28cropped%29.jpg/330px-thumbnail.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Ciryl_Gane",
+    "title": "Ciryl Gane"
+  },
+  "pavlovich": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/SergeiPavlovich2018.png/330px-SergeiPavlovich2018.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Sergei_Pavlovich",
+    "title": "Sergei Pavlovich"
+  },
+  "blaydes": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Curtis_Blaydes_at_UFC_221.png/330px-Curtis_Blaydes_at_UFC_221.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Curtis_Blaydes",
+    "title": "Curtis Blaydes"
+  },
+  "almeida": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Almeida_2023.png/330px-Almeida_2023.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Jailton_Almeida",
+    "title": "Jailton Almeida"
+  },
+  "tuivasa": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Tai_Tuivasa_at_UFC_234.jpg/330px-Tai_Tuivasa_at_UFC_234.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Tai_Tuivasa",
+    "title": "Tai Tuivasa"
   }
 }

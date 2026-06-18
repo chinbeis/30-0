@@ -1,7 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { buildBuildBoard, type BuildBoard, type BuildRound } from "@/lib/goat/board";
+import {
+  buildBuildBoard,
+  REROLLS_TOTAL,
+  type BuildBoard,
+  type BuildRound,
+} from "@/lib/goat/board";
 import {
   ATTR_LABEL,
   CAREER_LADDER,
@@ -68,12 +73,13 @@ function recordAccent(losses: number, wins: number): string {
   return "text-zinc-300";
 }
 
-export default function Build() {
+export default function Build({ portraitEnabled = false }: { portraitEnabled?: boolean }) {
   const [phase, setPhase] = useState<Phase>("start");
   const [runId, setRunId] = useState("");
   const [board, setBoard] = useState<BuildBoard | null>(null);
   const [round, setRound] = useState(0);
   const [picks, setPicks] = useState<string[]>([]);
+  const [rerollsLeft, setRerollsLeft] = useState(REROLLS_TOTAL);
   const [result, setResult] = useState<CareerResult | null>(null);
 
   const start = useCallback(() => {
@@ -82,6 +88,7 @@ export default function Build() {
     setBoard(buildBuildBoard(id));
     setRound(0);
     setPicks([]);
+    setRerollsLeft(REROLLS_TOTAL);
     setResult(null);
     setPhase("pick");
   }, []);
@@ -106,7 +113,14 @@ export default function Build() {
   if (phase === "sim" && result)
     return <SimScreen result={result} onDone={() => setPhase("result")} />;
   if (phase === "result" && result)
-    return <ResultScreen result={result} onReplay={start} />;
+    return (
+      <ResultScreen
+        result={result}
+        picks={picks}
+        portraitEnabled={portraitEnabled}
+        onReplay={start}
+      />
+    );
   if (phase === "pick" && board)
     return (
       <PickScreen
@@ -114,6 +128,8 @@ export default function Build() {
         round={board.rounds[round]}
         roundIndex={round}
         picks={picks}
+        rerollsLeft={rerollsLeft}
+        onReroll={() => setRerollsLeft((n) => n - 1)}
         onPick={pick}
       />
     );
@@ -172,23 +188,29 @@ function PickScreen({
   round,
   roundIndex,
   picks,
+  rerollsLeft,
+  onReroll,
   onPick,
 }: {
   round: BuildRound;
   roundIndex: number;
   picks: string[];
+  rerollsLeft: number;
+  onReroll: () => void;
   onPick: (id: string) => void;
 }) {
   const [rollIndex, setRollIndex] = useState(0);
   const [rolling, setRolling] = useState(false);
   const options = round.pages[rollIndex];
-  const rollsLeft = round.pages.length - 1 - rollIndex;
+  // gated by the shared draft-wide budget AND how many pages this round has
+  const canRoll = rerollsLeft > 0 && rollIndex < round.pages.length - 1 && !rolling;
 
   const onRoll = () => {
-    if (rollsLeft <= 0 || rolling) return;
+    if (!canRoll) return;
     setRolling(true);
     setTimeout(() => {
       setRollIndex((i) => i + 1);
+      onReroll();
       setRolling(false);
     }, 300);
   };
@@ -228,23 +250,26 @@ function PickScreen({
         ))}
       </div>
 
-      {/* reroll control */}
-      <div className="mt-5 flex flex-col items-center gap-1">
+      {/* reroll control — shared budget across the whole draft */}
+      <div className="mt-5 flex flex-col items-center gap-1.5">
         <button
           onClick={onRoll}
-          disabled={rollsLeft <= 0 || rolling}
+          disabled={!canRoll}
           className="flex items-center gap-2 rounded-full border border-amber-500/50 bg-amber-500/10 px-6 py-2.5 text-sm font-bold text-amber-300 transition hover:bg-amber-500/20 disabled:cursor-not-allowed disabled:opacity-40"
         >
           <span className={rolling ? "animate-roll inline-block" : "inline-block"}>🎲</span>
-          {rollsLeft > 0 ? `Reroll options` : `No rerolls left`}
+          {rerollsLeft > 0 ? `Reroll  ·  ${rerollsLeft} left` : "No rerolls left"}
         </button>
-        <div className="flex gap-1.5">
-          {Array.from({ length: round.pages.length - 1 }).map((_, i) => (
+        <div className="flex items-center gap-1.5">
+          {Array.from({ length: REROLLS_TOTAL }).map((_, i) => (
             <span
               key={i}
-              className={`h-1.5 w-1.5 rounded-full ${i < rollsLeft ? "bg-amber-400" : "bg-zinc-700"}`}
+              className={`h-2 w-2 rounded-full ${i < rerollsLeft ? "bg-amber-400" : "bg-zinc-700"}`}
             />
           ))}
+          <span className="ml-1 text-[10px] uppercase tracking-wide text-zinc-600">
+            rerolls left (whole draft)
+          </span>
         </div>
       </div>
 
@@ -401,7 +426,17 @@ function shareText(r: CareerResult, url: string): string {
   ].join("\n");
 }
 
-function ResultScreen({ result, onReplay }: { result: CareerResult; onReplay: () => void }) {
+function ResultScreen({
+  result,
+  picks,
+  portraitEnabled,
+  onReplay,
+}: {
+  result: CareerResult;
+  picks: string[];
+  portraitEnabled: boolean;
+  onReplay: () => void;
+}) {
   const [copied, setCopied] = useState(false);
   const a = result.attributes;
 
@@ -464,6 +499,13 @@ function ResultScreen({ result, onReplay }: { result: CareerResult; onReplay: ()
         {result.narrative}
       </p>
 
+      <PortraitMaker
+        picks={picks}
+        sources={a.sources}
+        archetypeName={result.archetypeName}
+        portraitEnabled={portraitEnabled}
+      />
+
       <div className="mt-4 grid grid-cols-2 gap-3">
         <AttrPill label="BIGGEST STRENGTH" data={result.biggestStrength} accent="text-emerald-400" />
         <AttrPill label="BIGGEST WEAKNESS" data={result.biggestWeakness} accent="text-red-400" />
@@ -523,6 +565,180 @@ function ResultScreen({ result, onReplay }: { result: CareerResult; onReplay: ()
           {getPoolFighter(a.sources.physique).name})
         </div>
       </div>
+    </div>
+  );
+}
+
+const PART_LABELS: { key: CategoryKey; label: string }[] = [
+  { key: "striking", label: "The Hands" },
+  { key: "wrestling", label: "The Takedowns" },
+  { key: "submissions", label: "The Ground Game" },
+  { key: "cardio", label: "The Gas Tank" },
+  { key: "chin", label: "The Chin" },
+  { key: "fightIq", label: "The Brain" },
+];
+
+function DefaultFighterCard({
+  sources,
+  archetypeName,
+}: {
+  sources: Record<CategoryKey, string>;
+  archetypeName: string;
+}) {
+  const body = getPoolFighter(sources.physique);
+  return (
+    <div className="rounded-2xl border border-zinc-800 bg-gradient-to-b from-zinc-900 to-black p-4">
+      <div className="text-center">
+        <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">
+          Your Franken-fighter
+        </div>
+        <div className="text-lg font-black text-amber-300">{archetypeName}</div>
+      </div>
+      <div className="mt-3 flex flex-col items-center">
+        <FighterAvatar
+          id={body.id}
+          name={body.name}
+          className="h-24 w-24 rounded-2xl ring-2 ring-amber-500/40"
+          textClass="text-2xl"
+          sizes="96px"
+        />
+        <div className="mt-1.5 text-xs font-bold">The Frame · {body.name}</div>
+      </div>
+      <div className="mt-3 grid grid-cols-3 gap-2">
+        {PART_LABELS.map((p) => {
+          const f = getPoolFighter(sources[p.key]);
+          return (
+            <div
+              key={p.key}
+              className="flex flex-col items-center rounded-xl border border-zinc-800 bg-zinc-900/40 p-2 text-center"
+            >
+              <FighterAvatar
+                id={f.id}
+                name={f.name}
+                className="h-10 w-10 rounded-full ring-1 ring-zinc-700"
+                textClass="text-[11px]"
+                sizes="40px"
+              />
+              <div className="mt-1 text-[9px] font-bold uppercase tracking-wide text-zinc-500">
+                {p.label}
+              </div>
+              <div className="w-full truncate text-[10px] text-zinc-300">{f.name}</div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function PortraitMaker({
+  picks,
+  sources,
+  archetypeName,
+  portraitEnabled,
+}: {
+  picks: string[];
+  sources: Record<CategoryKey, string>;
+  archetypeName: string;
+  portraitEnabled: boolean;
+}) {
+  const [status, setStatus] = useState<"idle" | "loading" | "ai" | "default">("idle");
+  const [img, setImg] = useState<string | null>(null);
+
+  const generate = async () => {
+    setStatus("loading");
+    try {
+      const res = await fetch("/api/goat/portrait", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ picks }),
+      });
+      const data = res.ok ? await res.json() : null;
+      if (data?.image) {
+        setImg(data.image);
+        setStatus("ai");
+      } else {
+        setStatus("default"); // no key / failure -> graceful default card
+      }
+    } catch {
+      setStatus("default");
+    }
+  };
+
+  const body = getPoolFighter(sources.physique).name;
+  const hands = getPoolFighter(sources.striking).name;
+
+  if (status === "ai" && img) {
+    return (
+      <div className="mt-4 rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={img}
+          alt="Your generated fighter"
+          className="mx-auto aspect-square w-full max-w-sm rounded-xl object-cover"
+        />
+        <p className="mt-2 text-[11px] text-zinc-500">
+          AI caricature · {body}’s frame, {hands}’s hands
+        </p>
+        <div className="mt-3 flex justify-center gap-2">
+          <a
+            href={img}
+            download="my-goat-fighter.png"
+            className="rounded-full border border-zinc-700 px-4 py-1.5 text-xs font-bold text-zinc-200 hover:bg-zinc-900"
+          >
+            Save image
+          </a>
+          <button
+            onClick={generate}
+            className="rounded-full border border-amber-500/50 px-4 py-1.5 text-xs font-bold text-amber-300 hover:bg-amber-500/10"
+          >
+            Regenerate
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (status === "loading") {
+    return (
+      <div className="mt-4 flex flex-col items-center gap-3 rounded-2xl border border-amber-500/30 bg-amber-500/5 py-8">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-zinc-800 border-t-amber-400" />
+        <p className="text-sm text-zinc-400">Cooking up your fighter… (~15s)</p>
+      </div>
+    );
+  }
+
+  if (status === "default") {
+    return (
+      <div className="mt-4">
+        <DefaultFighterCard sources={sources} archetypeName={archetypeName} />
+        {portraitEnabled ? (
+          <button
+            onClick={generate}
+            className="mt-2 w-full rounded-full border border-amber-500/50 py-2 text-xs font-bold text-amber-300 hover:bg-amber-500/10"
+          >
+            🎨 Try AI caricature again
+          </button>
+        ) : (
+          <p className="mt-2 text-center text-[11px] text-zinc-600">
+            Add an OpenAI key for an AI caricature version.
+          </p>
+        )}
+      </div>
+    );
+  }
+
+  // idle
+  return (
+    <div className="mt-4 rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-center">
+      <p className="text-sm font-bold">See your Franken-fighter 🧬</p>
+      <p className="mt-1 text-xs text-zinc-400">Built from your picks.</p>
+      <button
+        onClick={portraitEnabled ? generate : () => setStatus("default")}
+        className="mt-3 rounded-full bg-gradient-to-r from-amber-400 to-red-500 px-6 py-2.5 text-sm font-black text-black transition hover:scale-105 active:scale-95"
+      >
+        {portraitEnabled ? "🎨 Generate my fighter" : "Reveal my fighter card"}
+      </button>
     </div>
   );
 }

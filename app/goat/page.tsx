@@ -8,9 +8,12 @@ export const metadata: Metadata = {
 };
 
 export default function GoatPage() {
+  // AI caricature only works if an OpenAI key is configured; otherwise the result
+  // screen shows a default composite "fighter card" instead.
+  const portraitEnabled = !!process.env.OPENAI_API_KEY;
   return (
     <main className="flex flex-1 flex-col">
-      <Build />
+      <Build portraitEnabled={portraitEnabled} />
     </main>
   );
 }

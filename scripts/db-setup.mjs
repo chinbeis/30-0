@@ -41,6 +41,13 @@ const statements = [
      creator_goat    SMALLINT NOT NULL,
      created_at      TIMESTAMPTZ NOT NULL DEFAULT now()
    )`,
+  // Cache of generated GOAT fighter portraits, keyed by the build (7 picks),
+  // so identical builds don't re-call the paid image API.
+  `CREATE TABLE IF NOT EXISTS goat_portraits (
+     build_key   TEXT PRIMARY KEY,
+     image       TEXT NOT NULL,
+     created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+   )`,
 ];
 
 for (const stmt of statements) {

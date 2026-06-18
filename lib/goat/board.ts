@@ -6,8 +6,9 @@ import { CATEGORIES } from "./attributes";
 import type { CategoryKey } from "./types";
 
 export const CHOICES_PER_ROUND = 3;
-export const REROLLS = 2; // a player can roll twice for fresh options each round
-export const PAGES = 1 + REROLLS; // initial set + rerolls
+export const REROLLS_TOTAL = 3; // shared budget across the WHOLE draft, not per round
+// Each round can hold up to 4 pages because a player could spend all 3 rerolls here.
+export const PAGES = 1 + REROLLS_TOTAL;
 
 /** Wider pool (legends + current top-10 + mid/low tier) so triples vary widely. */
 export const GOAT_POOL: Fighter[] = [...FIGHTERS, ...EXTRA_FIGHTERS];

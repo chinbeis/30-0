@@ -110,6 +110,22 @@ export async function createChallenge(
   return id;
 }
 
+// ---- GOAT fighter portraits (cache of generated images) ----
+
+export async function getPortrait(buildKey: string): Promise<string | null> {
+  const rows = (await sql`
+    SELECT image FROM goat_portraits WHERE build_key = ${buildKey} LIMIT 1
+  `) as { image: string }[];
+  return rows[0]?.image ?? null;
+}
+
+export async function savePortrait(buildKey: string, image: string): Promise<void> {
+  await sql`
+    INSERT INTO goat_portraits (build_key, image) VALUES (${buildKey}, ${image})
+    ON CONFLICT (build_key) DO NOTHING
+  `;
+}
+
 export async function getChallenge(id: string): Promise<ChallengeRow | null> {
   const rows = (await sql`
     SELECT id, seed, creator_name, creator_picks,

@@ -81,11 +81,12 @@ scripts/
 
 ### Fighter photos
 Photos are **free-licensed, pulled from Wikipedia/Wikimedia** by
-`scripts/fetch-fighter-images.mjs` into `lib/game/fighter-images.json` (46/49
-resolve; the rest fall back to monogram avatars). Served via `next/image`
-(`upload.wikimedia.org` is allowlisted in `next.config.ts`). **Do not hotlink
-UFC's copyrighted CDN.** Re-run the script with `node scripts/fetch-fighter-images.mjs`
-after editing the roster. The footer carries the "not affiliated with UFC"
+`scripts/fetch-fighter-images.mjs` (scans all 3 fighter files) into
+`lib/game/fighter-images.json` (~109/138 resolve; the rest fall back to monogram
+avatars). Served via `next/image` (`upload.wikimedia.org` is allowlisted in
+`next.config.ts`). **Do not hotlink UFC's copyrighted CDN.** Re-run with
+`node scripts/fetch-fighter-images.mjs` after editing the roster (it only fetches
+ids not already resolved; re-run to catch transient Wikipedia API errors). The footer carries the "not affiliated with UFC"
 disclaimer required by this choice. A personal best is stored in `localStorage`
 (`cyg300:best`).
 
@@ -102,7 +103,10 @@ is the aggregate. This is the key design decision: **one weak pick can go 0-3 an
 mathematically cap you below perfection**, so the result screen's "Weakest Pick" is
 always attributable to a single choice — the engine of the near-miss feeling.
 
-### Fighter ratings (0–100)
+### Fighter roster & ratings (0–100)
+`FIGHTERS` (`lib/game/fighters.ts`) = legends + **`CURRENT_FIGHTERS`**
+(`lib/game/fighters-current.ts`, current UFC men's top-10 champions/contenders,
+merged in). `EXTRA_FIGHTERS` (`fighters-extended.ts`) = mid/low tier, GOAT-only.
 Seven traits: `striking, grappling, cardio, durability, fightIq, experience,
 finishing`. **These are AUTHORED (reputation-based), not scraped.** No public
 dataset provides them (UFCStats/Kaggle/octagon-api give raw stats like SLpM/TD
@@ -134,8 +138,11 @@ constant that decides how often a strong roster goes 30-0. **Currently `SCALE =
 
 | Player behavior | 30-0 rate | 29-1 rate |
 |---|---|---|
-| Skilled (always picks best of the 3) | **~4.5%** | ~14.6% |
-| Clueless (random picks) | ~0.3% | — |
+| Skilled (always picks best of the 3) | **~3.1%** | ~13.3% |
+| Clueless (random picks) | ~0.2% | — |
+
+(Re-tuned after the roster expanded with current top-10 fighters: `OPP_OVR_MAX`
+eased 90→88 to keep the chase alive with the larger, more mid-tier pool.)
 
 This is the target zone: perfection is rare enough to chase, near-misses are ~3×
 more common than perfection (the hook). **If you change `SCALE`, the OVR weights,
@@ -179,25 +186,41 @@ engine; reuses `rng.ts` and the fighter data.
 
 - `lib/goat/attributes.ts` — category → fighter-rating mapping; hidden ratings,
   qualitative tags only.
-- `lib/goat/board.ts` — 7-round board; **wider pool** = `FIGHTERS` +
-  `EXTRA_FIGHTERS` (`lib/game/fighters-extended.ts`, ~27 mid/low-tier fighters) so
-  triples can offer weak options. Physique round forces 3 distinct divisions.
+- `lib/goat/board.ts` — 7-round board, **3 rerolls TOTAL for the whole draft**
+  (`REROLLS_TOTAL`, a shared budget — NOT per round). Each round holds `pages` =
+  initial + up to 3 reroll sets (4 pages, since all 3 could be spent on one round);
+  deterministic from the seed. The budget is tracked in `Build.tsx` and passed to
+  `PickScreen`. **Wider pool** = `FIGHTERS` + `EXTRA_FIGHTERS`. Physique round
+  forces 3 distinct divisions per page. UI: 🎲 reroll button (shows N left) +
+  `animate-deal` card animation.
 - `lib/goat/engine.ts` — `composeFighter` (fuse traits), `simulateCareer`
   (career ends at FIRST loss), synergies/diminishing returns, physique trade-offs
   (big frame = power but cardio strain in title rounds; small frame = punished
   moving up divisions), GOAT score, tiers (Amateur→…→**THE GOAT**), weak-link
   attribution + narrative.
-- **Calibration (tough by design):** skilled build 13-0 ≈ **3.6%**; **12-1 (lost
-  the triple-champ fight) ≈ 8.0%** — the final boss (opp 103) is the wall, so the
-  near-miss is ~2× more common than glory. Random builds ≈ 0.1%. The knobs:
-  `SCALE` + the `LADDER` opponent curve in `engine.ts`. Re-run
-  `npx vitest run lib/goat` after any change; keep 12-1 > 13-0.
+- **Calibration (tough by design, accounts for rerolls):** skilled build that
+  rerolls optimally still only goes 13-0 ≈ **3.5%**; **12-1 (lost the triple-champ
+  fight) ≈ 11.5%** — the final boss (opp 109) is the wall, near-miss ~3× more
+  common than glory. Random/no-reroll builds ≈ 0%. Calibration models "best across
+  all reroll pages", so the sim stays hard even for reroll-abusers. Knobs: `SCALE`
+  (5.2) + the `LADDER` curve in `engine.ts`. Re-run `npx vitest run lib/goat`;
+  keep 12-1 > 13-0.
 - **`EXTRA_FIGHTERS` only widens the GOAT pool** — the 30-0 game still uses
   `FIGHTERS` alone, so its calibration is untouched.
 - ✅ **UI built:** `app/goat/page.tsx` + `app/goat/_game/Build.tsx` — start → 7
   trait rounds → animated 13-rung career ladder → result (archetype, biggest
   strength/weakness w/ source fighter, fused-fighter stat bars, synergies,
   narrative, personal best in `localStorage` `goat:best`). Linked from the header.
+- ✅ **AI fighter portrait:** result screen "🎨 Generate my fighter" → comedic
+  caricature built from the picks. `lib/goat/portrait.ts` (pure prompt builder,
+  describes exaggerated *attributes* — not real faces, which OpenAI blocks anyway),
+  `app/api/goat/portrait/route.ts` (calls **OpenAI gpt-image-1**, base64 result).
+  Needs `OPENAI_API_KEY` in `.env.local`. **Without a key** (route 503s), the UI
+  falls back to a **default composite "fighter card"** (`DefaultFighterCard` — the
+  physique pick as the hero + labeled trait contributors). `goat/page.tsx` passes
+  `portraitEnabled = !!OPENAI_API_KEY` down so the button reads "Generate" vs
+  "Reveal my fighter card". **Cached** in `goat_portraits` (hash of the 7 picks)
+  so identical builds don't re-bill. `maxDuration=60`. ~$0.01–0.04/image.
 - **Not yet built:** DB persistence + leaderboard + challenge links for GOAT
   (add a `game='goat'` discriminator on `runs`/`challenges` — reuse the 30-0
   game's routes/queries).
@@ -232,8 +255,11 @@ then `goat_score` — so even 30-0 teams are ordered by GOAT score (82-0 style).
 ## Auth & identity
 
 - **Auth.js v5** (`next-auth@beta`) in `auth.ts` (root), JWT sessions, handler at
-  `app/api/auth/[...nextauth]/route.ts`. Server components read the session with
-  `await auth()`; sign-in/out use server actions in `SiteHeader`.
+  `app/api/auth/[...nextauth]/route.ts`. `SiteHeader` (server) reads `await auth()`
+  and renders `AuthControls` (client) → **"Sign in" opens a login modal**
+  (`app/_components/AuthControls.tsx`, uses `signIn`/`signOut` from
+  `next-auth/react`). Modal shows Continue-with-Google when `googleEnabled`, else a
+  "play with a nickname" note.
 - **Google is optional.** The provider only loads when `AUTH_GOOGLE_ID` is set
   (`googleEnabled` in `auth.ts`), so the app runs in **nickname-only mode** until
   you add credentials. Guests get a `localStorage` `guestId` + a typed nickname.

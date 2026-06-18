@@ -3,19 +3,40 @@ import { buildBuildBoard, validateBuildPicks, GOAT_POOL } from "./board";
 import { simulateCareer, composeFighter, CAREER_LENGTH } from "./engine";
 import { attributeValue, divisionSize } from "./attributes";
 import { getFighter } from "@/lib/game/fighters";
+import type { Fighter } from "@/lib/game/types";
 
-// A skilled player uses rerolls to hunt the best option, so model "best across
-// all pages" — the strongest realistic strategy. The sim must stay tough even here.
+// A skilled player has only 3 rerolls for the WHOLE draft, and spends them on the
+// 3 trait categories where rerolling helps most (biggest jump from the initial
+// deal to the best across pages). Other rounds: best of the initial 3.
+const REROLL_BUDGET = 3;
 function skilledPicks(seed: string): string[] {
   const board = buildBuildBoard(seed);
-  return board.rounds.map((r) => {
-    const all = r.pages.flat();
+  const plan = board.rounds.map((r) => {
     if (r.physique) {
-      const sorted = [...all].sort((a, b) => divisionSize(a.division) - divisionSize(b.division));
-      return sorted[Math.floor(sorted.length / 2)].id; // middle frame
+      const sorted = [...r.pages[0]].sort((a, b) => divisionSize(a.division) - divisionSize(b.division));
+      return { initial: sorted[1].id, upgraded: sorted[1].id, gain: -1, cat: r.category };
     }
-    return [...all].sort((a, b) => attributeValue(b, r.category) - attributeValue(a, r.category))[0].id;
+    const byAttr = (fs: Fighter[]) =>
+      [...fs].sort((a, b) => attributeValue(b, r.category) - attributeValue(a, r.category))[0];
+    const p0 = byAttr(r.pages[0]);
+    const all = byAttr(r.pages.flat());
+    return {
+      initial: p0.id,
+      upgraded: all.id,
+      gain: attributeValue(all, r.category) - attributeValue(p0, r.category),
+      cat: r.category,
+    };
   });
+
+  // spend the 3-reroll budget on the highest-gain trait rounds
+  const upgrade = new Set(
+    [...plan]
+      .filter((p) => p.gain > 0)
+      .sort((a, b) => b.gain - a.gain)
+      .slice(0, REROLL_BUDGET)
+      .map((p) => p.cat),
+  );
+  return plan.map((p) => (upgrade.has(p.cat) ? p.upgraded : p.initial));
 }
 
 // A careless player just takes the first deal, no rerolls.
@@ -41,12 +62,12 @@ describe("board", () => {
   it("has a wider pool than the core game", () => {
     expect(GOAT_POOL.length).toBeGreaterThan(70);
   });
-  it("is deterministic and has 7 rounds with 3 reroll pages of 3", () => {
+  it("is deterministic and has 7 rounds with 4 pages of 3 (initial + 3 rerolls)", () => {
     const b = buildBuildBoard("x");
     expect(b).toEqual(buildBuildBoard("x"));
     expect(b.rounds).toHaveLength(7);
     b.rounds.forEach((r) => {
-      expect(r.pages).toHaveLength(3); // initial + 2 rerolls
+      expect(r.pages).toHaveLength(4); // initial + up to 3 rerolls (shared budget)
       r.pages.forEach((p) => expect(p).toHaveLength(3));
     });
   });
@@ -58,7 +79,7 @@ describe("board", () => {
   });
   it("validateBuildPicks accepts a pick from any reroll page, rejects illegal", () => {
     const b = buildBuildBoard("v");
-    const fromLastRoll = b.rounds.map((r) => r.pages[2][0].id); // 2nd reroll
+    const fromLastRoll = b.rounds.map((r) => r.pages[3][0].id); // 3rd reroll
     expect(validateBuildPicks(b, fromLastRoll)).toBe(true);
     expect(validateBuildPicks(b, fromLastRoll.slice(0, 6))).toBe(false);
   });

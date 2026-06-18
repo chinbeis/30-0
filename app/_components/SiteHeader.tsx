@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
-import { auth, signIn, signOut, googleEnabled } from "@/auth";
+import { auth, googleEnabled } from "@/auth";
+import { AuthControls } from "./AuthControls";
 
 const NAV = [
   { href: "/", label: "30-0" },
@@ -29,40 +29,10 @@ export async function SiteHeader() {
             </Link>
           ))}
 
-          {user ? (
-            <div className="flex items-center gap-2">
-              {user.image ? (
-                <Image
-                  src={user.image}
-                  alt={user.name ?? "You"}
-                  width={26}
-                  height={26}
-                  className="rounded-full"
-                />
-              ) : null}
-              <form
-                action={async () => {
-                  "use server";
-                  await signOut();
-                }}
-              >
-                <button className="text-zinc-500 transition hover:text-white" title="Sign out">
-                  Sign out
-                </button>
-              </form>
-            </div>
-          ) : googleEnabled ? (
-            <form
-              action={async () => {
-                "use server";
-                await signIn("google");
-              }}
-            >
-              <button className="rounded-full bg-white px-3 py-1 text-xs font-bold text-black transition hover:bg-zinc-200">
-                Sign in
-              </button>
-            </form>
-          ) : null}
+          <AuthControls
+            user={user ? { name: user.name ?? null, image: user.image ?? null } : null}
+            googleEnabled={googleEnabled}
+          />
         </nav>
       </div>
     </header>

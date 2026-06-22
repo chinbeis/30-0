@@ -7,6 +7,7 @@ import { getFighter } from "@/lib/game/fighters";
 import type { Fighter, SeasonResult } from "@/lib/game/types";
 import { fighterTags, recordAccent, shareText } from "./helpers";
 import { FighterAvatar } from "./FighterAvatar";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 type Phase = "start" | "pick" | "sim" | "result";
 
@@ -107,7 +108,17 @@ export default function Game({
     [picks, runId],
   );
 
-  if (phase === "start") return <StartScreen onPlay={start} />;
+  // Skip the description screen: start drafting immediately on entry. (A random
+  // seed must be generated client-side, so we do it in an effect to avoid an
+  // SSR/hydration mismatch.) Guarded so React strict-mode double-invoke is a no-op.
+  const startedRef = useRef(false);
+  useEffect(() => {
+    if (challenge || startedRef.current) return;
+    startedRef.current = true;
+    start();
+  }, [challenge, start]);
+
+  if (phase === "start") return <Loading />;
   if (phase === "sim") return <SimScreen onDone={() => setPhase("result")} />;
   if (phase === "result" && result)
     return (
@@ -135,38 +146,10 @@ export default function Game({
 
 // ---------------------------------------------------------------------------
 
-function StartScreen({ onPlay }: { onPlay: () => void }) {
-  const [best, setBest] = useState<Best | null>(null);
-  useEffect(() => setBest(readBest()), []);
+function Loading() {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center px-6 py-16 text-center">
-      <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-red-500">
-        MMA Roster Challenge
-      </p>
-      <h1 className="text-5xl font-black tracking-tight sm:text-7xl">
-        CAN YOU GO
-        <span className="block bg-gradient-to-r from-amber-400 to-red-500 bg-clip-text text-transparent">
-          30&ndash;0?
-        </span>
-      </h1>
-      <p className="mt-6 max-w-md text-lg text-zinc-400">
-        Draft 10 fighters in 10 picks. We simulate a 30-fight season. Go perfect
-        &mdash; or find out which pick cost you everything.
-      </p>
-      <button
-        onClick={onPlay}
-        className="mt-10 rounded-full bg-gradient-to-r from-amber-400 to-red-500 px-12 py-4 text-xl font-black text-black shadow-lg shadow-red-500/20 transition hover:scale-105 active:scale-95"
-      >
-        PLAY
-      </button>
-      <p className="mt-6 text-xs text-zinc-600">~60 seconds · no sign-up</p>
-      {best ? (
-        <p className="mt-4 text-sm text-zinc-500">
-          Your best:{" "}
-          <span className={`font-bold ${recordAccent(best.losses)}`}>{best.record}</span> · GOAT{" "}
-          {best.goatScore}
-        </p>
-      ) : null}
+    <div className="flex flex-1 items-center justify-center py-24">
+      <div className="h-12 w-12 animate-spin rounded-full border-4 border-zinc-800 border-t-red-500" />
     </div>
   );
 }
@@ -186,22 +169,25 @@ function PickScreen({
   challenge?: ChallengeInfo;
   onPick: (id: string) => void;
 }) {
+  const { t } = useI18n();
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 py-6">
       {challenge ? (
         <div className="mb-4 rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-2 text-center text-sm">
-          Beat <span className="font-bold">{challenge.creatorName}</span>&rsquo;s{" "}
+          {t.game.beatPrefix} <span className="font-bold">{challenge.creatorName}</span>&rsquo;s{" "}
           <span className="font-bold text-amber-300">
             {challenge.creatorWins}-{challenge.creatorLosses}
           </span>{" "}
-          &mdash; same fighters, same season.
+          {t.game.beatSuffix}
         </div>
       ) : null}
       <div className="mb-1 flex items-center justify-between text-xs font-semibold uppercase tracking-widest text-zinc-500">
         <span>
-          Round {round.round} / {ROSTER_SIZE}
+          {t.game.round} {round.round} / {ROSTER_SIZE}
         </span>
-        <span>{picks.length} drafted</span>
+        <span>
+          {picks.length} {t.game.drafted}
+        </span>
       </div>
       <div className="mb-6 h-1.5 w-full overflow-hidden rounded-full bg-zinc-800">
         <div
@@ -210,7 +196,7 @@ function PickScreen({
         />
       </div>
 
-      <h2 className="mb-5 text-center text-2xl font-bold">Pick your fighter</h2>
+      <h2 className="mb-5 text-center text-2xl font-bold">{t.game.pickFighter}</h2>
 
       <div className="grid flex-1 content-start gap-3 sm:grid-cols-3">
         {round.options.map((f) => (
@@ -322,6 +308,7 @@ function ResultScreen({
   challenge?: ChallengeInfo;
   onReplay: () => void;
 }) {
+  const { t } = useI18n();
   const mvp = getFighter(result.mvpFighterId);
   const weak = getFighter(result.weakestFighterId);
 
@@ -419,30 +406,30 @@ function ResultScreen({
       {/* nickname prompt for guests with no name yet */}
       {!user && !nick ? (
         <div className="mt-4 rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4">
-          <p className="text-sm font-semibold">Join the leaderboard</p>
-          <p className="mt-1 text-xs text-zinc-400">Pick a name to save your score.</p>
+          <p className="text-sm font-semibold">{t.game.joinLeaderboard}</p>
+          <p className="mt-1 text-xs text-zinc-400">{t.game.pickName}</p>
           <div className="mt-3 flex gap-2">
             <input
               value={nickInput}
               onChange={(e) => setNickInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && onSaveNick()}
               maxLength={24}
-              placeholder="Your name"
+              placeholder={t.login.namePlaceholder}
               className="flex-1 rounded-lg border border-zinc-700 bg-black px-3 py-2 text-sm outline-none focus:border-amber-400"
             />
             <button
               onClick={onSaveNick}
               className="rounded-lg bg-amber-400 px-4 py-2 text-sm font-bold text-black"
             >
-              Save
+              {t.common.save}
             </button>
           </div>
         </div>
       ) : null}
 
       <div className="mt-4 grid grid-cols-2 gap-3">
-        <PlayerPill label="TEAM MVP" fighter={mvp} accent="text-emerald-400" />
-        <PlayerPill label="WEAKEST PICK" fighter={weak} accent="text-red-400" />
+        <PlayerPill label={t.game.teamMvp} fighter={mvp} accent="text-emerald-400" />
+        <PlayerPill label={t.game.weakestPick} fighter={weak} accent="text-red-400" />
       </div>
 
       <div className="mt-6 flex flex-col gap-3">
@@ -450,7 +437,7 @@ function ResultScreen({
           onClick={onReplay}
           className="rounded-full bg-gradient-to-r from-amber-400 to-red-500 py-4 text-lg font-black text-black transition hover:scale-[1.02] active:scale-95"
         >
-          PLAY AGAIN
+          {t.game.playAgain}
         </button>
         <div className="grid grid-cols-2 gap-3">
           <ShareButton result={result} />
@@ -460,13 +447,13 @@ function ResultScreen({
           href="/leaderboard"
           className="text-center text-sm font-semibold text-zinc-400 underline-offset-4 hover:text-white hover:underline"
         >
-          View leaderboard →
+          {t.game.viewLeaderboard}
         </a>
       </div>
 
       {/* roster */}
       <h3 className="mt-7 mb-3 text-center text-xs font-bold uppercase tracking-[0.2em] text-zinc-500">
-        Your roster
+        {t.game.yourRoster}
       </h3>
       <div className="grid grid-cols-2 gap-2">
         {result.perFighter.map((fs) => {
@@ -499,7 +486,7 @@ function ResultScreen({
 
       <details className="mt-6 rounded-2xl border border-zinc-800 bg-zinc-900/40">
         <summary className="cursor-pointer select-none px-4 py-3 text-sm font-semibold text-zinc-400">
-          Fight-by-fight log
+          {t.game.fightLog}
         </summary>
         <div className="max-h-72 overflow-y-auto px-2 pb-2">
           {result.fights.map((fight) => {
@@ -533,12 +520,13 @@ function RankBadge({
   save: { status: string; rank?: number };
   hasIdentity: boolean;
 }) {
+  const { t } = useI18n();
   if (save.status === "saving")
-    return <div className="mt-4 text-xs text-zinc-500">Saving to leaderboard…</div>;
+    return <div className="mt-4 text-xs text-zinc-500">{t.game.savingRank}</div>;
   if (save.status === "saved" && save.rank)
     return (
       <div className="mt-4 text-sm font-bold text-amber-300">
-        Global rank #{save.rank}
+        {t.game.globalRank} #{save.rank}
       </div>
     );
   if (!hasIdentity) return null;
@@ -552,21 +540,26 @@ function HeadToHead({
   result: SeasonResult;
   challenge: ChallengeInfo;
 }) {
+  const { t } = useI18n();
   const youBetter =
     result.wins > challenge.creatorWins ||
     (result.wins === challenge.creatorWins && result.goatScore > challenge.creatorGoat);
   const tie = result.wins === challenge.creatorWins && result.goatScore === challenge.creatorGoat;
-  const verdict = tie ? "DEAD EVEN" : youBetter ? "YOU WIN 🏆" : `${challenge.creatorName.toUpperCase()} WINS`;
+  const verdict = tie
+    ? t.game.deadEven
+    : youBetter
+      ? t.game.youWin
+      : `${challenge.creatorName.toUpperCase()} ${t.game.wins}`;
   const color = tie ? "text-zinc-300" : youBetter ? "text-emerald-400" : "text-red-400";
   return (
     <div className="mb-5 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4 text-center">
       <div className={`text-lg font-black ${color}`}>{verdict}</div>
       <div className="mt-2 flex items-center justify-center gap-4 text-sm">
         <span>
-          You{" "}
+          {t.game.you}{" "}
           <span className={`font-bold ${recordAccent(result.losses)}`}>{result.record}</span>
         </span>
-        <span className="text-zinc-600">vs</span>
+        <span className="text-zinc-600">{t.game.vs}</span>
         <span className="text-zinc-300">
           {challenge.creatorName}{" "}
           <span className="font-bold">
@@ -579,6 +572,7 @@ function HeadToHead({
 }
 
 function ShareButton({ result }: { result: SeasonResult }) {
+  const { t } = useI18n();
   const [copied, setCopied] = useState(false);
   const onShare = async () => {
     const url = typeof window !== "undefined" ? window.location.origin : "";
@@ -599,7 +593,7 @@ function ShareButton({ result }: { result: SeasonResult }) {
       onClick={onShare}
       className="rounded-full border border-zinc-700 py-3 text-sm font-bold text-zinc-200 transition hover:bg-zinc-900"
     >
-      {copied ? "Copied! ✓" : "Share"}
+      {copied ? t.game.copied : t.game.share}
     </button>
   );
 }
@@ -615,6 +609,7 @@ function ChallengeButton({
   user: SessionUser;
   nick: string | null;
 }) {
+  const { t } = useI18n();
   const [state, setState] = useState<"idle" | "loading" | "done">("idle");
   const onCreate = async () => {
     setState("loading");
@@ -645,7 +640,7 @@ function ChallengeButton({
       disabled={state === "loading"}
       className="rounded-full border border-amber-500/50 bg-amber-500/10 py-3 text-sm font-bold text-amber-300 transition hover:bg-amber-500/20 disabled:opacity-60"
     >
-      {state === "loading" ? "Creating…" : state === "done" ? "Link copied! ✓" : "Beat my team"}
+      {state === "loading" ? t.game.creating : state === "done" ? t.game.linkCopied : t.game.beatMyTeam}
     </button>
   );
 }

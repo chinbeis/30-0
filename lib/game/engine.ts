@@ -8,7 +8,7 @@ import type {
   SeasonResult,
   Tier,
 } from "./types";
-import { getFighter } from "./fighters";
+import { FIGHTERS, getFighter } from "./fighters";
 import { rngFromSeed, type Rng } from "./rng";
 
 // ----------------------------------------------------------------------------
@@ -110,6 +110,56 @@ function styleModifier(f: Fighter, opp: Archetype): number {
 }
 
 // ----------------------------------------------------------------------------
+// Opponents (cosmetic flavor — does NOT affect win math or the rng sequence,
+// so calibration is untouched). Each bout names a real, same-weight-class
+// fighter, never the drafted fighter and (where possible) never a roster pick.
+// ----------------------------------------------------------------------------
+
+// Opponents come from FIGHTERS only (the same pool the board draws from) so every
+// oppId stays resolvable via getFighter(); each division has enough for variety.
+const OPP_POOL: { fighter: Fighter; ovr: number }[] = FIGHTERS.map((f) => ({
+  fighter: f,
+  ovr: ovr(f),
+}));
+
+/**
+ * Pick the most believable opponent for a bout: same division, OVR closest to
+ * the bout's difficulty, never the fighter itself. Tiers relax the constraints
+ * (avoid roster, avoid repeats, same division) only as a pool runs dry, so a
+ * real fighter is always returned. Pure + deterministic — uses no rng.
+ */
+function pickOpponent(
+  fighter: Fighter,
+  bout: Bout,
+  rosterIds: Set<string>,
+  used: Set<string>,
+): Fighter {
+  const sameDivision = (c: { fighter: Fighter }) => c.fighter.division === fighter.division;
+  const notSelf = (c: { fighter: Fighter }) => c.fighter.id !== fighter.id;
+
+  const tiers: ((c: { fighter: Fighter }) => boolean)[] = [
+    (c) => sameDivision(c) && notSelf(c) && !rosterIds.has(c.fighter.id) && !used.has(c.fighter.id),
+    (c) => sameDivision(c) && notSelf(c) && !used.has(c.fighter.id),
+    (c) => sameDivision(c) && notSelf(c),
+    (c) => notSelf(c) && !rosterIds.has(c.fighter.id) && !used.has(c.fighter.id),
+    (c) => notSelf(c),
+  ];
+
+  for (const ok of tiers) {
+    const candidates = OPP_POOL.filter(ok);
+    if (!candidates.length) continue;
+    // Nearest OVR to this bout's difficulty; deterministic id tiebreak.
+    candidates.sort(
+      (a, b) =>
+        Math.abs(a.ovr - bout.oppOvr) - Math.abs(b.ovr - bout.oppOvr) ||
+        a.fighter.id.localeCompare(b.fighter.id),
+    );
+    return candidates[0].fighter;
+  }
+  return fighter; // unreachable: the last tier matches every non-self fighter
+}
+
+// ----------------------------------------------------------------------------
 // Single fight
 // ----------------------------------------------------------------------------
 
@@ -133,7 +183,7 @@ function pickMethod(f: Fighter, win: boolean, isUpset: boolean, rng: Rng): Metho
   return "Decision";
 }
 
-function simFight(f: Fighter, bout: Bout, rng: Rng): FightResult {
+function simFight(f: Fighter, bout: Bout, opp: Fighter, rng: Rng): FightResult {
   const fOvr = ovr(f);
   const edge = fOvr - bout.oppOvr + styleModifier(f, bout.oppArchetype);
   const winProb = logistic(edge / SCALE);
@@ -143,6 +193,8 @@ function simFight(f: Fighter, bout: Bout, rng: Rng): FightResult {
   return {
     bout: bout.bout,
     fighterId: f.id,
+    oppId: opp.id,
+    oppName: opp.name,
     oppOvr: bout.oppOvr,
     oppArchetype: bout.oppArchetype,
     win,
@@ -254,9 +306,16 @@ export function simulateSeason({ picks, seed }: SimInput): SeasonResult {
   roster.forEach((f) => (perFighterFights[f.id] = []));
   const allFights: FightResult[] = [];
 
+  // Opponent assignment is cosmetic and consumes no rng, so it runs alongside the
+  // sim without shifting the seeded win/method rolls (calibration unaffected).
+  const rosterIds = new Set(roster.map((f) => f.id));
+  const usedOpponents = new Set<string>();
+
   schedule.forEach((bout, i) => {
     const fighter = roster[i % ROSTER_SIZE];
-    const result = simFight(fighter, bout, rng);
+    const opp = pickOpponent(fighter, bout, rosterIds, usedOpponents);
+    usedOpponents.add(opp.id);
+    const result = simFight(fighter, bout, opp, rng);
     allFights.push(result);
     perFighterFights[fighter.id].push(result);
   });

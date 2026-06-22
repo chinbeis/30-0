@@ -1,5 +1,7 @@
-import { getFighter } from "@/lib/game/fighters";
+import { FIGHTERS, getFighter } from "@/lib/game/fighters";
+import { CURRENT_FIGHTERS } from "@/lib/game/fighters-current";
 import { EXTRA_FIGHTERS } from "@/lib/game/fighters-extended";
+import { ovr } from "@/lib/game/engine";
 import { rngFromSeed, type Rng } from "@/lib/game/rng";
 import { attributeValue, divisionSize, TRAIT_KEYS } from "./attributes";
 import type {
@@ -60,6 +62,78 @@ const ARCHETYPES: Archetype[] = ["striker", "wrestler", "grappler", "balanced"];
 
 /** The 13 career rungs (labels + kind) for UI rendering. */
 export const CAREER_LADDER = LADDER.map((n) => ({ label: n.label, kind: n.kind }));
+
+// ---------------------------------------------------------------------------
+// Opponents (cosmetic — selected with a SEPARATE rng stream so the career sim's
+// seeded rolls are untouched and calibration stays valid). Early/regional rungs
+// face generated regional fighters; the title-level rungs face real *current*
+// fighters of the (move-up-adjusted) weight class.
+// ---------------------------------------------------------------------------
+
+// Real opponents come from the current roster first, then the wider pool as a
+// fallback for weight classes the current roster doesn't cover.
+const REAL_OPP_POOL = [...CURRENT_FIGHTERS, ...FIGHTERS].map((f, i) => ({
+  f,
+  ovr: ovr(f),
+  size: divisionSize(f.division),
+  current: i < CURRENT_FIGHTERS.length,
+}));
+
+// A rung faces a real fighter once it's title/move-up or a genuine top contender.
+function facesRealFighter(node: LadderNode): boolean {
+  return node.kind !== "normal" || node.opp >= 79;
+}
+
+const OPP_FIRST = [
+  "Jake", "Diego", "Yuki", "Marcus", "Bruno", "Ali", "Sergei", "Tyrone", "Pedro",
+  "Kenta", "Liam", "Andre", "Rashad", "Hugo", "Mateus", "Dmitry", "Caio", "Sean",
+  "Omar", "Viktor", "Tang", "Rafael", "Cole", "Ivan", "Mauricio", "Kai",
+];
+const OPP_LAST = [
+  "Silva", "Tanaka", "Johnson", "Petrov", "Costa", "Khan", "Mendes", "Park",
+  "Oliveira", "Novak", "Reyes", "Adesina", "Volkov", "Santos", "Nguyen", "Carter",
+  "Ferreira", "Kowalski", "Diaz", "Okafor", "Lee", "Romero", "Bayo", "Suzuki",
+];
+
+function genRegionalName(rng: Rng): string {
+  const first = OPP_FIRST[Math.floor(rng() * OPP_FIRST.length)];
+  const last = OPP_LAST[Math.floor(rng() * OPP_LAST.length)];
+  return `${first} ${last}`;
+}
+
+/** Name an opponent for a rung. Pure w.r.t. the career sim (uses `oppRng` only). */
+function pickGoatOpponent(
+  node: LadderNode,
+  fighterSize: number,
+  moveUps: number,
+  oppRng: Rng,
+  usedReal: Set<string>,
+  usedNames: Set<string>,
+): string {
+  if (facesRealFighter(node)) {
+    const size = Math.min(7, Math.max(1, fighterSize + moveUps));
+    const byCloseness = (
+      a: (typeof REAL_OPP_POOL)[number],
+      b: (typeof REAL_OPP_POOL)[number],
+    ) => Math.abs(a.ovr - node.opp) - Math.abs(b.ovr - node.opp) || a.f.id.localeCompare(b.f.id);
+
+    const tiers = [
+      REAL_OPP_POOL.filter((c) => c.current && c.size === size && !usedReal.has(c.f.id)),
+      REAL_OPP_POOL.filter((c) => c.size === size && !usedReal.has(c.f.id)),
+      REAL_OPP_POOL.filter((c) => c.current && !usedReal.has(c.f.id)),
+      REAL_OPP_POOL.filter((c) => !usedReal.has(c.f.id)),
+    ];
+    const pool = tiers.find((t) => t.length) ?? REAL_OPP_POOL;
+    const chosen = [...pool].sort(byCloseness)[0];
+    usedReal.add(chosen.f.id);
+    return chosen.f.name;
+  }
+
+  let name = genRegionalName(oppRng);
+  for (let guard = 0; usedNames.has(name) && guard < 12; guard++) name = genRegionalName(oppRng);
+  usedNames.add(name);
+  return name;
+}
 
 // ---------------------------------------------------------------------------
 // Build composition
@@ -183,6 +257,10 @@ export function simulateCareer({ picks, seed }: SimInput): CareerResult {
   if (picks.length !== 7) throw new Error(`Expected 7 picks, got ${picks.length}`);
   const a = composeFighter(picks);
   const rng = rngFromSeed(seed);
+  // Separate stream for opponent naming so it never shifts the career rolls above.
+  const oppRng = rngFromSeed(`${seed}:goatopp`);
+  const usedReal = new Set<string>();
+  const usedNames = new Set<string>();
   const syn = synergyInfo(a);
 
   const fights: CareerFight[] = [];
@@ -201,6 +279,7 @@ export function simulateCareer({ picks, seed }: SimInput): CareerResult {
     const winProb = logistic(edge / SCALE);
     const win = rng() < winProb;
     const method = methodFor(win, arc, a, rng);
+    const oppName = pickGoatOpponent(node, a.size, moveUps, oppRng, usedReal, usedNames);
 
     fights.push({
       fight: i + 1,
@@ -208,6 +287,7 @@ export function simulateCareer({ picks, seed }: SimInput): CareerResult {
       kind: node.kind,
       archetype: arc,
       oppRating: node.opp,
+      oppName,
       win,
       winProb,
       method,

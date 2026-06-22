@@ -48,6 +48,8 @@ export type Method =
 export interface FightResult {
   bout: number; // 1..30, in difficulty order (1 = easiest, 30 = final boss)
   fighterId: string;
+  oppId: string; // a real opponent (same weight class, never the fighter itself)
+  oppName: string;
   oppOvr: number;
   oppArchetype: Archetype;
   win: boolean;

@@ -418,10 +418,17 @@ function SimScreen({ result, onDone }: { result: CareerResult; onDone: () => voi
               }`}
             >
               <span className="w-5 text-center text-xs font-bold text-zinc-600">{i + 1}</span>
-              <span className="flex-1 text-sm">
-                {node.label}
-                {isTitle ? <span className="ml-1 text-amber-400">🏆</span> : null}
-                {isMove ? <span className="ml-1 text-sky-400">▲</span> : null}
+              <span className="min-w-0 flex-1 text-sm">
+                <span className="flex items-center gap-1">
+                  {node.label}
+                  {isTitle ? <span className="text-amber-400">🏆</span> : null}
+                  {isMove ? <span className="text-sky-400">▲</span> : null}
+                </span>
+                {revealed ? (
+                  <span className="block truncate text-[11px] text-zinc-500">
+                    {t.goat.vs} {fight!.oppName}
+                  </span>
+                ) : null}
               </span>
               {revealed ? (
                 <span
@@ -633,6 +640,38 @@ function ResultScreen({
           {t.goat.viewLeaderboard}
         </a>
       </div>
+
+      {/* career log — who you fought, fight by fight */}
+      <details className="mt-6 rounded-2xl border border-zinc-800 bg-zinc-900/40">
+        <summary className="cursor-pointer select-none px-4 py-3 text-sm font-semibold text-zinc-400">
+          {t.goat.careerLog}
+        </summary>
+        <div className="max-h-72 overflow-y-auto px-2 pb-2">
+          {result.fights.map((fight) => (
+            <div
+              key={fight.fight}
+              className="flex items-center justify-between gap-2 border-t border-zinc-800/60 px-2 py-1.5 text-xs"
+            >
+              <span className="w-5 shrink-0 text-zinc-600">{fight.fight}</span>
+              <span className="min-w-0 flex-1 truncate">
+                <span className="text-zinc-300">
+                  {fight.label}
+                  {fight.kind === "title" ? " 🏆" : fight.kind === "moveup" ? " ▲" : ""}
+                </span>
+                <span className="block truncate text-[11px] text-zinc-500">
+                  {t.goat.vs} {fight.oppName}
+                </span>
+              </span>
+              <span
+                className={`w-8 shrink-0 text-center font-bold ${fight.win ? "text-emerald-400" : "text-red-400"}`}
+              >
+                {fight.win ? "W" : "L"}
+              </span>
+              <span className="w-24 shrink-0 truncate text-right text-zinc-500">{fight.method}</span>
+            </div>
+          ))}
+        </div>
+      </details>
 
       {/* the fused fighter */}
       <h3 className="mt-7 mb-3 text-center text-xs font-bold uppercase tracking-[0.2em] text-zinc-500">

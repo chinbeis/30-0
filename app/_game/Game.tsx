@@ -496,10 +496,14 @@ function ResultScreen({
                 key={fight.bout}
                 className="flex items-center justify-between gap-2 border-t border-zinc-800/60 px-2 py-1.5 text-xs"
               >
-                <span className="w-6 text-zinc-600">{fight.bout}</span>
-                <span className="flex-1 truncate text-zinc-300">{f.name}</span>
+                <span className="w-6 shrink-0 text-zinc-600">{fight.bout}</span>
+                <span className="min-w-0 flex-1 truncate">
+                  <span className="text-zinc-300">{f.name}</span>
+                  <span className="text-zinc-600"> {t.game.vs} </span>
+                  <span className="text-zinc-400">{fight.oppName}</span>
+                </span>
                 <span
-                  className={`w-8 text-center font-bold ${fight.win ? "text-emerald-400" : "text-red-400"}`}
+                  className={`w-8 shrink-0 text-center font-bold ${fight.win ? "text-emerald-400" : "text-red-400"}`}
                 >
                   {fight.win ? "W" : "L"}
                 </span>

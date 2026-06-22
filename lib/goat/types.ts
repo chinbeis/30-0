@@ -44,6 +44,7 @@ export interface CareerFight {
   kind: FightKind;
   archetype: Archetype;
   oppRating: number;
+  oppName: string; // generated regional name early; a real current champ at the top
   win: boolean;
   winProb: number;
   method: string;

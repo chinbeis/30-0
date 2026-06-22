@@ -2,10 +2,10 @@ import { describe, it, expect } from "vitest";
 import { buildPortraitPrompt } from "./portrait";
 
 describe("buildPortraitPrompt", () => {
-  it("reflects physique (body) and elite striking (giant fists)", () => {
+  it("reflects physique (body) and elite striking on the right hand", () => {
     // [striking, wrestling, submissions, cardio, chin, fightIq, physique]
     const prompt = buildPortraitPrompt([
-      "pereira", // elite striking -> giant fists
+      "pereira", // elite striking -> giant right hand
       "khabib",
       "oliveira",
       "volkanovski",
@@ -14,21 +14,22 @@ describe("buildPortraitPrompt", () => {
       "ngannou", // heavyweight physique -> hulking body
     ]);
     expect(prompt).toMatch(/heavyweight body/i);
-    expect(prompt).toMatch(/fists/i);
+    expect(prompt).toMatch(/right hand \(striking\)/i);
+    expect(prompt).toMatch(/left hand \(submissions\)/i);
     expect(prompt.length).toBeGreaterThan(80);
   });
 
-  it("describes a weak attribute comically (glass jaw)", () => {
-    // chin from someone with low durability (Tuivasa, 76) won't trigger; use a low one
+  it("maps chin and fight IQ to the chin and head", () => {
     const prompt = buildPortraitPrompt([
       "mcgregor",
       "guida",
       "lauzon",
       "guida",
-      "tuivasa", // chin/durability 76 -> not glass; check it still produces a jaw phrase
+      "tuivasa", // chin
       "guida",
       "tuivasa",
     ]);
-    expect(prompt).toMatch(/jaw/i);
+    expect(prompt).toMatch(/chin:/i);
+    expect(prompt).toMatch(/head \(fight iq\)/i);
   });
 });

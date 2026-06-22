@@ -543,5 +543,40 @@
     "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Shavkat_Rakhmonov_%28cropped%29.jpg/330px-Shavkat_Rakhmonov_%28cropped%29.jpg",
     "pageUrl": "https://en.wikipedia.org/wiki/Shavkat_Rakhmonov",
     "title": "Shavkat Rakhmonov"
+  },
+  "suarez": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Tatiana_Suarez_at_UFC_228.jpg/330px-Tatiana_Suarez_at_UFC_228.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Tatiana_Suarez",
+    "title": "Tatiana Suarez"
+  },
+  "dern": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Mackenzie_Dern.png/330px-Mackenzie_Dern.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Mackenzie_Dern",
+    "title": "Mackenzie Dern"
+  },
+  "fiorot": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/MANON_FIOROT_ET_ALDRIC_CASSATA%2C_LE_COUPLE_GOAL_DU_MMA_-_MMA_EXTRA_ROUND_-22_-_YouTube_-_0-28-31_%28cropped%29.jpg/330px-MANON_FIOROT_ET_ALDRIC_CASSATA%2C_LE_COUPLE_GOAL_DU_MMA_-_MMA_EXTRA_ROUND_-22_-_YouTube_-_0-28-31_%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Manon_Fiorot",
+    "title": "Manon Fiorot"
+  },
+  "grasso": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Alexa_Grasso_2020_01.png/330px-Alexa_Grasso_2020_01.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Alexa_Grasso",
+    "title": "Alexa Grasso"
+  },
+  "kayla": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/President_Donald_Trump_congratulates_Kayla_Harrison_after_her_victory_during_UFC_316_%2854577590491%29_%28cropped%29.jpg/330px-President_Donald_Trump_congratulates_Kayla_Harrison_after_her_victory_during_UFC_316_%2854577590491%29_%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Kayla_Harrison",
+    "title": "Kayla Harrison"
+  },
+  "pena": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Ceremonial_weigh_ins_-_Amanda_Nunes_vs_Julianna_Pe%C3%B1a_UFC_269_-_YouTube_-_0_23_%28cropped%29.jpg/330px-Ceremonial_weigh_ins_-_Amanda_Nunes_vs_Julianna_Pe%C3%B1a_UFC_269_-_YouTube_-_0_23_%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Julianna_Pe%C3%B1a",
+    "title": "Julianna Peña"
+  },
+  "pennington": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Raquel_Pennington_MCCS_Twentynine_Palms_presents_an_action-packed_MMA_Fight_Night_Live_at_The_Combat_Center_%285%29_%28cropped%29.jpg/330px-Raquel_Pennington_MCCS_Twentynine_Palms_presents_an_action-packed_MMA_Fight_Night_Live_at_The_Combat_Center_%285%29_%28cropped%29.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Raquel_Pennington",
+    "title": "Raquel Pennington"
   }
 }

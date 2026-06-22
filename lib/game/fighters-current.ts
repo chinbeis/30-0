@@ -7,21 +7,21 @@ import type { Fighter } from "./types";
 
 export const CURRENT_FIGHTERS: Fighter[] = [
   // --- Flyweight ---
-  { id: "joshuavan", name: "Joshua Van", nickname: "", division: "Flyweight", era: "Modern", striking: 84, grappling: 74, cardio: 92, durability: 84, fightIq: 78, experience: 72, finishing: 78 },
+  { id: "joshuavan", name: "Joshua Van", nickname: "The Fearless", division: "Flyweight", era: "Modern", striking: 84, grappling: 74, cardio: 92, durability: 84, fightIq: 78, experience: 72, finishing: 78 },
   { id: "royval", name: "Brandon Royval", nickname: "Raw Dawg", division: "Flyweight", era: "Modern", striking: 82, grappling: 84, cardio: 86, durability: 72, fightIq: 76, experience: 78, finishing: 84 },
   { id: "albazi", name: "Amir Albazi", nickname: "The Prince", division: "Flyweight", era: "Modern", striking: 76, grappling: 84, cardio: 80, durability: 78, fightIq: 80, experience: 74, finishing: 78 },
-  { id: "kkf", name: "Kai Kara-France", nickname: "", division: "Flyweight", era: "Modern", striking: 84, grappling: 70, cardio: 82, durability: 78, fightIq: 76, experience: 80, finishing: 80 },
-  { id: "taira", name: "Tatsuro Taira", nickname: "", division: "Flyweight", era: "Modern", striking: 78, grappling: 86, cardio: 84, durability: 78, fightIq: 80, experience: 70, finishing: 82 },
+  { id: "kkf", name: "Kai Kara-France", nickname: "KKF", division: "Flyweight", era: "Modern", striking: 84, grappling: 70, cardio: 82, durability: 78, fightIq: 76, experience: 80, finishing: 80 },
+  { id: "taira", name: "Tatsuro Taira", nickname: "The Japanese Nightmare", division: "Flyweight", era: "Modern", striking: 78, grappling: 86, cardio: 84, durability: 78, fightIq: 80, experience: 70, finishing: 82 },
   { id: "kape", name: "Manel Kape", nickname: "Starboy", division: "Flyweight", era: "Modern", striking: 86, grappling: 74, cardio: 80, durability: 78, fightIq: 74, experience: 76, finishing: 82 },
-  { id: "almabayev", name: "Asu Almabayev", nickname: "", division: "Flyweight", era: "Modern", striking: 74, grappling: 86, cardio: 86, durability: 78, fightIq: 76, experience: 72, finishing: 76 },
+  { id: "almabayev", name: "Asu Almabayev", nickname: "The Russian Express", division: "Flyweight", era: "Modern", striking: 74, grappling: 86, cardio: 86, durability: 78, fightIq: 76, experience: 72, finishing: 76 },
   { id: "erceg", name: "Steve Erceg", nickname: "Astro Boy", division: "Flyweight", era: "Modern", striking: 80, grappling: 76, cardio: 82, durability: 76, fightIq: 76, experience: 72, finishing: 74 },
 
   // --- Bantamweight ---
-  { id: "umar", name: "Umar Nurmagomedov", nickname: "", division: "Bantamweight", era: "Modern", striking: 82, grappling: 92, cardio: 88, durability: 82, fightIq: 86, experience: 78, finishing: 78 },
+  { id: "umar", name: "Umar Nurmagomedov", nickname: "Khabib Boy", division: "Bantamweight", era: "Modern", striking: 82, grappling: 92, cardio: 88, durability: 82, fightIq: 86, experience: 78, finishing: 78 },
   { id: "yan", name: "Petr Yan", nickname: "No Mercy", division: "Bantamweight", era: "Modern", striking: 90, grappling: 82, cardio: 90, durability: 84, fightIq: 88, experience: 84, finishing: 80 },
   { id: "sandhagen", name: "Cory Sandhagen", nickname: "The Sandman", division: "Bantamweight", era: "Modern", striking: 88, grappling: 80, cardio: 88, durability: 80, fightIq: 86, experience: 84, finishing: 80 },
-  { id: "songyadong", name: "Song Yadong", nickname: "", division: "Bantamweight", era: "Modern", striking: 86, grappling: 72, cardio: 82, durability: 80, fightIq: 78, experience: 80, finishing: 82 },
-  { id: "vera", name: "Marlon Vera", nickname: "Chito", division: "Bantamweight", era: "Modern", striking: 84, grappling: 80, cardio: 86, durability: 88, fightIq: 80, experience: 84, finishing: 82 },
+  { id: "songyadong", name: "Song Yadong", nickname: "Kung Fu Kid", division: "Bantamweight", era: "Modern", striking: 86, grappling: 72, cardio: 82, durability: 80, fightIq: 78, experience: 80, finishing: 82 },
+  { id: "vera", name: "Marlon Vera", nickname: "Chito", division: "Bantamweight", era: "Modern", striking: 84, grappling: 80, cardio: 86, durability: 97, fightIq: 80, experience: 84, finishing: 82 },
   { id: "bautista", name: "Mario Bautista", nickname: "", division: "Bantamweight", era: "Modern", striking: 80, grappling: 82, cardio: 84, durability: 80, fightIq: 80, experience: 76, finishing: 76 },
   { id: "font", name: "Rob Font", nickname: "", division: "Bantamweight", era: "Modern", striking: 84, grappling: 70, cardio: 86, durability: 72, fightIq: 78, experience: 84, finishing: 74 },
   { id: "cejudo", name: "Henry Cejudo", nickname: "Triple C", division: "Bantamweight", era: "Modern", striking: 84, grappling: 94, cardio: 88, durability: 82, fightIq: 90, experience: 88, finishing: 78 },
@@ -54,7 +54,7 @@ export const CURRENT_FIGHTERS: Fighter[] = [
 
   // --- Middleweight ---
   { id: "ddp", name: "Dricus du Plessis", nickname: "Stillknocks", division: "Middleweight", era: "Modern", striking: 84, grappling: 86, cardio: 90, durability: 88, fightIq: 84, experience: 82, finishing: 86 },
-  { id: "imavov", name: "Nassourdine Imavov", nickname: "", division: "Middleweight", era: "Modern", striking: 86, grappling: 82, cardio: 84, durability: 82, fightIq: 84, experience: 80, finishing: 80 },
+  { id: "imavov", name: "Nassourdine Imavov", nickname: "The Sniper", division: "Middleweight", era: "Modern", striking: 86, grappling: 82, cardio: 84, durability: 82, fightIq: 84, experience: 80, finishing: 80 },
   { id: "strickland", name: "Sean Strickland", nickname: "Tarzan", division: "Middleweight", era: "Modern", striking: 86, grappling: 78, cardio: 90, durability: 92, fightIq: 84, experience: 84, finishing: 70 },
   { id: "borralho", name: "Caio Borralho", nickname: "The Natural", division: "Middleweight", era: "Modern", striking: 82, grappling: 86, cardio: 86, durability: 82, fightIq: 84, experience: 76, finishing: 76 },
   { id: "cannonier", name: "Jared Cannonier", nickname: "The Killa Gorilla", division: "Middleweight", era: "Modern", striking: 86, grappling: 76, cardio: 74, durability: 84, fightIq: 78, experience: 84, finishing: 82 },
@@ -83,4 +83,23 @@ export const CURRENT_FIGHTERS: Fighter[] = [
   { id: "tybura", name: "Marcin Tybura", nickname: "", division: "Heavyweight", era: "Modern", striking: 76, grappling: 82, cardio: 80, durability: 80, fightIq: 78, experience: 86, finishing: 74 },
   { id: "spivac", name: "Serghei Spivac", nickname: "The Polar Bear", division: "Heavyweight", era: "Modern", striking: 74, grappling: 84, cardio: 78, durability: 78, fightIq: 76, experience: 78, finishing: 80 },
   { id: "tuivasa", name: "Tai Tuivasa", nickname: "Bam Bam", division: "Heavyweight", era: "Modern", striking: 84, grappling: 58, cardio: 66, durability: 76, fightIq: 66, experience: 80, finishing: 86 },
+
+  // --- Women's Strawweight ---
+  { id: "suarez", name: "Tatiana Suarez", nickname: "", division: "Women's Strawweight", era: "Modern", striking: 78, grappling: 92, cardio: 86, durability: 82, fightIq: 84, experience: 78, finishing: 80 },
+  { id: "yanxiaonan", name: "Yan Xiaonan", nickname: "Fury", division: "Women's Strawweight", era: "Modern", striking: 86, grappling: 74, cardio: 86, durability: 80, fightIq: 82, experience: 82, finishing: 78 },
+  { id: "jandiroba", name: "Virna Jandiroba", nickname: "Carcará", division: "Women's Strawweight", era: "Modern", striking: 72, grappling: 90, cardio: 84, durability: 80, fightIq: 80, experience: 80, finishing: 80 },
+  { id: "lemos", name: "Amanda Lemos", nickname: "", division: "Women's Strawweight", era: "Modern", striking: 84, grappling: 78, cardio: 78, durability: 80, fightIq: 76, experience: 78, finishing: 84 },
+  { id: "dern", name: "Mackenzie Dern", nickname: "", division: "Women's Strawweight", era: "Modern", striking: 76, grappling: 92, cardio: 80, durability: 78, fightIq: 78, experience: 80, finishing: 82 },
+
+  // --- Women's Flyweight ---
+  { id: "fiorot", name: "Manon Fiorot", nickname: "The Beast", division: "Women's Flyweight", era: "Modern", striking: 88, grappling: 80, cardio: 86, durability: 84, fightIq: 84, experience: 78, finishing: 78 },
+  { id: "blanchfield", name: "Erin Blanchfield", nickname: "Cold Blooded", division: "Women's Flyweight", era: "Modern", striking: 78, grappling: 90, cardio: 86, durability: 82, fightIq: 84, experience: 74, finishing: 80 },
+  { id: "grasso", name: "Alexa Grasso", nickname: "", division: "Women's Flyweight", era: "Modern", striking: 86, grappling: 82, cardio: 86, durability: 82, fightIq: 86, experience: 84, finishing: 80 },
+  { id: "natsilva", name: "Natalia Silva", nickname: "", division: "Women's Flyweight", era: "Modern", striking: 86, grappling: 80, cardio: 86, durability: 80, fightIq: 84, experience: 74, finishing: 80 },
+
+  // --- Women's Bantamweight ---
+  { id: "kayla", name: "Kayla Harrison", nickname: "", division: "Women's Bantamweight", era: "Modern", striking: 78, grappling: 94, cardio: 84, durability: 86, fightIq: 84, experience: 80, finishing: 86 },
+  { id: "pena", name: "Julianna Peña", nickname: "The Venezuelan Vixen", division: "Women's Bantamweight", era: "Modern", striking: 76, grappling: 84, cardio: 84, durability: 84, fightIq: 78, experience: 84, finishing: 78 },
+  { id: "pennington", name: "Raquel Pennington", nickname: "Rocky", division: "Women's Bantamweight", era: "Modern", striking: 80, grappling: 82, cardio: 88, durability: 86, fightIq: 80, experience: 86, finishing: 70 },
+  { id: "vieira", name: "Ketlen Vieira", nickname: "", division: "Women's Bantamweight", era: "Modern", striking: 78, grappling: 84, cardio: 80, durability: 82, fightIq: 80, experience: 80, finishing: 72 },
 ];

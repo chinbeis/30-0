@@ -67,6 +67,13 @@ const statements = [
   // Email-authed players are a new leaderboard source ('email'); the old CHECK
   // only allowed google/guest, so drop it (player_source stays free-text).
   `ALTER TABLE runs DROP CONSTRAINT IF EXISTS runs_player_source_check`,
+  // Cross-instance rate limiting (serverless has no shared memory). One row per
+  // bucket = "<scope>:<key>"; the window resets when reset_at passes.
+  `CREATE TABLE IF NOT EXISTS rate_limits (
+     bucket    TEXT PRIMARY KEY,
+     count     INT NOT NULL,
+     reset_at  TIMESTAMPTZ NOT NULL
+   )`,
 ];
 
 for (const stmt of statements) {

@@ -3,10 +3,14 @@ import { auth } from "@/auth";
 import { buildBuildBoard, validateBuildPicks } from "@/lib/goat/board";
 import { simulateCareer } from "@/lib/goat/engine";
 import { createGoatChallenge } from "@/lib/queries";
+import { clientIp, rateLimit, tooMany } from "@/lib/ratelimit";
 
 const GOAT_ROUNDS = 7;
 
 export async function POST(req: Request) {
+  const rl = await rateLimit(`goatchallenge:${clientIp(req)}`, 20, 60);
+  if (!rl.ok) return tooMany(rl.retryAfter);
+
   let body: unknown;
   try {
     body = await req.json();

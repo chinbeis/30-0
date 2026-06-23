@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { createUser } from "@/lib/queries";
+import { clientIp, rateLimit, tooMany } from "@/lib/ratelimit";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(req: Request) {
+  // Tight cap: signups are rare and a prime abuse/cost target.
+  const rl = await rateLimit(`signup:${clientIp(req)}`, 5, 3600);
+  if (!rl.ok) return tooMany(rl.retryAfter);
+
   let body: unknown;
   try {
     body = await req.json();

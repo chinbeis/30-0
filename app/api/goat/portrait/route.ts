@@ -3,10 +3,15 @@ import { hashSeed } from "@/lib/game/rng";
 import { getPoolFighter } from "@/lib/goat/engine";
 import { buildPortraitPrompt } from "@/lib/goat/portrait";
 import { getPortrait, savePortrait } from "@/lib/queries";
+import { clientIp, rateLimit, tooMany } from "@/lib/ratelimit";
 
 export const maxDuration = 60; // image generation can take a while
 
 const PICKS = 7;
+
+// Cost guardrails for the paid OpenAI image API. Tune via env without a redeploy.
+const PORTRAIT_PER_IP_PER_HOUR = Number(process.env.PORTRAIT_PER_IP_PER_HOUR ?? 10);
+const PORTRAIT_GLOBAL_PER_DAY = Number(process.env.PORTRAIT_GLOBAL_PER_DAY ?? 500);
 
 export async function POST(req: Request) {
   let body: unknown;
@@ -42,6 +47,15 @@ export async function POST(req: Request) {
   const key = process.env.OPENAI_API_KEY;
   if (!key) {
     return NextResponse.json({ error: "not_configured" }, { status: 503 });
+  }
+
+  // Cost guardrails (only reached on a cache MISS that would actually bill us):
+  // per-IP burst limit, then a hard global daily cap to bound spend during a spike.
+  const ipLimit = await rateLimit(`portrait:ip:${clientIp(req)}`, PORTRAIT_PER_IP_PER_HOUR, 3600);
+  if (!ipLimit.ok) return tooMany(ipLimit.retryAfter);
+  const dayLimit = await rateLimit("portrait:global:day", PORTRAIT_GLOBAL_PER_DAY, 86400);
+  if (!dayLimit.ok) {
+    return NextResponse.json({ error: "busy" }, { status: 503 });
   }
 
   try {

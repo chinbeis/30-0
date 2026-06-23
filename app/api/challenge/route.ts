@@ -3,8 +3,12 @@ import { auth } from "@/auth";
 import { buildBoard, validatePicks } from "@/lib/game/board";
 import { ROSTER_SIZE, simulateSeason } from "@/lib/game/engine";
 import { createChallenge } from "@/lib/queries";
+import { clientIp, rateLimit, tooMany } from "@/lib/ratelimit";
 
 export async function POST(req: Request) {
+  const rl = await rateLimit(`challenge:${clientIp(req)}`, 20, 60);
+  if (!rl.ok) return tooMany(rl.retryAfter);
+
   let body: unknown;
   try {
     body = await req.json();

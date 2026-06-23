@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { buildBoard, type Board } from "@/lib/game/board";
+import { buildBoard, REROLLS_TOTAL, type Board } from "@/lib/game/board";
 import { ROSTER_SIZE, TOTAL_BOUTS, simulateSeason } from "@/lib/game/engine";
 import { getFighter } from "@/lib/game/fighters";
 import type { Fighter, SeasonResult } from "@/lib/game/types";
@@ -82,6 +82,10 @@ export default function Game({
   const [round, setRound] = useState(0);
   const [picks, setPicks] = useState<string[]>([]);
   const [result, setResult] = useState<SeasonResult | null>(null);
+  // Reroll: a shared budget across the whole draft. Each reroll reveals the next
+  // unused reserve set; `rolled` overrides the current round's displayed options.
+  const [rerollsUsed, setRerollsUsed] = useState(0);
+  const [rolled, setRolled] = useState<Fighter[] | null>(null);
 
   const start = useCallback(() => {
     const id = challenge ? challenge.seed : newRunId();
@@ -90,8 +94,16 @@ export default function Game({
     setRound(0);
     setPicks([]);
     setResult(null);
+    setRerollsUsed(0);
+    setRolled(null);
     setPhase("pick");
   }, [challenge]);
+
+  const reroll = useCallback(() => {
+    if (!board || rerollsUsed >= REROLLS_TOTAL) return;
+    setRolled(board.rerollSets[rerollsUsed]);
+    setRerollsUsed((n) => n + 1);
+  }, [board, rerollsUsed]);
 
   const pick = useCallback(
     (fighterId: string) => {
@@ -104,6 +116,7 @@ export default function Game({
         setPhase("sim");
       } else {
         setRound((x) => x + 1);
+        setRolled(null); // next round starts on its base options
       }
     },
     [picks, runId],
@@ -135,10 +148,15 @@ export default function Game({
   if (phase === "pick" && board)
     return (
       <PickScreen
-        round={board.rounds[round]}
+        key={round}
+        roundNumber={board.rounds[round].round}
+        options={rolled ?? board.rounds[round].options}
         roundIndex={round}
         picks={picks}
         challenge={challenge}
+        rerollsLeft={REROLLS_TOTAL - rerollsUsed}
+        rolledKey={rerollsUsed}
+        onReroll={reroll}
         onPick={pick}
       />
     );
@@ -158,19 +176,28 @@ function Loading() {
 // ---------------------------------------------------------------------------
 
 function PickScreen({
-  round,
+  roundNumber,
+  options,
   roundIndex,
   picks,
   challenge,
+  rerollsLeft,
+  rolledKey,
+  onReroll,
   onPick,
 }: {
-  round: { round: number; options: Fighter[] };
+  roundNumber: number;
+  options: Fighter[];
   roundIndex: number;
   picks: string[];
   challenge?: ChallengeInfo;
+  rerollsLeft: number;
+  rolledKey: number;
+  onReroll: () => void;
   onPick: (id: string) => void;
 }) {
   const { t } = useI18n();
+  const canReroll = rerollsLeft > 0;
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 py-6">
       {challenge ? (
@@ -184,7 +211,7 @@ function PickScreen({
       ) : null}
       <div className="mb-1 flex items-center justify-between text-xs font-semibold uppercase tracking-widest text-zinc-500">
         <span>
-          {t.game.round} {round.round} / {ROSTER_SIZE}
+          {t.game.round} {roundNumber} / {ROSTER_SIZE}
         </span>
         <span>
           {picks.length} {t.game.drafted}
@@ -199,13 +226,37 @@ function PickScreen({
 
       <h2 className="mb-5 text-center text-2xl font-bold">{t.game.pickFighter}</h2>
 
-      <div className="grid flex-1 content-start gap-3 sm:grid-cols-3">
-        {round.options.map((f) => (
-          <FighterCard key={f.id} fighter={f} onClick={() => onPick(f.id)} />
+      {/* keyed by rolledKey so cards re-animate on each reroll */}
+      <div key={rolledKey} className="grid flex-1 content-start gap-3 sm:grid-cols-3">
+        {options.map((f, i) => (
+          <FighterCard key={f.id} fighter={f} index={i} onClick={() => onPick(f.id)} />
         ))}
       </div>
 
-      <div className="mt-6 flex flex-wrap justify-center gap-2">
+      {/* reroll control — shared budget across the whole draft */}
+      <div className="mt-5 flex flex-col items-center gap-1.5">
+        <button
+          onClick={onReroll}
+          disabled={!canReroll}
+          className="flex items-center gap-2 rounded-full border border-amber-500/50 bg-amber-500/10 px-6 py-2.5 text-sm font-bold text-amber-300 transition hover:bg-amber-500/20 disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          <span aria-hidden>🎲</span>
+          {canReroll ? `${t.game.reroll}  ·  ${rerollsLeft} ${t.game.left}` : t.game.noRerolls}
+        </button>
+        <div className="flex items-center gap-1.5">
+          {Array.from({ length: REROLLS_TOTAL }).map((_, i) => (
+            <span
+              key={i}
+              className={`h-2 w-2 rounded-full ${i < rerollsLeft ? "bg-amber-400" : "bg-zinc-700"}`}
+            />
+          ))}
+          <span className="ml-1 text-[10px] uppercase tracking-wide text-zinc-600">
+            {t.game.rerollsLeft}
+          </span>
+        </div>
+      </div>
+
+      <div className="mt-5 flex flex-wrap justify-center gap-2">
         {Array.from({ length: ROSTER_SIZE }).map((_, i) => {
           const id = picks[i];
           return id ? (
@@ -226,11 +277,20 @@ function PickScreen({
   );
 }
 
-function FighterCard({ fighter, onClick }: { fighter: Fighter; onClick: () => void }) {
+function FighterCard({
+  fighter,
+  index = 0,
+  onClick,
+}: {
+  fighter: Fighter;
+  index?: number;
+  onClick: () => void;
+}) {
   return (
     <button
       onClick={onClick}
-      className="group flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4 text-left transition hover:border-red-500/60 hover:bg-zinc-900 active:scale-[0.98] sm:flex-col sm:items-center sm:text-center"
+      style={{ animationDelay: `${index * 70}ms` }}
+      className="animate-deal group flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4 text-left transition hover:border-red-500/60 hover:bg-zinc-900 active:scale-[0.98] sm:flex-col sm:items-center sm:text-center"
     >
       <FighterAvatar
         id={fighter.id}

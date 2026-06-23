@@ -5,6 +5,7 @@ import { SiteHeader } from "./_components/SiteHeader";
 import { SiteFooter } from "./_components/SiteFooter";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { getLocale } from "@/lib/i18n/server";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,6 +41,7 @@ export default async function RootLayout({
           <div className="flex flex-1 flex-col">{children}</div>
           <SiteFooter />
         </I18nProvider>
+        <Analytics />
       </body>
     </html>
   );

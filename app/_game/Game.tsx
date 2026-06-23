@@ -5,9 +5,10 @@ import { buildBoard, type Board } from "@/lib/game/board";
 import { ROSTER_SIZE, TOTAL_BOUTS, simulateSeason } from "@/lib/game/engine";
 import { getFighter } from "@/lib/game/fighters";
 import type { Fighter, SeasonResult } from "@/lib/game/types";
-import { fighterTags, recordAccent, shareText } from "./helpers";
+import { fighterTags, recordAccent } from "./helpers";
 import { FighterAvatar } from "./FighterAvatar";
 import { useI18n } from "@/lib/i18n/I18nProvider";
+import { ShareModal } from "@/app/_components/ShareModal";
 
 type Phase = "start" | "pick" | "sim" | "result";
 
@@ -440,7 +441,7 @@ function ResultScreen({
           {t.game.playAgain}
         </button>
         <div className="grid grid-cols-2 gap-3">
-          <ShareButton result={result} />
+          <ShareButton result={result} seed={seed} picks={picks} user={user} nick={nick} />
           <ChallengeButton seed={seed} picks={picks} user={user} nick={nick} />
         </div>
         <a
@@ -575,30 +576,99 @@ function HeadToHead({
   );
 }
 
-function ShareButton({ result }: { result: SeasonResult }) {
+function ShareButton({
+  result,
+  seed,
+  picks,
+  user,
+  nick,
+}: {
+  result: SeasonResult;
+  seed: string;
+  picks: string[];
+  user: SessionUser;
+  nick: string | null;
+}) {
   const { t } = useI18n();
-  const [copied, setCopied] = useState(false);
-  const onShare = async () => {
-    const url = typeof window !== "undefined" ? window.location.origin : "";
-    const text = shareText(result, url);
-    try {
-      if (navigator.share) await navigator.share({ title: "Can You Go 30-0?", text });
-      else {
-        await navigator.clipboard.writeText(text);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 1800);
-      }
-    } catch {
-      /* dismissed */
-    }
+  const [open, setOpen] = useState(false);
+
+  // Brag line without the url (each platform appends/receives the url separately).
+  const text = `I went ${result.record} in "Can You Go 30-0?" 🥊 ${result.tier.label} · GOAT ${result.goatScore}. Can you go perfect?`;
+
+  // The shareable link is a challenge link: it reproduces this exact season and
+  // unfurls with our OG image card.
+  const getShareUrl = async () => {
+    const res = await fetch("/api/challenge", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ seed, picks, name: user?.name ?? nick ?? "" }),
+    });
+    const data = await res.json();
+    return data.id ? `${window.location.origin}/challenge/${data.id}` : null;
   };
+
   return (
-    <button
-      onClick={onShare}
-      className="rounded-full border border-zinc-700 py-3 text-sm font-bold text-zinc-200 transition hover:bg-zinc-900"
-    >
-      {copied ? t.game.copied : t.game.share}
-    </button>
+    <>
+      <button
+        onClick={() => setOpen(true)}
+        className="rounded-full border border-zinc-700 py-3 text-sm font-bold text-zinc-200 transition hover:bg-zinc-900"
+      >
+        {t.game.share}
+      </button>
+      {open ? (
+        <ShareModal
+          title={t.game.shareTitle}
+          text={text}
+          getShareUrl={getShareUrl}
+          fallbackUrl={typeof window !== "undefined" ? window.location.origin : ""}
+          onClose={() => setOpen(false)}
+          preview={<RosterShareCard result={result} />}
+        />
+      ) : null}
+    </>
+  );
+}
+
+function RosterShareCard({ result }: { result: SeasonResult }) {
+  return (
+    <div className="rounded-2xl border border-zinc-800 bg-gradient-to-b from-zinc-900 to-black p-4">
+      <div className="flex items-end justify-between">
+        <div>
+          <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+            30-0 · {result.tier.label}
+          </div>
+          <div className={`text-4xl font-black tracking-tighter ${recordAccent(result.losses)}`}>
+            {result.record}
+          </div>
+        </div>
+        <div className="text-right">
+          <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">GOAT</div>
+          <div className="text-2xl font-black">{result.goatScore}</div>
+        </div>
+      </div>
+      <div className="mt-3 space-y-1">
+        {result.perFighter.map((fs) => {
+          const f = getFighter(fs.fighterId);
+          return (
+            <div key={fs.fighterId} className="flex items-center gap-2">
+              <FighterAvatar
+                id={fs.fighterId}
+                name={f.name}
+                className="h-7 w-7 rounded-full ring-1 ring-zinc-700"
+                textClass="text-[10px]"
+                sizes="28px"
+              />
+              <span className="min-w-0 flex-1 truncate text-xs font-semibold">{f.name}</span>
+              <span
+                className={`text-[11px] font-bold tabular-nums ${fs.losses === 0 ? "text-emerald-400" : fs.wins === 0 ? "text-red-400" : "text-zinc-400"}`}
+              >
+                {fs.wins}-{fs.losses}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 

@@ -18,6 +18,7 @@ import type { CareerResult, CategoryKey, TraitKey } from "@/lib/goat/types";
 import type { Fighter } from "@/lib/game/types";
 import { FighterAvatar } from "@/app/_game/FighterAvatar";
 import { useI18n } from "@/lib/i18n/I18nProvider";
+import { ShareModal } from "@/app/_components/ShareModal";
 
 type Phase = "start" | "pick" | "sim" | "result";
 
@@ -449,15 +450,6 @@ function SimScreen({ result, onDone }: { result: CareerResult; onDone: () => voi
 
 // ---------------------------------------------------------------------------
 
-function shareText(r: CareerResult, url: string): string {
-  return [
-    `I went ${r.record} in "Can You Become the GOAT?" 🥊`,
-    `${r.tier.label} · GOAT Score ${r.goatScore}`,
-    `Build: ${r.archetypeName}`,
-    ``,
-    `Can you go 13-0? ${url}`,
-  ].join("\n");
-}
 
 function ResultScreen({
   result,
@@ -630,7 +622,7 @@ function ResultScreen({
           {t.goat.buildAgain}
         </button>
         <div className="grid grid-cols-2 gap-3">
-          <ShareButton result={result} />
+          <ShareButton result={result} seed={seed} picks={picks} user={user} nick={nick} />
           <ChallengeButton seed={seed} picks={picks} user={user} nick={nick} />
         </div>
         <a
@@ -956,30 +948,96 @@ function HeadToHead({
   );
 }
 
-function ShareButton({ result }: { result: CareerResult }) {
+function ShareButton({
+  result,
+  seed,
+  picks,
+  user,
+  nick,
+}: {
+  result: CareerResult;
+  seed: string;
+  picks: string[];
+  user: SessionUser;
+  nick: string | null;
+}) {
   const { t } = useI18n();
-  const [copied, setCopied] = useState(false);
-  const onShare = async () => {
-    const url = typeof window !== "undefined" ? `${window.location.origin}/goat` : "";
-    const text = shareText(result, url);
-    try {
-      if (navigator.share) await navigator.share({ title: "Can You Become the GOAT?", text });
-      else {
-        await navigator.clipboard.writeText(text);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 1800);
-      }
-    } catch {
-      /* dismissed */
-    }
+  const [open, setOpen] = useState(false);
+
+  const text = `I went ${result.record} in "Can You Become the GOAT?" 🥊 ${result.tier.label} · GOAT ${result.goatScore} · ${result.archetypeName}. Can you go 13-0?`;
+
+  const getShareUrl = async () => {
+    const res = await fetch("/api/goat/challenge", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ seed, picks, name: user?.name ?? nick ?? "" }),
+    });
+    const data = await res.json();
+    return data.id ? `${window.location.origin}/goat/challenge/${data.id}` : null;
   };
+
   return (
-    <button
-      onClick={onShare}
-      className="rounded-full border border-zinc-700 py-3 text-sm font-bold text-zinc-200 transition hover:bg-zinc-900"
-    >
-      {copied ? t.goat.copied : t.goat.share}
-    </button>
+    <>
+      <button
+        onClick={() => setOpen(true)}
+        className="rounded-full border border-zinc-700 py-3 text-sm font-bold text-zinc-200 transition hover:bg-zinc-900"
+      >
+        {t.goat.share}
+      </button>
+      {open ? (
+        <ShareModal
+          title={t.goat.shareTitle}
+          text={text}
+          getShareUrl={getShareUrl}
+          fallbackUrl={typeof window !== "undefined" ? `${window.location.origin}/goat` : ""}
+          onClose={() => setOpen(false)}
+          preview={<BuildShareCard result={result} />}
+        />
+      ) : null}
+    </>
+  );
+}
+
+function BuildShareCard({ result }: { result: CareerResult }) {
+  const a = result.attributes;
+  return (
+    <div className="rounded-2xl border border-zinc-800 bg-gradient-to-b from-zinc-900 to-black p-4">
+      <div className="flex items-end justify-between">
+        <div>
+          <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+            GOAT · {result.tier.label}
+          </div>
+          <div className={`text-4xl font-black tracking-tighter ${recordAccent(result.losses, result.wins)}`}>
+            {result.record}
+          </div>
+          <div className="text-xs font-semibold text-amber-300">{result.archetypeName}</div>
+        </div>
+        <div className="text-right">
+          <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">GOAT</div>
+          <div className="text-2xl font-black">{result.goatScore}</div>
+        </div>
+      </div>
+      <div className="mt-3 space-y-1">
+        {TRAIT_KEYS.map((k) => {
+          const src = getPoolFighter(a.sources[k]);
+          return (
+            <div key={k} className="flex items-center gap-2">
+              <FighterAvatar
+                id={src.id}
+                name={src.name}
+                className="h-7 w-7 rounded-full ring-1 ring-zinc-700"
+                textClass="text-[10px]"
+                sizes="28px"
+              />
+              <span className="w-20 shrink-0 text-[10px] font-bold uppercase tracking-wide text-zinc-500">
+                {ATTR_LABEL[k]}
+              </span>
+              <span className="min-w-0 flex-1 truncate text-xs font-semibold">{src.name}</span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 

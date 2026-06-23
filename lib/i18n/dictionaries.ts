@@ -110,6 +110,7 @@ const en = {
     beatSuffix: "— same fighters, same season.",
     playAgain: "PLAY AGAIN",
     share: "Share",
+    shareTitle: "Share your team",
     copied: "Copied! ✓",
     beatMyTeam: "Beat my team",
     creating: "Creating…",
@@ -151,6 +152,7 @@ const en = {
     careerLog: "Career log (who you fought)",
     buildAgain: "BUILD AGAIN",
     share: "Share",
+    shareTitle: "Share your career",
     copied: "Copied! ✓",
     beatMyBuild: "Beat my build",
     creating: "Creating…",
@@ -174,7 +176,7 @@ const en = {
     vs: "vs",
   },
 
-  common: { save: "Save", close: "Close" },
+  common: { save: "Save", close: "Close", copyLink: "Copy link", copied: "Copied! ✓" },
 };
 
 export type Dict = typeof en;
@@ -286,6 +288,7 @@ const pt: Dict = {
     beatSuffix: "— mesmos lutadores, mesma temporada.",
     playAgain: "JOGAR DE NOVO",
     share: "Compartilhar",
+    shareTitle: "Compartilhe seu time",
     copied: "Copiado! ✓",
     beatMyTeam: "Supere meu time",
     creating: "Criando…",
@@ -327,6 +330,7 @@ const pt: Dict = {
     careerLog: "Histórico da carreira (quem você enfrentou)",
     buildAgain: "CRIAR DE NOVO",
     share: "Compartilhar",
+    shareTitle: "Compartilhe sua carreira",
     copied: "Copiado! ✓",
     beatMyBuild: "Supere minha criação",
     creating: "Criando…",
@@ -350,7 +354,7 @@ const pt: Dict = {
     vs: "vs",
   },
 
-  common: { save: "Salvar", close: "Fechar" },
+  common: { save: "Salvar", close: "Fechar", copyLink: "Copiar link", copied: "Copiado! ✓" },
 };
 
 const es: Dict = {
@@ -460,6 +464,7 @@ const es: Dict = {
     beatSuffix: "— mismos peleadores, misma temporada.",
     playAgain: "JUGAR DE NUEVO",
     share: "Compartir",
+    shareTitle: "Comparte tu equipo",
     copied: "¡Copiado! ✓",
     beatMyTeam: "Supera mi equipo",
     creating: "Creando…",
@@ -501,6 +506,7 @@ const es: Dict = {
     careerLog: "Historial de carrera (a quién enfrentaste)",
     buildAgain: "CREAR DE NUEVO",
     share: "Compartir",
+    shareTitle: "Comparte tu carrera",
     copied: "¡Copiado! ✓",
     beatMyBuild: "Supera mi creación",
     creating: "Creando…",
@@ -524,7 +530,7 @@ const es: Dict = {
     vs: "vs",
   },
 
-  common: { save: "Guardar", close: "Cerrar" },
+  common: { save: "Guardar", close: "Cerrar", copyLink: "Copiar enlace", copied: "¡Copiado! ✓" },
 };
 
 const DICTS: Record<Locale, Dict> = { en, pt, es };

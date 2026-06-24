@@ -56,6 +56,7 @@ const TITLE_OVERRIDES = {
   "Brandon Royval": "Brandon Royval",
   "Song Yadong": "Song Yadong",
   "Jared Cannonier": "Jared Cannonier",
+  "Alexander Volkov": "Alexander Volkov (fighter)",
 };
 
 const UA = "CanYouGo30-0/0.1 (educational game prototype; contact dev)";

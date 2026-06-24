@@ -1,0 +1,162 @@
+{
+  "generatedAt": "2026-06-24T02:41:08.629Z",
+  "count": 30,
+  "total": 151,
+  "fighters": [
+    {
+      "id": "aspinall",
+      "name": "Tom Aspinall",
+      "division": "Heavyweight",
+      "url" : "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220401020925_Tom_Aspinall_ff.JPG"
+    },
+    {
+      "id": "joshuavan",
+      "name": "Joshua Van",
+      "division": "Flyweight",
+      "url" : "https://www.sherdog.com/image_crop/200/300/_images/fighter/20250601052513_Joshua_Van_ff.JPG"
+    },
+    {
+      "id": "royval",
+      "name": "Brandon Royval",
+      "division": "Flyweight",
+      "url" : "https://images.tapology.com/letterbox_images/25031/default/Screenshot.png?1734752013"
+    },
+    {
+      "id": "albazi",
+      "name": "Amir Albazi",
+      "division": "Flyweight",
+      "url" : "https://images.tapology.com/letterbox_images/84737/default/GettyImages-1416076925.jpg?1661882450"
+    },
+    {
+      "id": "taira",
+      "name": "Tatsuro Taira",
+      "division": "Flyweight",
+      "url": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220922042228_Tatsuro_Taira_ff.JPG"
+    },
+    {
+      "id": "almabayev",
+      "name": "Asu Almabayev",
+      "division": "Flyweight"
+    },
+    {
+      "id": "erceg",
+      "name": "Steve Erceg",
+      "division": "Flyweight"
+    },
+    {
+      "id": "songyadong",
+      "name": "Song Yadong",
+      "division": "Bantamweight"
+    },
+    {
+      "id": "bautista",
+      "name": "Mario Bautista",
+      "division": "Bantamweight"
+    },
+    {
+      "id": "evloev",
+      "name": "Movsar Evloev",
+      "division": "Featherweight"
+    },
+    {
+      "id": "lerone",
+      "name": "Lerone Murphy",
+      "division": "Featherweight"
+    },
+    {
+      "id": "jdm",
+      "name": "Jack Della Maddalena",
+      "division": "Welterweight"
+    },
+    {
+      "id": "brady",
+      "name": "Sean Brady",
+      "division": "Welterweight"
+    },
+    {
+      "id": "buckley",
+      "name": "Joaquin Buckley",
+      "division": "Welterweight"
+    },
+    {
+      "id": "fluffy",
+      "name": "Anthony Hernandez",
+      "division": "Middleweight"
+    },
+    {
+      "id": "vettori",
+      "name": "Marvin Vettori",
+      "division": "Middleweight"
+    },
+    {
+      "id": "ulberg",
+      "name": "Carlos Ulberg",
+      "division": "Light Heavyweight"
+    },
+    {
+      "id": "hill",
+      "name": "Jamahal Hill",
+      "division": "Light Heavyweight"
+    },
+    {
+      "id": "rakic",
+      "name": "Aleksandar Rakic",
+      "division": "Light Heavyweight"
+    },
+    {
+      "id": "krylov",
+      "name": "Nikita Krylov",
+      "division": "Light Heavyweight"
+    },
+    {
+      "id": "waldo",
+      "name": "Waldo Cortes-Acosta",
+      "division": "Heavyweight"
+    },
+    {
+      "id": "tybura",
+      "name": "Marcin Tybura",
+      "division": "Heavyweight"
+    },
+    {
+      "id": "spivac",
+      "name": "Serghei Spivac",
+      "division": "Heavyweight"
+    },
+    {
+      "id": "yanxiaonan",
+      "name": "Yan Xiaonan",
+      "division": "Women's Strawweight"
+    },
+    {
+      "id": "jandiroba",
+      "name": "Virna Jandiroba",
+      "division": "Women's Strawweight"
+    },
+    {
+      "id": "lemos",
+      "name": "Amanda Lemos",
+      "division": "Women's Strawweight"
+    },
+    {
+      "id": "blanchfield",
+      "name": "Erin Blanchfield",
+      "division": "Women's Flyweight"
+    },
+    {
+      "id": "vieira",
+      "name": "Ketlen Vieira",
+      "division": "Women's Bantamweight"
+    },
+    {
+      "id": "roynelson",
+      "name": "Roy Nelson",
+      "division": "Heavyweight"
+    },
+    {
+      "id": "rda",
+      "name": "Rafael dos Anjos",
+      "division": "Lightweight"
+    }
+  ]
+}

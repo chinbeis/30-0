@@ -1,0 +1,70 @@
+{
+  "recovered": [
+    {
+      "id": "edwards",
+      "name": "Leon Edwards",
+      "source": "wikidata-P18",
+      "file": "File:Leon Edwards 2021.png"
+    },
+    {
+      "id": "joshuavan",
+      "name": "Joshua Van",
+      "source": "commons-search",
+      "file": "File:Joshua Van Sant (Baltimore mayor).jpg"
+    },
+    {
+      "id": "jeansilva",
+      "name": "Jean Silva",
+      "source": "wikidata-P18",
+      "file": "File:Jean Silva (54451587575).jpg"
+    },
+    {
+      "id": "natsilva",
+      "name": "Natalia Silva",
+      "source": "commons-search",
+      "file": "File:Natália Silva 2025.jpg"
+    },
+    {
+      "id": "mattbrown",
+      "name": "Matt Brown",
+      "source": "wikidata-P18",
+      "file": "File:Mattbrown.jpg"
+    },
+    {
+      "id": "roynelson",
+      "name": "Roy Nelson",
+      "source": "commons-search",
+      "file": "File:Donald LeRoy Nelson - DPLA - 38dfcaeea523dd59e0211bf5930dd3bc.jpg"
+    }
+  ],
+  "stillMissing": [
+    "aspinall",
+    "royval",
+    "albazi",
+    "taira",
+    "almabayev",
+    "erceg",
+    "songyadong",
+    "bautista",
+    "evloev",
+    "lerone",
+    "jdm",
+    "brady",
+    "buckley",
+    "fluffy",
+    "vettori",
+    "ulberg",
+    "hill",
+    "rakic",
+    "krylov",
+    "waldo",
+    "tybura",
+    "spivac",
+    "yanxiaonan",
+    "jandiroba",
+    "lemos",
+    "blanchfield",
+    "vieira",
+    "rda"
+  ]
+}

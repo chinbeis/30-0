@@ -19,6 +19,16 @@ describe("buildPortraitPrompt", () => {
     expect(prompt.length).toBeGreaterThan(80);
   });
 
+  it("asks for a big-head caricature with a clear, focused face", () => {
+    const prompt = buildPortraitPrompt([
+      "pereira", "khabib", "oliveira", "volkanovski", "holloway", "jones", "ngannou",
+    ]);
+    expect(prompt).toMatch(/caricature/i);
+    expect(prompt).toMatch(/oversized head|big-head/i);
+    expect(prompt).toMatch(/face/i); // the face must be the focus, not buried full-body
+    expect(prompt).toMatch(/not a real or specific person/i); // celebrity-filter safety
+  });
+
   it("maps chin and fight IQ to the chin and head", () => {
     const prompt = buildPortraitPrompt([
       "mcgregor",

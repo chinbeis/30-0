@@ -3,7 +3,7 @@ import { CURRENT_FIGHTERS } from "@/lib/game/fighters-current";
 import { EXTRA_FIGHTERS } from "@/lib/game/fighters-extended";
 import { ovr } from "@/lib/game/engine";
 import { rngFromSeed, type Rng } from "@/lib/game/rng";
-import { attributeValue, divisionSize, TRAIT_KEYS } from "./attributes";
+import { attributeValue, divisionSize, physiqueValue, TRAIT_KEYS } from "./attributes";
 import type {
   Archetype,
   BuildAttributes,
@@ -34,7 +34,7 @@ export const CAREER_LENGTH = 13;
 // test after changing any of these.
 // ---------------------------------------------------------------------------
 
-export const SCALE = 5.2; // lower = more deterministic; higher = more upsets
+export const SCALE = 3.5; // lower = more deterministic (skill > luck); higher = more upsets
 
 interface LadderNode {
   label: string;
@@ -42,20 +42,24 @@ interface LadderNode {
   kind: FightKind;
 }
 
+// Difficulty curve: the climb to your FIRST belt is gentle so an above-average
+// build reliably becomes champion; the back half (defenses, move-ups, second &
+// triple titles) steepens hard so an undefeated 13-0 run stays rare. The final
+// boss is the wall. Re-run `npx vitest run lib/goat` after editing.
 const LADDER: LadderNode[] = [
-  { label: "Regional Prospect", opp: 54, kind: "normal" },
-  { label: "Regional Veteran", opp: 60, kind: "normal" },
-  { label: "UFC Debut", opp: 67, kind: "normal" },
-  { label: "Top 15 Opponent", opp: 73, kind: "normal" },
-  { label: "Top 10 Opponent", opp: 79, kind: "normal" },
-  { label: "Top 5 Opponent", opp: 85, kind: "normal" },
-  { label: "Title Eliminator", opp: 88, kind: "normal" },
-  { label: "Title Fight", opp: 91, kind: "title" },
-  { label: "Title Defense", opp: 90, kind: "title" },
-  { label: "Move Up a Division", opp: 93, kind: "moveup" },
-  { label: "Second Title Fight", opp: 95, kind: "title" },
-  { label: "Move Up Again", opp: 97, kind: "moveup" },
-  { label: "Triple Champion Fight", opp: 109, kind: "title" }, // the final boss — the wall
+  { label: "Regional Prospect", opp: 45, kind: "normal" },
+  { label: "Regional Veteran", opp: 50, kind: "normal" },
+  { label: "UFC Debut", opp: 56, kind: "normal" },
+  { label: "Top 15 Opponent", opp: 60, kind: "normal" },
+  { label: "Top 10 Opponent", opp: 64, kind: "normal" },
+  { label: "Top 5 Opponent", opp: 68, kind: "normal" },
+  { label: "Title Eliminator", opp: 71, kind: "normal" },
+  { label: "Title Fight", opp: 76, kind: "title" }, // first belt — reachable by good builds
+  { label: "Title Defense", opp: 85, kind: "title" },
+  { label: "Move Up a Division", opp: 91, kind: "moveup" },
+  { label: "Second Title Fight", opp: 98, kind: "title" },
+  { label: "Move Up Again", opp: 103, kind: "moveup" },
+  { label: "Triple Champion Fight", opp: 114, kind: "title" }, // the final boss — the wall
 ];
 
 const ARCHETYPES: Archetype[] = ["striker", "wrestler", "grappler", "balanced"];
@@ -151,6 +155,7 @@ export function composeFighter(picks: string[]): BuildAttributes {
     cardio: val(cardio, "cardio"),
     chin: val(chin, "chin"),
     fightIq: val(fightIq, "fightIq"),
+    physique: physiqueValue(phys),
     division: phys.division,
     size: divisionSize(phys.division),
     sources: {
@@ -212,6 +217,8 @@ function performance(a: BuildAttributes, arc: Archetype): { perf: number; weak: 
       candidates = ["striking", "wrestling", "submissions", "cardio", "chin"];
     }
   }
+  // A great physique is an always-on athletic edge; a poor one is a drag.
+  perf += (a.physique - 80) * 0.25;
   // weak link = lowest relevant attribute
   const weak = candidates.reduce((lo, k) => (a[k] < a[lo] ? k : lo), candidates[0]);
   return { perf, weak };
@@ -220,15 +227,20 @@ function performance(a: BuildAttributes, arc: Archetype): { perf: number; weak: 
 /** Physique penalty for this fight (championship cardio strain + move-up size gap). */
 function physiquePenalty(a: BuildAttributes, kind: FightKind, moveUpsSoFar: number): number {
   let pen = 0;
+  // A fighter who's well-built for their class carries size up and holds up in
+  // the championship rounds; an undersized/soft frame pays for it.
+  const physEdge = (a.physique - 80) / 100; // ~ -0.35 .. +0.17
   if (kind === "title") {
     // bigger frame + worse cardio gasses in the championship rounds
-    pen += a.size * (1 - a.cardio / 100) * 6;
+    pen += a.size * (1 - a.cardio / 100) * 5;
+    pen -= physEdge * 7; // built-for-the-class frames fade less
   }
   if (kind === "moveup") {
     // smaller fighters get bullied moving up; compounding with each move
-    pen += moveUpsSoFar * (1 - a.size / 7) * 11;
+    pen += moveUpsSoFar * (1 - a.size / 7) * 9;
+    pen -= physEdge * moveUpsSoFar * 5; // physical specimens move up better
   }
-  return pen;
+  return Math.max(0, pen);
 }
 
 function methodFor(win: boolean, arc: Archetype, a: BuildAttributes, rng: Rng): string {
@@ -378,7 +390,7 @@ function finalize(
         }
       : null;
 
-  const goatScore = computeGoat(a, fights, wins, titlesWon, synergies.length);
+  const goatScore = computeGoat(a);
   const tier = tierFor(wins);
   const name = archetypeName(a);
 
@@ -409,20 +421,23 @@ function finalize(
   };
 }
 
-function computeGoat(
-  a: BuildAttributes,
-  fights: CareerFight[],
-  wins: number,
-  titlesWon: number,
-  synergyCount: number,
-): number {
-  const finishes = fights.filter((f) => f.win && /KO|submission|TKO/.test(f.method)).length;
-  const finishRate = wins > 0 ? finishes / wins : 0;
-  const winPart = (wins / 13) * 64;
-  const titlePart = titlesWon * 8; // up to 24
-  const finishPart = finishRate * 8;
-  const synergyPart = Math.min(synergyCount * 2, 4);
-  return Math.max(0, Math.min(100, Math.round(winPart + titlePart + finishPart + synergyPart)));
+/**
+ * GOAT score = the quality of the BUILD itself — the average of the 7 traits you
+ * picked (the 6 combat attributes + physique). It measures *how good a fighter
+ * you assembled*, independent of how far the career sim happened to carry it.
+ */
+function computeGoat(a: BuildAttributes): number {
+  const selections = [
+    a.striking,
+    a.wrestling,
+    a.submissions,
+    a.cardio,
+    a.chin,
+    a.fightIq,
+    a.physique,
+  ];
+  const avg = selections.reduce((s, v) => s + v, 0) / selections.length;
+  return Math.max(0, Math.min(100, Math.round(avg)));
 }
 
 function buildNarrative(

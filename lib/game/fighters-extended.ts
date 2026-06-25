@@ -33,7 +33,6 @@ export const EXTRA_FIGHTERS: Fighter[] = [
   { id: "gburns", name: "Gilbert Burns", nickname: "Durinho", division: "Welterweight", era: "Modern", striking: 80, grappling: 88, cardio: 78, durability: 76, fightIq: 76, experience: 80, finishing: 84 },
   { id: "pettis", name: "Anthony Pettis", nickname: "Showtime", division: "Lightweight", era: "2010s", striking: 86, grappling: 66, cardio: 76, durability: 72, fightIq: 74, experience: 82, finishing: 82 },
   { id: "ealvarez", name: "Eddie Alvarez", nickname: "The Underground King", division: "Lightweight", era: "2010s", striking: 80, grappling: 76, cardio: 82, durability: 84, fightIq: 72, experience: 86, finishing: 80 },
-  { id: "rda", name: "Rafael dos Anjos", nickname: "RDA", division: "Lightweight", era: "Modern", striking: 80, grappling: 84, cardio: 86, durability: 80, fightIq: 80, experience: 86, finishing: 74 },
   { id: "blachowicz", name: "Jan Blachowicz", nickname: "", division: "Light Heavyweight", era: "Modern", striking: 82, grappling: 78, cardio: 78, durability: 86, fightIq: 78, experience: 82, finishing: 80 },
   { id: "jds", name: "Junior dos Santos", nickname: "Cigano", division: "Heavyweight", era: "2010s", striking: 84, grappling: 70, cardio: 74, durability: 64, fightIq: 76, experience: 86, finishing: 82 },
   { id: "markhunt", name: "Mark Hunt", nickname: "The Super Samoan", division: "Heavyweight", era: "2010s", striking: 82, grappling: 50, cardio: 54, durability: 92, fightIq: 66, experience: 86, finishing: 84 },

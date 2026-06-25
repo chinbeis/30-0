@@ -25,7 +25,7 @@
       "id": "albazi",
       "name": "Amir Albazi",
       "division": "Flyweight",
-      "url" : "https://images.tapology.com/letterbox_images/84737/default/GettyImages-1416076925.jpg?1661882450"
+      "guide": "remove this fighter"
     },
     {
       "id": "taira",
@@ -36,37 +36,45 @@
     {
       "id": "almabayev",
       "name": "Asu Almabayev",
-      "division": "Flyweight"
+      "division": "Flyweight",
+      "guide": "remove this fighter"
     },
     {
       "id": "erceg",
       "name": "Steve Erceg",
-      "division": "Flyweight"
+      "division": "Flyweight",
+      "guide": "remove this fighter"
+
     },
     {
       "id": "songyadong",
       "name": "Song Yadong",
-      "division": "Bantamweight"
+      "division": "Bantamweight",
+      "url": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220401043317_Yadong_Song_ff.JPG"
     },
     {
       "id": "bautista",
       "name": "Mario Bautista",
-      "division": "Bantamweight"
+      "division": "Bantamweight",
+      "url": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220922071735_Mario_Bautista_ff.JPG"
     },
     {
       "id": "evloev",
       "name": "Movsar Evloev",
-      "division": "Featherweight"
+      "division": "Featherweight",
+      "url": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220401041327_Movsar_Evloev_ff.JPG"
     },
     {
       "id": "lerone",
       "name": "Lerone Murphy",
-      "division": "Featherweight"
+      "division": "Featherweight",
+      "url": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20230317125738_Lerone_Murphy_ff.JPG"
     },
     {
       "id": "jdm",
       "name": "Jack Della Maddalena",
-      "division": "Welterweight"
+      "division": "Welterweight",
+      "url": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220922042956_Jack_Della_Maddalena_ff.JPG"
     },
     {
       "id": "brady",
@@ -76,87 +84,104 @@
     {
       "id": "buckley",
       "name": "Joaquin Buckley",
-      "division": "Welterweight"
+      "division": "Welterweight",
+      "url": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220902033121_Joaquin_Buckley_ff.JPG"
     },
     {
       "id": "fluffy",
       "name": "Anthony Hernandez",
-      "division": "Middleweight"
+      "division": "Middleweight",
+      "url" : "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220929063510_Anthony_Hernandez_ff.JPG"
     },
     {
       "id": "vettori",
       "name": "Marvin Vettori",
-      "division": "Middleweight"
+      "division": "Middleweight",
+      "url": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220401022516_Marvin_Vettori_ff.JPG"
     },
     {
       "id": "ulberg",
       "name": "Carlos Ulberg",
-      "division": "Light Heavyweight"
+      "division": "Light Heavyweight",
+      "url": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220929054802_Carlos_Ulberg_ff.JPG"
     },
     {
       "id": "hill",
       "name": "Jamahal Hill",
-      "division": "Light Heavyweight"
+      "division": "Light Heavyweight",
+      "url": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220804044217_Jamahal_Hill_ff.JPG"
     },
     {
       "id": "rakic",
       "name": "Aleksandar Rakic",
-      "division": "Light Heavyweight"
+      "division": "Light Heavyweight",
+      "url": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220325080814_Aleksandar_Rakic_ff.JPG"
     },
     {
       "id": "krylov",
       "name": "Nikita Krylov",
-      "division": "Light Heavyweight"
+      "division": "Light Heavyweight",
+      "guide": "remove this fighter"
     },
     {
       "id": "waldo",
       "name": "Waldo Cortes-Acosta",
-      "division": "Heavyweight"
+      "division": "Heavyweight",
+      "url": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220922061854_Waldo_Cortes_Acosta_ff.JPG"
     },
     {
       "id": "tybura",
       "name": "Marcin Tybura",
-      "division": "Heavyweight"
+      "division": "Heavyweight",
+      "guide": "remove this fighter"
     },
     {
       "id": "spivac",
       "name": "Serghei Spivac",
-      "division": "Heavyweight"
+      "division": "Heavyweight",
+      "guide": "remove this fighter"
     },
     {
       "id": "yanxiaonan",
       "name": "Yan Xiaonan",
-      "division": "Women's Strawweight"
+      "division": "Women's Strawweight",
+      "url": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220331090732_Xiaonan_Yan_ff.JPG"
     },
     {
       "id": "jandiroba",
       "name": "Virna Jandiroba",
-      "division": "Women's Strawweight"
+      "division": "Women's Strawweight",
+      "guide": "remove this fighter"
     },
     {
       "id": "lemos",
       "name": "Amanda Lemos",
-      "division": "Women's Strawweight"
+      "division": "Women's Strawweight",
+      "url": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220401053847_Amanda_Lemos_ff.JPG"
     },
     {
       "id": "blanchfield",
       "name": "Erin Blanchfield",
-      "division": "Women's Flyweight"
+      "division": "Women's Flyweight",
+      "guide": "remove this fighter"
     },
     {
       "id": "vieira",
       "name": "Ketlen Vieira",
-      "division": "Women's Bantamweight"
+      "division": "Women's Bantamweight",
+      "guide": "remove this fighter"
     },
     {
       "id": "roynelson",
       "name": "Roy Nelson",
-      "division": "Heavyweight"
+      "division": "Heavyweight",
+      "url": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20140729080337_1MG_4006.JPG"
     },
     {
       "id": "rda",
       "name": "Rafael dos Anjos",
-      "division": "Lightweight"
+      "division": "Lightweight",
+      "guide": "remove this fighter"
     }
   ]
 }

@@ -12,6 +12,9 @@ const PICKS = 7;
 // Cost guardrails for the paid OpenAI image API. Tune via env without a redeploy.
 const PORTRAIT_PER_IP_PER_HOUR = Number(process.env.PORTRAIT_PER_IP_PER_HOUR ?? 10);
 const PORTRAIT_GLOBAL_PER_DAY = Number(process.env.PORTRAIT_GLOBAL_PER_DAY ?? 500);
+// Stays on the cheap "low" tier (~$0.01/image) — the big-head-caricature prompt
+// carries the quality. Bump to "medium"/"high" via env if you want crisper faces.
+const PORTRAIT_QUALITY = process.env.PORTRAIT_QUALITY ?? "low";
 
 export async function POST(req: Request) {
   let body: unknown;
@@ -66,7 +69,7 @@ export async function POST(req: Request) {
         model: "gpt-image-1",
         prompt,
         size: "1024x1024",
-        quality: "low",
+        quality: PORTRAIT_QUALITY,
         n: 1,
       }),
     });

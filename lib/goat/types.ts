@@ -29,6 +29,7 @@ export interface BuildAttributes {
   cardio: number;
   chin: number;
   fightIq: number;
+  physique: number; // 0..100 — how physically built the frame fighter is for their class
   division: Division;
   size: number; // 1 (flyweight) .. 7 (heavyweight)
   /** which fighter each attribute came from (for "your chin was X's") */

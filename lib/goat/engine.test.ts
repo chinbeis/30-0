@@ -1,20 +1,21 @@
 import { describe, it, expect } from "vitest";
 import { buildBuildBoard, validateBuildPicks, GOAT_POOL } from "./board";
 import { simulateCareer, composeFighter, CAREER_LENGTH } from "./engine";
-import { attributeValue, divisionSize } from "./attributes";
+import { attributeValue, physiqueValue } from "./attributes";
 import { getFighter } from "@/lib/game/fighters";
 import type { Fighter } from "@/lib/game/types";
 
 // A skilled player has only 3 rerolls for the WHOLE draft, and spends them on the
 // 3 trait categories where rerolling helps most (biggest jump from the initial
-// deal to the best across pages). Other rounds: best of the initial 3.
+// deal to the best across pages). Other rounds: best of the initial 3. Physique
+// is now a real stat, so a skilled player drafts the best frame available too.
 const REROLL_BUDGET = 3;
 function skilledPicks(seed: string): string[] {
   const board = buildBuildBoard(seed);
   const plan = board.rounds.map((r) => {
     if (r.physique) {
-      const sorted = [...r.pages[0]].sort((a, b) => divisionSize(a.division) - divisionSize(b.division));
-      return { initial: sorted[1].id, upgraded: sorted[1].id, gain: -1, cat: r.category };
+      const best = [...r.pages[0]].sort((a, b) => physiqueValue(b) - physiqueValue(a))[0];
+      return { initial: best.id, upgraded: best.id, gain: -1, cat: r.category };
     }
     const byAttr = (fs: Fighter[]) =>
       [...fs].sort((a, b) => attributeValue(b, r.category) - attributeValue(a, r.category))[0];
@@ -43,6 +44,34 @@ function skilledPicks(seed: string): string[] {
 function randomPicks(seed: string, salt: number): string[] {
   const board = buildBuildBoard(seed);
   return board.rounds.map((r, i) => r.pages[0][(i + salt) % r.pages[0].length].id);
+}
+
+// An "above average" player: best of the initial 3 each round, NO rerolls.
+function aboveAvgPicks(seed: string): string[] {
+  const board = buildBuildBoard(seed);
+  return board.rounds.map((r) =>
+    r.physique
+      ? [...r.pages[0]].sort((a, b) => physiqueValue(b) - physiqueValue(a))[0].id
+      : [...r.pages[0]].sort((a, b) => attributeValue(b, r.category) - attributeValue(a, r.category))[0].id,
+  );
+}
+
+// A truly average player: the MEDIAN option each round.
+function medianPicks(seed: string): string[] {
+  const board = buildBuildBoard(seed);
+  return board.rounds.map((r) => {
+    const sorted = [...r.pages[0]].sort((a, b) => attributeValue(a, r.category) - attributeValue(b, r.category));
+    return sorted[1].id;
+  });
+}
+
+function champRate(strategy: (seed: string) => string[], runs: number): number {
+  let champ = 0;
+  for (let i = 0; i < runs; i++) {
+    const r = simulateCareer({ picks: strategy(`c-${i}`), seed: `c-${i}-sim` });
+    if (r.wins >= 10) champ++; // CHAMPION tier = won the first belt
+  }
+  return champ / runs;
 }
 
 function rates(strategy: (seed: string, i: number) => string[], runs: number) {
@@ -139,6 +168,19 @@ describe("CALIBRATION — tough by design", () => {
     console.log(`  [goat] random:  13-0 ${(perfect * 100).toFixed(1)}%`);
     expect(perfect).toBeLessThan(0.02);
   });
+  it("an above-average build CAN become champion; a truly-average one rarely does", () => {
+    const above = champRate(aboveAvgPicks, 3000);
+    const avg = champRate(medianPicks, 3000);
+    const skilled = champRate(skilledPicks, 3000);
+    // eslint-disable-next-line no-console
+    console.log(
+      `  [goat] champion rate — skilled ${(skilled * 100).toFixed(0)}% | above-avg ${(above * 100).toFixed(0)}% | average ${(avg * 100).toFixed(0)}%`,
+    );
+    expect(skilled).toBeGreaterThan(0.7); // draft well -> you win a belt
+    expect(above).toBeGreaterThan(0.25); // above-average builds are title-capable
+    expect(above).toBeGreaterThan(avg * 3); // skill clearly separates from average
+    expect(avg).toBeLessThan(0.15); // an average build is not a champion
+  });
 });
 
 describe("composeFighter", () => {
@@ -147,7 +189,7 @@ describe("composeFighter", () => {
     const a = composeFighter(["pereira", "khabib", "oliveira", "volkanovski", "holloway", "jones", "ngannou"]);
     expect(a.sources.striking).toBe("pereira");
     expect(a.sources.wrestling).toBe("khabib");
-    expect(a.striking).toBe(getFighter("pereira").striking); // 96
+    expect(a.striking).toBe(getFighter("pereira").striking); // 97
     expect(a.wrestling).toBe(getFighter("khabib").grappling); // 99
     expect(a.division).toBe("Heavyweight"); // ngannou physique
     expect(a.size).toBe(7);

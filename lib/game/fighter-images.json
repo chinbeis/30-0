@@ -728,5 +728,119 @@
     "title": "Matt Brown",
     "remoteSrc": "https://commons.wikimedia.org/wiki/Special:FilePath/Mattbrown.jpg?width=400",
     "via": "wikidata-P18"
+  },
+  "aspinall": {
+    "src": "/fighters/aspinall.jpg",
+    "pageUrl": null,
+    "title": "Tom Aspinall",
+    "remoteSrc": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220401020925_Tom_Aspinall_ff.JPG"
+  },
+  "joshuavan": {
+    "src": "/fighters/joshuavan.jpg",
+    "pageUrl": null,
+    "title": "Joshua Van",
+    "remoteSrc": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20250601052513_Joshua_Van_ff.JPG"
+  },
+  "royval": {
+    "src": "/fighters/royval.png",
+    "pageUrl": null,
+    "title": "Brandon Royval",
+    "remoteSrc": "https://images.tapology.com/letterbox_images/25031/default/Screenshot.png?1734752013"
+  },
+  "taira": {
+    "src": "/fighters/taira.jpg",
+    "pageUrl": null,
+    "title": "Tatsuro Taira",
+    "remoteSrc": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220922042228_Tatsuro_Taira_ff.JPG"
+  },
+  "songyadong": {
+    "src": "/fighters/songyadong.jpg",
+    "pageUrl": null,
+    "title": "Song Yadong",
+    "remoteSrc": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220401043317_Yadong_Song_ff.JPG"
+  },
+  "bautista": {
+    "src": "/fighters/bautista.jpg",
+    "pageUrl": null,
+    "title": "Mario Bautista",
+    "remoteSrc": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220922071735_Mario_Bautista_ff.JPG"
+  },
+  "evloev": {
+    "src": "/fighters/evloev.jpg",
+    "pageUrl": null,
+    "title": "Movsar Evloev",
+    "remoteSrc": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220401041327_Movsar_Evloev_ff.JPG"
+  },
+  "lerone": {
+    "src": "/fighters/lerone.jpg",
+    "pageUrl": null,
+    "title": "Lerone Murphy",
+    "remoteSrc": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20230317125738_Lerone_Murphy_ff.JPG"
+  },
+  "jdm": {
+    "src": "/fighters/jdm.jpg",
+    "pageUrl": null,
+    "title": "Jack Della Maddalena",
+    "remoteSrc": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220922042956_Jack_Della_Maddalena_ff.JPG"
+  },
+  "buckley": {
+    "src": "/fighters/buckley.jpg",
+    "pageUrl": null,
+    "title": "Joaquin Buckley",
+    "remoteSrc": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220902033121_Joaquin_Buckley_ff.JPG"
+  },
+  "fluffy": {
+    "src": "/fighters/fluffy.jpg",
+    "pageUrl": null,
+    "title": "Anthony Hernandez",
+    "remoteSrc": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220929063510_Anthony_Hernandez_ff.JPG"
+  },
+  "vettori": {
+    "src": "/fighters/vettori.jpg",
+    "pageUrl": null,
+    "title": "Marvin Vettori",
+    "remoteSrc": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220401022516_Marvin_Vettori_ff.JPG"
+  },
+  "ulberg": {
+    "src": "/fighters/ulberg.jpg",
+    "pageUrl": null,
+    "title": "Carlos Ulberg",
+    "remoteSrc": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220929054802_Carlos_Ulberg_ff.JPG"
+  },
+  "hill": {
+    "src": "/fighters/hill.jpg",
+    "pageUrl": null,
+    "title": "Jamahal Hill",
+    "remoteSrc": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220804044217_Jamahal_Hill_ff.JPG"
+  },
+  "rakic": {
+    "src": "/fighters/rakic.jpg",
+    "pageUrl": null,
+    "title": "Aleksandar Rakic",
+    "remoteSrc": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220325080814_Aleksandar_Rakic_ff.JPG"
+  },
+  "waldo": {
+    "src": "/fighters/waldo.jpg",
+    "pageUrl": null,
+    "title": "Waldo Cortes-Acosta",
+    "remoteSrc": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220922061854_Waldo_Cortes_Acosta_ff.JPG"
+  },
+  "yanxiaonan": {
+    "src": "/fighters/yanxiaonan.jpg",
+    "pageUrl": null,
+    "title": "Yan Xiaonan",
+    "remoteSrc": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220331090732_Xiaonan_Yan_ff.JPG"
+  },
+  "lemos": {
+    "src": "/fighters/lemos.jpg",
+    "pageUrl": null,
+    "title": "Amanda Lemos",
+    "remoteSrc": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20220401053847_Amanda_Lemos_ff.JPG"
+  },
+  "roynelson": {
+    "src": "/fighters/roynelson.jpg",
+    "pageUrl": null,
+    "title": "Roy Nelson",
+    "remoteSrc": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20140729080337_1MG_4006.JPG"
   }
 }

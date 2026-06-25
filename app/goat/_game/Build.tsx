@@ -198,11 +198,21 @@ function Loading() {
 // ---------------------------------------------------------------------------
 
 const TAG_COLOR: Record<string, string> = {
-  Elite: "bg-amber-500/20 text-amber-300",
-  Great: "bg-emerald-500/20 text-emerald-300",
-  Solid: "bg-sky-500/20 text-sky-300",
-  Average: "bg-zinc-700 text-zinc-300",
-  Suspect: "bg-red-500/20 text-red-300",
+  // combat-trait tiers (MMA-flavored)
+  Generational: "bg-amber-500/20 text-amber-300",
+  Elite: "bg-emerald-500/20 text-emerald-300",
+  Championship: "bg-teal-500/20 text-teal-300",
+  Dangerous: "bg-sky-500/20 text-sky-300",
+  Solid: "bg-indigo-500/20 text-indigo-300",
+  Serviceable: "bg-zinc-700 text-zinc-300",
+  Exposed: "bg-red-500/20 text-red-300",
+  // physique tiers
+  "Physical Freak": "bg-amber-500/20 text-amber-300",
+  "Division Bully": "bg-emerald-500/20 text-emerald-300",
+  "Well-Built": "bg-teal-500/20 text-teal-300",
+  "Solid Frame": "bg-sky-500/20 text-sky-300",
+  Undersized: "bg-zinc-700 text-zinc-300",
+  Outmuscled: "bg-red-500/20 text-red-300",
 };
 
 function PickScreen({
@@ -357,9 +367,16 @@ function TraitCard({
         ) : null}
         <div className="mt-2 flex flex-wrap items-center gap-1 sm:justify-center">
           {physique ? (
-            <span className="rounded-full bg-amber-500/20 px-2 py-0.5 text-[11px] font-bold text-amber-300">
-              {fighter.division}
-            </span>
+            <>
+              <span className="rounded-full bg-amber-500/20 px-2 py-0.5 text-[11px] font-bold text-amber-300">
+                {fighter.division}
+              </span>
+              <span
+                className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${TAG_COLOR[tag] ?? "bg-zinc-700 text-zinc-300"}`}
+              >
+                {tag}
+              </span>
+            </>
           ) : (
             <span
               className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${TAG_COLOR[tag] ?? "bg-zinc-700 text-zinc-300"}`}
@@ -699,9 +716,31 @@ function ResultScreen({
             </div>
           );
         })}
-        <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-2 text-center text-xs text-zinc-400">
-          Physique: <span className="font-bold text-amber-300">{a.division}</span> (from{" "}
-          {getPoolFighter(a.sources.physique).name})
+        {/* physique now carries a real 0..100 rating (how built the frame is for the class) */}
+        <div className="flex items-center gap-3 rounded-xl border border-amber-500/30 bg-amber-500/5 p-2">
+          <FighterAvatar
+            id={getPoolFighter(a.sources.physique).id}
+            name={getPoolFighter(a.sources.physique).name}
+            className="h-9 w-9 rounded-full ring-1 ring-amber-500/40"
+            textClass="text-[11px]"
+            sizes="36px"
+          />
+          <div className="min-w-0 flex-1">
+            <div className="flex items-baseline justify-between">
+              <span className="text-xs font-bold uppercase tracking-wide text-amber-300">
+                {ATTR_LABEL.physique}
+              </span>
+              <span className="truncate pl-2 text-[11px] text-zinc-500">
+                {a.division} · {getPoolFighter(a.sources.physique).name}
+              </span>
+            </div>
+            <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-zinc-800">
+              <div
+                className="h-full bg-gradient-to-r from-amber-400 to-red-500"
+                style={{ width: `${a.physique}%` }}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

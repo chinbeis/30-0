@@ -159,15 +159,18 @@ export default async function Leaderboard({
         </div>
       ) : (
         <ol className="mt-8 space-y-1.5">
-          {rows.map((row) => {
+          {rows.map((row, i) => {
             const top3 = row.rank <= 3;
             return (
               <li
                 key={row.rank}
-                className={`flex items-center gap-3 rounded-xl border px-3 py-3 transition ${
-                  top3
-                    ? "border-amber-500/40 bg-amber-500/[0.06]"
-                    : "border-zinc-800 bg-zinc-900/40 hover:border-zinc-700"
+                style={{ animationDelay: `${Math.min(i, 12) * 30}ms` }}
+                className={`animate-rise flex items-center gap-3 rounded-xl border px-3 py-3 transition duration-200 hover:-translate-y-0.5 ${
+                  row.rank === 1
+                    ? "border-amber-500/60 bg-amber-500/10 shadow-lg shadow-amber-500/10"
+                    : top3
+                      ? "border-amber-500/40 bg-amber-500/[0.06]"
+                      : "border-zinc-800 bg-zinc-900/40 hover:border-zinc-700"
                 }`}
               >
                 <span

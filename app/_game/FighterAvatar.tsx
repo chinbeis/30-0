@@ -15,6 +15,7 @@ export function FighterAvatar({
   id,
   name,
   className = "",
+  imgClassName = "",
   textClass = "text-base",
   title,
   sizes = "64px",
@@ -22,6 +23,8 @@ export function FighterAvatar({
   id: string;
   name: string;
   className?: string;
+  /** appended to the inner photo <Image> (e.g. a group-hover zoom) */
+  imgClassName?: string;
   textClass?: string;
   title?: string;
   sizes?: string;
@@ -41,7 +44,7 @@ export function FighterAvatar({
           alt={name}
           fill
           sizes={sizes}
-          className="object-cover object-top"
+          className={`object-cover object-top ${imgClassName}`}
           onError={() => setErrored(true)}
         />
       ) : (

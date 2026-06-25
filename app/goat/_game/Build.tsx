@@ -249,17 +249,17 @@ function PickScreen({
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 py-6">
-      <div className="mb-1 flex items-center justify-between text-xs font-semibold uppercase tracking-widest text-zinc-500">
+      <div className="mb-1.5 flex items-center justify-between text-xs font-bold uppercase tracking-widest text-zinc-500">
         <span>
-          {t.goat.round} {roundIndex + 1} / {ROUNDS}
+          {t.goat.round} <span className="text-amber-400">{roundIndex + 1}</span> / {ROUNDS}
         </span>
-        <span>
+        <span className="tabular-nums">
           {picks.length} {t.goat.traitsChosen}
         </span>
       </div>
-      <div className="mb-6 h-1.5 w-full overflow-hidden rounded-full bg-zinc-800">
+      <div className="mb-6 h-2 w-full overflow-hidden rounded-full bg-zinc-800/80">
         <div
-          className="h-full bg-gradient-to-r from-amber-400 to-red-500 transition-all"
+          className="h-full rounded-full bg-gradient-to-r from-amber-400 to-red-500 transition-all duration-500 ease-out"
           style={{ width: `${(roundIndex / ROUNDS) * 100}%` }}
         />
       </div>
@@ -351,42 +351,43 @@ function TraitCard({
       onClick={onClick}
       disabled={disabled}
       style={{ animationDelay: `${index * 70}ms` }}
-      className="animate-deal group flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4 text-left transition hover:border-amber-500/60 hover:bg-zinc-900 active:scale-[0.98] sm:flex-col sm:items-center sm:text-center"
+      className="animate-deal group relative flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4 text-left transition duration-200 hover:-translate-y-1 hover:border-amber-500/60 hover:bg-zinc-900 hover:shadow-xl hover:shadow-amber-500/10 active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none sm:flex-col sm:items-center sm:text-center"
     >
+      {/* uniform framed thumbnail — same square crop on every photo (mixed sizes + monogram fallbacks) */}
       <FighterAvatar
         id={fighter.id}
         name={fighter.name}
-        className="h-16 w-16 rounded-full ring-2 ring-zinc-700 transition group-hover:ring-amber-500/60 sm:h-20 sm:w-20"
-        textClass="text-xl"
-        sizes="80px"
+        className="h-[4.5rem] w-[4.5rem] rounded-2xl ring-2 ring-zinc-700 transition group-hover:ring-amber-500/60 sm:h-28 sm:w-28"
+        imgClassName="transition duration-500 ease-out group-hover:scale-105"
+        textClass="text-2xl"
+        sizes="(min-width: 640px) 112px, 72px"
       />
-      <div className="min-w-0">
-        <div className="truncate text-base font-bold leading-tight">{fighter.name}</div>
+
+      <div className="min-w-0 flex-1 sm:mt-1">
+        <div className="truncate text-base font-black leading-tight sm:text-lg">{fighter.name}</div>
         {fighter.nickname ? (
           <div className="truncate text-xs italic text-zinc-500">&ldquo;{fighter.nickname}&rdquo;</div>
         ) : null}
+        <div className="mt-1 text-[11px] font-semibold uppercase tracking-wide text-zinc-500">
+          {fighter.division} · {fighter.era}
+        </div>
         <div className="mt-2 flex flex-wrap items-center gap-1 sm:justify-center">
-          {physique ? (
-            <>
-              <span className="rounded-full bg-amber-500/20 px-2 py-0.5 text-[11px] font-bold text-amber-300">
-                {fighter.division}
-              </span>
-              <span
-                className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${TAG_COLOR[tag] ?? "bg-zinc-700 text-zinc-300"}`}
-              >
-                {tag}
-              </span>
-            </>
-          ) : (
-            <span
-              className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${TAG_COLOR[tag] ?? "bg-zinc-700 text-zinc-300"}`}
-            >
-              {tag} {category === "fightIq" ? "IQ" : ""}
-            </span>
-          )}
-          <span className="text-[10px] uppercase tracking-wide text-zinc-600">{fighter.era}</span>
+          <span
+            className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${TAG_COLOR[tag] ?? "bg-zinc-700 text-zinc-300"}`}
+          >
+            {tag}
+            {!physique && category === "fightIq" ? " IQ" : ""}
+          </span>
         </div>
       </div>
+
+      {/* tap affordance on mobile */}
+      <span
+        className="shrink-0 pr-1 text-xl text-zinc-600 transition group-hover:translate-x-0.5 group-hover:text-amber-400 sm:hidden"
+        aria-hidden
+      >
+        ›
+      </span>
     </button>
   );
 }
@@ -551,10 +552,12 @@ function ResultScreen({
       {challenge ? <HeadToHead result={result} challenge={challenge} /> : null}
 
       <div className="rounded-3xl border border-zinc-800 bg-gradient-to-b from-zinc-900 to-black p-6 text-center">
-        <div className={`text-7xl font-black tracking-tighter ${recordAccent(result.losses, result.wins)}`}>
+        <div
+          className={`animate-pop text-8xl font-black leading-none tracking-tighter tabular-nums drop-shadow-[0_4px_24px_rgba(0,0,0,0.5)] ${recordAccent(result.losses, result.wins)}`}
+        >
           {result.record}
         </div>
-        <div className={`mt-1 text-xl font-black uppercase tracking-widest ${tierAccent(result.tier.label)}`}>
+        <div className={`mt-3 text-xl font-black uppercase tracking-[0.2em] ${tierAccent(result.tier.label)}`}>
           {result.tier.label}
         </div>
         <div className="mt-1 text-sm text-zinc-500">{result.tier.blurb}</div>

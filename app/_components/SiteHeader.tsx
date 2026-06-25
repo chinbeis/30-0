@@ -11,9 +11,13 @@ export async function SiteHeader() {
   const t = await getT();
 
   return (
-    <header className="sticky top-0 z-20 border-b border-zinc-900 bg-black/80 backdrop-blur">
+    <header className="sticky top-0 z-20 border-b border-zinc-900 bg-black/70 backdrop-blur-md">
       <div className="mx-auto flex w-full max-w-3xl items-center justify-between gap-2 px-3 py-3 sm:px-4">
-        <Link href="/" className="flex shrink-0 items-center" aria-label="30-0 home">
+        <Link
+          href="/"
+          className="flex shrink-0 items-center transition-transform hover:scale-105 active:scale-95"
+          aria-label="30-0 home"
+        >
           <Image
             src="/logo/logo.png"
             alt="30-0"
@@ -24,11 +28,17 @@ export async function SiteHeader() {
           />
         </Link>
 
-        <nav className="flex min-w-0 items-center gap-2 text-sm font-semibold text-zinc-400 sm:gap-3">
-          <Link href="/" className="transition hover:text-white">
+        <nav className="flex min-w-0 items-center gap-1 text-sm font-semibold text-zinc-400 sm:gap-2">
+          <Link
+            href="/"
+            className="rounded-full px-2.5 py-1.5 transition hover:bg-zinc-900 hover:text-white"
+          >
             {t.nav.play}
           </Link>
-          <Link href="/leaderboard" className="truncate transition hover:text-white">
+          <Link
+            href="/leaderboard"
+            className="truncate rounded-full px-2.5 py-1.5 transition hover:bg-zinc-900 hover:text-white"
+          >
             {t.nav.leaderboard}
           </Link>
 

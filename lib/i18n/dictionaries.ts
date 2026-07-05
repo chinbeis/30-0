@@ -133,6 +133,9 @@ const en = {
     wins: "WINS",
     you: "You",
     vs: "vs",
+    simulating: "SEASON IN PROGRESS",
+    fight: "Fight",
+    titleRun: "TITLE RUN",
   },
 
   goat: {
@@ -180,7 +183,7 @@ const en = {
     vs: "vs",
   },
 
-  common: { save: "Save", close: "Close", copyLink: "Copy link", copied: "Copied! ✓", share: "Share…", preparingLink: "Preparing your link…", fbCaption: "Facebook builds the post from the link preview — we copied your caption, just paste it in." },
+  common: { save: "Save", close: "Close", copyLink: "Copy link", copied: "Copied! ✓", share: "Share…", preparingLink: "Preparing your link…", fbCaption: "Facebook builds the post from the link preview — we copied your caption, just paste it in.", skip: "Skip" },
 };
 
 export type Dict = typeof en;
@@ -315,6 +318,9 @@ const pt: Dict = {
     wins: "VENCE",
     you: "Você",
     vs: "vs",
+    simulating: "TEMPORADA EM ANDAMENTO",
+    fight: "Luta",
+    titleRun: "RETA FINAL",
   },
 
   goat: {
@@ -362,7 +368,7 @@ const pt: Dict = {
     vs: "vs",
   },
 
-  common: { save: "Salvar", close: "Fechar", copyLink: "Copiar link", copied: "Copiado! ✓", share: "Compartilhar…", preparingLink: "Preparando seu link…", fbCaption: "O Facebook monta o post pela prévia do link — copiamos sua legenda, é só colar." },
+  common: { save: "Salvar", close: "Fechar", copyLink: "Copiar link", copied: "Copiado! ✓", share: "Compartilhar…", preparingLink: "Preparando seu link…", fbCaption: "O Facebook monta o post pela prévia do link — copiamos sua legenda, é só colar.", skip: "Pular" },
 };
 
 const es: Dict = {
@@ -495,6 +501,9 @@ const es: Dict = {
     wins: "GANA",
     you: "Tú",
     vs: "vs",
+    simulating: "TEMPORADA EN CURSO",
+    fight: "Pelea",
+    titleRun: "RECTA FINAL",
   },
 
   goat: {
@@ -542,7 +551,7 @@ const es: Dict = {
     vs: "vs",
   },
 
-  common: { save: "Guardar", close: "Cerrar", copyLink: "Copiar enlace", copied: "¡Copiado! ✓", share: "Compartir…", preparingLink: "Preparando tu enlace…", fbCaption: "Facebook arma la publicación con la vista previa del enlace — copiamos tu texto, solo pégalo." },
+  common: { save: "Guardar", close: "Cerrar", copyLink: "Copiar enlace", copied: "¡Copiado! ✓", share: "Compartir…", preparingLink: "Preparando tu enlace…", fbCaption: "Facebook arma la publicación con la vista previa del enlace — copiamos tu texto, solo pégalo.", skip: "Saltar" },
 };
 
 const DICTS: Record<Locale, Dict> = { en, pt, es };

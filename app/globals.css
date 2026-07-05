@@ -19,8 +19,11 @@ body {
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   color: #fff;
   background-color: #000;
-  /* Subtle warm spotlight from the top for depth — like a light over the cage. */
-  background-image: radial-gradient(110% 70% at 50% -8%, rgba(245, 158, 11, 0.1), transparent 60%);
+  /* Warm spotlight over the cage + faint red corner heat + vignette for depth. */
+  background-image:
+    radial-gradient(110% 70% at 50% -8%, rgba(245, 158, 11, 0.12), transparent 60%),
+    radial-gradient(60% 45% at 100% 100%, rgba(239, 68, 68, 0.05), transparent 70%),
+    radial-gradient(60% 45% at 0% 100%, rgba(245, 158, 11, 0.04), transparent 70%);
   background-repeat: no-repeat;
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
@@ -118,6 +121,141 @@ body {
 }
 .animate-fade {
   animation: fade-in 0.2s ease-out both;
+}
+
+/* ------------------------------------------------------------------ */
+/* Game juice — impact, tension, and celebration effects               */
+/* ------------------------------------------------------------------ */
+
+/* Loss impact — a quick horizontal shake, like taking a shot on the chin. */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(2px); }
+}
+.animate-shake {
+  animation: shake 0.35s ease-in-out both;
+}
+
+/* Red flash overlay for the moment a loss lands. */
+@keyframes loss-flash {
+  0% { opacity: 0.35; }
+  100% { opacity: 0; }
+}
+.animate-loss-flash {
+  animation: loss-flash 0.45s ease-out both;
+}
+
+/* Win tick — a tiny confident pop for each W on the tape. */
+@keyframes tick-pop {
+  0% { transform: scale(0.4); opacity: 0; }
+  70% { transform: scale(1.35); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.animate-tick {
+  animation: tick-pop 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Live record punch — replays on every fight tick (keyed by bout index). */
+@keyframes count-punch {
+  0% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+.animate-count {
+  animation: count-punch 0.18s ease-out both;
+}
+
+/* Gold shimmer sweep across gradient text — reserved for perfect records. */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.text-shimmer-gold {
+  background-image: linear-gradient(
+    100deg,
+    #f59e0b 20%,
+    #fde68a 40%,
+    #fff7e0 50%,
+    #fde68a 60%,
+    #f59e0b 80%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: shimmer 2.4s linear infinite;
+}
+
+/* Soft breathing glow for champion moments / primary CTA. */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 24px rgba(245, 158, 11, 0.25); }
+  50% { box-shadow: 0 0 44px rgba(245, 158, 11, 0.5); }
+}
+.animate-glow {
+  animation: glow-pulse 2.2s ease-in-out infinite;
+}
+
+/* Card sheen — a light sweep on hover, like a foil trading card. */
+.card-sheen {
+  position: relative;
+  overflow: hidden;
+}
+.card-sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.08) 50%,
+    transparent 60%
+  );
+  background-size: 250% 100%;
+  background-position: 120% 0;
+  transition: background-position 0.6s ease;
+  pointer-events: none;
+}
+.card-sheen:hover::after {
+  background-position: -120% 0;
+}
+
+/* Tension pulse for the fight currently being simulated on the tape. */
+@keyframes now-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+.animate-now {
+  animation: now-pulse 0.7s ease-in-out infinite;
+}
+
+/* Confetti-ish golden rays behind a perfect 30-0 record. */
+@keyframes rays-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.perfect-rays {
+  background: conic-gradient(
+    from 0deg,
+    rgba(245, 158, 11, 0.16) 0deg,
+    transparent 24deg,
+    rgba(245, 158, 11, 0.16) 48deg,
+    transparent 72deg,
+    rgba(245, 158, 11, 0.16) 96deg,
+    transparent 120deg,
+    rgba(245, 158, 11, 0.16) 144deg,
+    transparent 168deg,
+    rgba(245, 158, 11, 0.16) 192deg,
+    transparent 216deg,
+    rgba(245, 158, 11, 0.16) 240deg,
+    transparent 264deg,
+    rgba(245, 158, 11, 0.16) 288deg,
+    transparent 312deg,
+    rgba(245, 158, 11, 0.16) 336deg,
+    transparent 360deg
+  );
+  animation: rays-spin 14s linear infinite;
 }
 
 /* Respect users who prefer no motion. */

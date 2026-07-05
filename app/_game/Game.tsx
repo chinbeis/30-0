@@ -133,7 +133,8 @@ export default function Game({
   }, [challenge, start]);
 
   if (phase === "start") return <Loading />;
-  if (phase === "sim") return <SimScreen onDone={() => setPhase("result")} />;
+  if (phase === "sim" && result)
+    return <SimScreen result={result} onDone={() => setPhase("result")} />;
   if (phase === "result" && result)
     return (
       <ResultScreen
@@ -219,7 +220,7 @@ function PickScreen({
       </div>
       <div className="mb-6 h-2 w-full overflow-hidden rounded-full bg-zinc-800/80">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-amber-400 to-red-500 transition-all duration-500 ease-out"
+          className="h-full rounded-full bg-gradient-to-r from-amber-400 to-red-500 shadow-[0_0_12px_rgba(245,158,11,0.6)] transition-all duration-500 ease-out"
           style={{ width: `${(roundIndex / ROSTER_SIZE) * 100}%` }}
         />
       </div>
@@ -259,17 +260,19 @@ function PickScreen({
       <div className="mt-5 flex flex-wrap justify-center gap-2">
         {Array.from({ length: ROSTER_SIZE }).map((_, i) => {
           const id = picks[i];
+          const newest = i === picks.length - 1;
           return id ? (
-            <FighterAvatar
-              key={i}
-              id={id}
-              name={getFighter(id).name}
-              className="h-8 w-8 rounded-full ring-2 ring-zinc-700"
-              textClass="text-[10px]"
-              sizes="32px"
-            />
+            <div key={i} className={newest ? "animate-tick" : undefined}>
+              <FighterAvatar
+                id={id}
+                name={getFighter(id).name}
+                className={`h-8 w-8 rounded-full ring-2 ${newest ? "ring-amber-400" : "ring-amber-500/40"}`}
+                textClass="text-[10px]"
+                sizes="32px"
+              />
+            </div>
           ) : (
-            <div key={i} className="h-8 w-8 rounded-full border border-dashed border-zinc-700" />
+            <div key={i} className="h-8 w-8 rounded-full border border-dashed border-zinc-800" />
           );
         })}
       </div>
@@ -290,7 +293,7 @@ function FighterCard({
     <button
       onClick={onClick}
       style={{ animationDelay: `${index * 70}ms` }}
-      className="animate-deal group relative flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4 text-left transition duration-200 hover:-translate-y-1 hover:border-red-500/60 hover:bg-zinc-900 hover:shadow-xl hover:shadow-red-500/10 active:translate-y-0 active:scale-[0.98] sm:flex-col sm:items-center sm:text-center"
+      className="animate-deal card-sheen group relative flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4 text-left transition duration-200 hover:-translate-y-1 hover:border-red-500/60 hover:bg-zinc-900 hover:shadow-xl hover:shadow-red-500/15 active:translate-y-0 active:scale-[0.98] sm:flex-col sm:items-center sm:text-center"
     >
       {/* uniform framed thumbnail — same square crop on every photo (mixed sizes + monogram fallbacks) */}
       <FighterAvatar
@@ -337,28 +340,131 @@ function FighterCard({
 
 // ---------------------------------------------------------------------------
 
-function SimScreen({ onDone }: { onDone: () => void }) {
+/**
+ * Live season ticker. The season is ALREADY simulated (result is final);
+ * this only replays it fight-by-fight for drama: quick through the early
+ * season, slowing into the title run, with a hard beat on every loss.
+ */
+function SimScreen({ result, onDone }: { result: SeasonResult; onDone: () => void }) {
+  const { t } = useI18n();
   const doneRef = useRef(onDone);
-  doneRef.current = onDone;
-  const [bout, setBout] = useState(1);
   useEffect(() => {
-    const total = 1400;
-    const iv = setInterval(() => setBout((b) => Math.min(TOTAL_BOUTS, b + 1)), total / TOTAL_BOUTS);
-    const t = setTimeout(() => {
-      clearInterval(iv);
-      doneRef.current();
-    }, total + 120);
-    return () => {
-      clearInterval(iv);
-      clearTimeout(t);
+    doneRef.current = onDone;
+  }, [onDone]);
+  const [done, setDone] = useState(0); // fights revealed so far (0..30)
+
+  useEffect(() => {
+    let cancelled = false;
+    let timer: ReturnType<typeof setTimeout>;
+    const step = (i: number) => {
+      if (cancelled) return;
+      if (i >= TOTAL_BOUTS) {
+        timer = setTimeout(() => doneRef.current(), 900);
+        return;
+      }
+      // Pacing: early season flies, the title run slows down, losses land heavy.
+      const base = i >= TOTAL_BOUTS - 5 ? 330 : i >= TOTAL_BOUTS - 12 ? 170 : 90;
+      const lossBeat = result.fights[i].win ? 0 : 340;
+      timer = setTimeout(() => {
+        setDone(i + 1);
+        step(i + 1);
+      }, base + lossBeat);
     };
-  }, []);
+    step(0);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [result]);
+
+  const revealed = result.fights.slice(0, done);
+  const wins = revealed.filter((f) => f.win).length;
+  const losses = done - wins;
+  const last = done > 0 ? result.fights[done - 1] : null;
+  const lastLost = last ? !last.win : false;
+  const titleRun = done >= TOTAL_BOUTS - 5;
+
   return (
-    <div className="flex flex-1 flex-col items-center justify-center gap-6">
-      <div className="h-16 w-16 animate-spin rounded-full border-4 border-zinc-800 border-t-red-500" />
-      <p className="text-lg font-semibold uppercase tracking-[0.3em] text-zinc-400">
-        Fight {bout} of {TOTAL_BOUTS}
+    <div className="relative mx-auto flex w-full max-w-xl flex-1 flex-col items-center justify-center gap-7 overflow-hidden px-4 py-10">
+      {/* red impact flash when a loss lands (re-triggers via key) */}
+      {lastLost ? (
+        <div
+          key={`flash-${done}`}
+          className="animate-loss-flash pointer-events-none absolute inset-0 bg-red-600"
+          aria-hidden
+        />
+      ) : null}
+
+      <p className="text-xs font-bold uppercase tracking-[0.35em] text-zinc-500">
+        {titleRun ? (
+          <span className="text-amber-400">🏆 {t.game.titleRun}</span>
+        ) : (
+          t.game.simulating
+        )}
       </p>
+
+      {/* live record — punches on every tick, shakes on a loss */}
+      <div key={done} className={lastLost ? "animate-shake" : undefined}>
+        <div
+          className={`animate-count text-center text-8xl font-black leading-none tracking-tighter tabular-nums ${recordAccent(losses)}`}
+        >
+          {wins}-{losses}
+        </div>
+      </div>
+
+      <p className="text-sm font-semibold uppercase tracking-[0.3em] text-zinc-400 tabular-nums">
+        {t.game.fight} {Math.min(done + 1, TOTAL_BOUTS)} / {TOTAL_BOUTS}
+      </p>
+
+      {/* last completed bout */}
+      <div className="flex h-6 items-center gap-2 text-sm">
+        {last ? (
+          <>
+            <span
+              className={`animate-tick inline-flex h-5 w-5 items-center justify-center rounded-full text-[11px] font-black ${
+                last.win ? "bg-emerald-500 text-black" : "bg-red-500 text-white"
+              }`}
+            >
+              {last.win ? "W" : "L"}
+            </span>
+            <span className="max-w-[16rem] truncate font-semibold text-zinc-200">
+              {getFighter(last.fighterId).name}
+            </span>
+            <span className="text-zinc-600">{t.game.vs}</span>
+            <span className="max-w-[10rem] truncate text-zinc-400">{last.oppName}</span>
+          </>
+        ) : null}
+      </div>
+
+      {/* season tape — 30 fights filling in */}
+      <div className="grid grid-cols-10 gap-1.5">
+        {Array.from({ length: TOTAL_BOUTS }).map((_, i) => {
+          if (i < done)
+            return (
+              <span
+                key={i}
+                className={`animate-tick h-2.5 w-2.5 rounded-full ${
+                  result.fights[i].win ? "bg-emerald-400" : "bg-red-500"
+                }`}
+              />
+            );
+          return (
+            <span
+              key={i}
+              className={`h-2.5 w-2.5 rounded-full ${
+                i === done ? "animate-now bg-amber-400" : "bg-zinc-800"
+              }`}
+            />
+          );
+        })}
+      </div>
+
+      <button
+        onClick={() => doneRef.current()}
+        className="mt-2 text-xs font-semibold uppercase tracking-widest text-zinc-600 transition hover:text-zinc-300"
+      >
+        {t.common.skip} ›
+      </button>
     </div>
   );
 }
@@ -444,21 +550,35 @@ function ResultScreen({
     submit(v);
   };
 
+  const perfect = result.losses === 0;
+
   return (
     <div className="mx-auto flex w-full max-w-xl flex-1 flex-col px-4 py-8">
       {challenge ? <HeadToHead result={result} challenge={challenge} /> : null}
 
-      <div className="rounded-3xl border border-zinc-800 bg-gradient-to-b from-zinc-900 to-black p-6 text-center">
-        <div
-          className={`animate-pop text-8xl font-black leading-none tracking-tighter tabular-nums drop-shadow-[0_4px_24px_rgba(0,0,0,0.5)] ${recordAccent(result.losses)}`}
-        >
-          {result.record}
+      <div
+        className={`relative overflow-hidden rounded-3xl border bg-gradient-to-b from-zinc-900 to-black p-6 text-center ${
+          perfect ? "animate-glow border-amber-500/50" : "border-zinc-800"
+        }`}
+      >
+        {/* golden rays only for a perfect season */}
+        {perfect ? (
+          <div className="perfect-rays pointer-events-none absolute -inset-1/2" aria-hidden />
+        ) : null}
+        <div className="relative">
+          <div
+            className={`animate-pop text-8xl font-black leading-none tracking-tighter tabular-nums drop-shadow-[0_4px_24px_rgba(0,0,0,0.5)] ${
+              perfect ? "text-shimmer-gold" : recordAccent(result.losses)
+            }`}
+          >
+            {result.record}
+          </div>
+          <div className="mt-3 text-xl font-black uppercase tracking-[0.2em] text-white">
+            {result.tier.label}
+          </div>
+          <div className="mt-1 text-sm text-zinc-500">{result.tier.blurb}</div>
         </div>
-        <div className="mt-3 text-xl font-black uppercase tracking-[0.2em] text-white">
-          {result.tier.label}
-        </div>
-        <div className="mt-1 text-sm text-zinc-500">{result.tier.blurb}</div>
-        <div className="mx-auto mt-5 max-w-[12rem]">
+        <div className="relative mx-auto mt-5 max-w-[12rem]">
           <div className="mb-1 flex justify-between text-xs font-semibold text-zinc-500">
             <span>GOAT SCORE</span>
             <span className="text-amber-300">{result.goatScore}</span>
@@ -470,10 +590,15 @@ function ResultScreen({
             />
           </div>
         </div>
-        <RankBadge save={save} hasIdentity={!!user || !!nick} />
+        <div className="relative">
+          <RankBadge save={save} hasIdentity={!!user || !!nick} />
+        </div>
       </div>
 
-      <p className="mt-5 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-4 text-center text-sm leading-relaxed text-zinc-300">
+      <p
+        className="animate-rise mt-5 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-4 text-center text-sm leading-relaxed text-zinc-300"
+        style={{ animationDelay: "150ms" }}
+      >
         {result.story}
       </p>
 
@@ -501,15 +626,15 @@ function ResultScreen({
         </div>
       ) : null}
 
-      <div className="mt-4 grid grid-cols-2 gap-3">
+      <div className="animate-rise mt-4 grid grid-cols-2 gap-3" style={{ animationDelay: "300ms" }}>
         <PlayerPill label={t.game.teamMvp} fighter={mvp} accent="text-emerald-400" />
         <PlayerPill label={t.game.weakestPick} fighter={weak} accent="text-red-400" />
       </div>
 
-      <div className="mt-6 flex flex-col gap-3">
+      <div className="animate-rise mt-6 flex flex-col gap-3" style={{ animationDelay: "450ms" }}>
         <button
           onClick={onReplay}
-          className="rounded-full bg-gradient-to-r from-amber-400 to-red-500 py-4 text-lg font-black text-black transition hover:scale-[1.02] active:scale-95"
+          className="animate-glow rounded-full bg-gradient-to-r from-amber-400 to-red-500 py-4 text-lg font-black text-black transition hover:scale-[1.02] hover:brightness-110 active:scale-95"
         >
           {t.game.playAgain}
         </button>

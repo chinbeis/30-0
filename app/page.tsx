@@ -29,7 +29,7 @@ export default async function Home() {
       </p>
       <h1 className="text-center text-6xl font-black leading-[0.95] tracking-tighter sm:text-7xl">
         {t.home.titleA}{" "}
-        <span className="bg-gradient-to-r from-amber-400 to-red-500 bg-clip-text text-transparent drop-shadow-[0_2px_20px_rgba(245,158,11,0.25)]">
+        <span className="text-shimmer-gold drop-shadow-[0_2px_20px_rgba(245,158,11,0.25)]">
           {t.home.titleHighlight}
         </span>
       </h1>
@@ -42,7 +42,7 @@ export default async function Home() {
           <Link
             key={g.href}
             href={g.href}
-            className="group relative flex flex-col overflow-hidden rounded-3xl border border-zinc-800 bg-gradient-to-b from-zinc-900 to-black p-6 transition duration-200 hover:-translate-y-1 hover:border-amber-500/60 hover:shadow-2xl hover:shadow-amber-500/5 active:translate-y-0"
+            className="group card-sheen relative flex flex-col overflow-hidden rounded-3xl border border-zinc-800 bg-gradient-to-b from-zinc-900 to-black p-6 transition duration-200 hover:-translate-y-1 hover:border-amber-500/60 hover:shadow-2xl hover:shadow-amber-500/10 active:translate-y-0"
           >
             <div className="flex items-center gap-2">
               <span className="text-3xl transition-transform duration-200 group-hover:scale-110" aria-hidden>

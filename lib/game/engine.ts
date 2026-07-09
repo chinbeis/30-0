@@ -8,7 +8,7 @@ import type {
   SeasonResult,
   Tier,
 } from "./types";
-import { FIGHTERS, getFighter } from "./fighters";
+import { FIGHTERS, baseId, getFighter } from "./fighters";
 import { rngFromSeed, type Rng } from "./rng";
 
 // ----------------------------------------------------------------------------
@@ -135,7 +135,8 @@ function pickOpponent(
   used: Set<string>,
 ): Fighter {
   const sameDivision = (c: { fighter: Fighter }) => c.fighter.division === fighter.division;
-  const notSelf = (c: { fighter: Fighter }) => c.fighter.id !== fighter.id;
+  // Compare base ids so a drafted "Prime X" never fights present-day X.
+  const notSelf = (c: { fighter: Fighter }) => c.fighter.id !== baseId(fighter.id);
 
   const tiers: ((c: { fighter: Fighter }) => boolean)[] = [
     (c) => sameDivision(c) && notSelf(c) && !rosterIds.has(c.fighter.id) && !used.has(c.fighter.id),
@@ -260,7 +261,7 @@ function buildStory(
   else identity = "a relentless cardio pace";
 
   if (losses === 0) {
-    return `Your roster ran the table on ${identity} — 30-0, untouched. Every title fight, answered. This is the team they'll argue about for years.`;
+    return `Your roster ran the table on ${identity} — 30-0, untouched. Every title fight, answered. P4P immortality: this is the team they'll argue about for years.`;
   }
 
   // The most painful loss = the latest-bout defeat (deepest into the title run).
@@ -268,21 +269,59 @@ function buildStory(
   const keyLoss = losingFights[0];
   const culprit = byId[keyLoss.fighterId];
   const reason = lossReason(culprit, keyLoss.method);
-  const lossWord = losses === 1 ? "one blemish" : `${losses} losses`;
 
-  return `Your team carried ${identity} deep into the season. Then Fight ${keyLoss.bout}: ${culprit.name} ${reason}. Final record ${wins}-${losses} — ${lossWord} between you and perfection.`;
+  // Where the season broke — late losses hurt more, and the story should say so.
+  const stage =
+    keyLoss.bout >= 26
+      ? "with the belt on the line"
+      : keyLoss.bout >= 21
+        ? "deep in the title run"
+        : keyLoss.bout >= 11
+          ? "mid-season"
+          : "before the lights even got bright";
+
+  // The bust: one pick that hemorrhaged fights caps the whole ceiling —
+  // that's the attributable near-miss mechanic, so name and shame it.
+  const lossCount: Record<string, number> = {};
+  for (const x of fights) if (!x.win) lossCount[x.fighterId] = (lossCount[x.fighterId] ?? 0) + 1;
+  const [bustId, bustLosses] = Object.entries(lossCount).sort((a, b) => b[1] - a[1])[0];
+  const bust = byId[bustId];
+  const bustLine =
+    bustLosses >= 3
+      ? ` ${bust.name} went 0-3 — that one pick capped the whole season.`
+      : bustLosses === 2 && bustId !== keyLoss.fighterId
+        ? ` And ${bust.name} dropped two of his own.`
+        : "";
+
+  if (losses === 1) {
+    return `Twenty-nine answered the bell. Then Fight ${keyLoss.bout}, ${stage}: ${culprit.name} ${reason}. 29-1. One fight between you and immortality — the kind of loss fans argue about for a decade. Run it back.`;
+  }
+  if (losses <= 3) {
+    return `A championship season built on ${identity} — just not a perfect one. The one that stung: Fight ${keyLoss.bout}, ${stage}, ${culprit.name} ${reason}.${bustLine} ${wins}-${losses}. The belt is real. The legend needs a rematch.`;
+  }
+  if (losses <= 6) {
+    return `Your squad leaned on ${identity} and hung with everyone — until the schedule got heavy. Fight ${keyLoss.bout}, ${stage}: ${culprit.name} ${reason}.${bustLine} ${wins}-${losses} is contender numbers. One or two picks short of a dynasty.`;
+  }
+  if (losses <= 10) {
+    return `The gaps showed early and often — ${identity} only carries you so far. Fight ${keyLoss.bout}: ${culprit.name} ${reason}.${bustLine} ${wins}-${losses}. The problem wasn't the fights. It was the draft.`;
+  }
+  return `It got ugly out there. Fight ${keyLoss.bout}: ${culprit.name} ${reason} — and that wasn't even the low point.${bustLine} ${wins}-${losses}. Blow the roster up and run it back.`;
 }
 
 function lossReason(f: Fighter, method: Method): string {
   if (method.includes("KO")) {
-    return f.durability < 82 ? "got caught and dropped — the chin finally cracked" : "ate a perfect shot on the feet";
+    return f.durability < 82
+      ? "got his chin checked — the glass finally shattered"
+      : "ate a shot he never saw coming and got put to sleep";
   }
   if (method.includes("SUB")) {
-    return f.grappling < 80 ? "was dragged down and tapped" : "got caught in a scramble";
+    return f.grappling < 80
+      ? "got dragged into deep water and drowned"
+      : "got caught in a scramble — there are levels to this game";
   }
   // decision
-  if (f.cardio < 84) return "gassed in the championship rounds and lost the decision";
-  return "dropped a razor-thin decision";
+  if (f.cardio < 84) return "gassed in the championship rounds and got left in the mud";
+  return "dropped a razor-thin decision the fans will call a robbery for years";
 }
 
 export interface SimInput {
@@ -308,7 +347,7 @@ export function simulateSeason({ picks, seed }: SimInput): SeasonResult {
 
   // Opponent assignment is cosmetic and consumes no rng, so it runs alongside the
   // sim without shifting the seeded win/method rolls (calibration unaffected).
-  const rosterIds = new Set(roster.map((f) => f.id));
+  const rosterIds = new Set(roster.map((f) => baseId(f.id)));
   const usedOpponents = new Set<string>();
 
   schedule.forEach((bout, i) => {

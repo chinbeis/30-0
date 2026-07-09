@@ -4,8 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { buildBoard, REROLLS_TOTAL, type Board } from "@/lib/game/board";
 import { ROSTER_SIZE, TOTAL_BOUTS, simulateSeason } from "@/lib/game/engine";
 import { getFighter } from "@/lib/game/fighters";
-import type { Fighter, SeasonResult } from "@/lib/game/types";
-import { fighterTags, recordAccent } from "./helpers";
+import type { Fighter, FightResult, SeasonResult } from "@/lib/game/types";
+import { fighterTags, isLiabilityTag, methodFlavor, nightAwards, recordAccent } from "./helpers";
 import { FighterAvatar } from "./FighterAvatar";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { ShareModal } from "@/app/_components/ShareModal";
@@ -289,24 +289,51 @@ function FighterCard({
   index?: number;
   onClick: () => void;
 }) {
+  const prime = !!fighter.isPrime;
+  const mythic = !!fighter.isMythic;
   return (
     <button
       onClick={onClick}
       style={{ animationDelay: `${index * 70}ms` }}
-      className="animate-deal card-sheen group relative flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4 text-left transition duration-200 hover:-translate-y-1 hover:border-red-500/60 hover:bg-zinc-900 hover:shadow-xl hover:shadow-red-500/15 active:translate-y-0 active:scale-[0.98] sm:flex-col sm:items-center sm:text-center"
+      className={`animate-deal card-sheen group relative flex items-center gap-4 rounded-2xl border p-4 text-left transition duration-200 hover:-translate-y-1 active:translate-y-0 active:scale-[0.98] sm:flex-col sm:items-center sm:text-center ${
+        mythic
+          ? "animate-mythic border-fuchsia-400/70 bg-gradient-to-b from-fuchsia-500/15 via-purple-500/10 to-zinc-900/80 hover:border-fuchsia-300 hover:shadow-xl hover:shadow-fuchsia-500/30"
+          : prime
+            ? "animate-glow border-amber-400/70 bg-gradient-to-b from-amber-500/15 to-zinc-900/80 hover:border-amber-300 hover:shadow-xl hover:shadow-amber-500/25"
+            : "border-zinc-800 bg-zinc-900/60 hover:border-red-500/60 hover:bg-zinc-900 hover:shadow-xl hover:shadow-red-500/15"
+      }`}
     >
       {/* uniform framed thumbnail — same square crop on every photo (mixed sizes + monogram fallbacks) */}
       <FighterAvatar
         id={fighter.id}
         name={fighter.name}
-        className="h-[4.5rem] w-[4.5rem] rounded-2xl ring-2 ring-zinc-700 transition group-hover:ring-red-500/60 sm:h-28 sm:w-28"
+        className={`h-[4.5rem] w-[4.5rem] rounded-2xl ring-2 transition sm:h-28 sm:w-28 ${
+          mythic
+            ? "ring-fuchsia-400/80 group-hover:ring-fuchsia-300"
+            : prime
+              ? "ring-amber-400/80 group-hover:ring-amber-300"
+              : "ring-zinc-700 group-hover:ring-red-500/60"
+        }`}
         imgClassName="transition duration-500 ease-out group-hover:scale-105"
         textClass="text-2xl"
         sizes="(min-width: 640px) 112px, 72px"
       />
 
       <div className="min-w-0 flex-1 sm:mt-1">
-        <div className="truncate text-base font-black leading-tight sm:text-lg">{fighter.name}</div>
+        {/* Rarity chips live IN the content flow — the card has overflow:hidden
+            (card-sheen), so anything floated past its edge gets clipped. */}
+        {mythic ? (
+          <span className="mb-1 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-fuchsia-400 via-purple-400 to-fuchsia-300 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-[0.2em] text-black shadow-md shadow-fuchsia-500/40">
+            🔮 Mythical
+          </span>
+        ) : prime ? (
+          <span className="mb-1 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-amber-400 to-yellow-300 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-[0.2em] text-black shadow-md shadow-amber-500/40">
+            ⭐ Prime
+          </span>
+        ) : null}
+        <div className="truncate text-base font-black leading-tight sm:text-lg">
+          {prime ? fighter.name.replace(/^Prime /, "") : fighter.name}
+        </div>
         {fighter.nickname ? (
           <div className="truncate text-xs italic text-zinc-500">
             &ldquo;{fighter.nickname}&rdquo;
@@ -319,7 +346,11 @@ function FighterCard({
           {fighterTags(fighter).map((t) => (
             <span
               key={t}
-              className="rounded-full border border-amber-500/20 bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold text-amber-300"
+              className={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${
+                isLiabilityTag(t)
+                  ? "border-red-500/25 bg-red-500/10 text-red-300"
+                  : "border-amber-500/20 bg-amber-500/10 text-amber-300"
+              }`}
             >
               {t}
             </span>
@@ -631,6 +662,8 @@ function ResultScreen({
         <PlayerPill label={t.game.weakestPick} fighter={weak} accent="text-red-400" />
       </div>
 
+      <NightAwards result={result} />
+
       <div className="animate-rise mt-6 flex flex-col gap-3" style={{ animationDelay: "450ms" }}>
         <button
           onClick={onReplay}
@@ -706,7 +739,9 @@ function ResultScreen({
                 >
                   {fight.win ? "W" : "L"}
                 </span>
-                <span className="w-20 text-right text-zinc-500">{fight.method}</span>
+                <span className="w-32 shrink-0 truncate text-right text-zinc-500" title={fight.method}>
+                  {methodFlavor(fight)}
+                </span>
               </div>
             );
           })}
@@ -914,6 +949,44 @@ function ChallengeButton({
     >
       {state === "loading" ? t.game.creating : state === "done" ? t.game.linkCopied : t.game.beatMyTeam}
     </button>
+  );
+}
+
+/** The UFC bonus-check ritual — 🔥 Fight of the Night, 💰 Performance of the Night. */
+function NightAwards({ result }: { result: SeasonResult }) {
+  const { t } = useI18n();
+  const { fotn, potn } = nightAwards(result);
+  if (!fotn && !potn) return null;
+  const awards = [
+    fotn ? { emoji: "🔥", label: t.game.fotn, fight: fotn } : null,
+    potn ? { emoji: "💰", label: t.game.potn, fight: potn } : null,
+  ].filter(Boolean) as { emoji: string; label: string; fight: FightResult }[];
+  return (
+    <div
+      className={`animate-rise mt-3 grid gap-3 ${awards.length === 2 ? "sm:grid-cols-2" : ""}`}
+      style={{ animationDelay: "380ms" }}
+    >
+      {awards.map((a) => {
+        const f = getFighter(a.fight.fighterId);
+        return (
+          <div
+            key={a.label}
+            className="flex items-center gap-3 rounded-2xl border border-amber-500/25 bg-amber-500/[0.06] p-3"
+          >
+            <span className="text-xl" aria-hidden>
+              {a.emoji}
+            </span>
+            <div className="min-w-0">
+              <div className="text-[10px] font-bold tracking-widest text-amber-400">{a.label}</div>
+              <div className="truncate text-sm font-bold">{f.name}</div>
+              <div className="truncate text-[11px] text-zinc-500">
+                {t.game.vs} {a.fight.oppName} · {methodFlavor(a.fight)}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
   );
 }
 

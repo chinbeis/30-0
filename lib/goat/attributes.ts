@@ -30,6 +30,7 @@ export const TRAIT_KEYS: TraitKey[] = [
 const PHYSIQUE_OVERRIDE: Record<string, number> = {
   // generational / division-bully physiques
   ngannou: 97, // freak power + frame
+  mythic_poirier: 95, // "retired body" — somehow more jacked at the airport
   romero: 95, // olympic wrestler, absurdly built for 185
   usman: 92,
   jones: 92, // frame + 84.5" reach

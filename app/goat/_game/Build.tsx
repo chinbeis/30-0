@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   buildBuildBoard,
   REROLLS_TOTAL,
@@ -11,10 +11,11 @@ import {
   ATTR_LABEL,
   CAREER_LADDER,
   getPoolFighter,
+  resemblance,
   simulateCareer,
 } from "@/lib/goat/engine";
 import { traitTag } from "@/lib/goat/attributes";
-import type { CareerResult, CategoryKey, TraitKey } from "@/lib/goat/types";
+import type { BuildAttributes, CareerResult, CategoryKey, TraitKey } from "@/lib/goat/types";
 import type { Fighter } from "@/lib/game/types";
 import { FighterAvatar } from "@/app/_game/FighterAvatar";
 import { useI18n } from "@/lib/i18n/I18nProvider";
@@ -346,24 +347,36 @@ function TraitCard({
   onClick: () => void;
 }) {
   const tag = traitTag(fighter, category);
+  const mythic = !!fighter.isMythic;
   return (
     <button
       onClick={onClick}
       disabled={disabled}
       style={{ animationDelay: `${index * 70}ms` }}
-      className="animate-deal group relative flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4 text-left transition duration-200 hover:-translate-y-1 hover:border-amber-500/60 hover:bg-zinc-900 hover:shadow-xl hover:shadow-amber-500/10 active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none sm:flex-col sm:items-center sm:text-center"
+      className={`animate-deal group relative flex items-center gap-4 rounded-2xl border p-4 text-left transition duration-200 hover:-translate-y-1 active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none sm:flex-col sm:items-center sm:text-center ${
+        mythic
+          ? "animate-mythic border-fuchsia-400/70 bg-gradient-to-b from-fuchsia-500/15 via-purple-500/10 to-zinc-900/80 hover:border-fuchsia-300 hover:shadow-xl hover:shadow-fuchsia-500/30"
+          : "border-zinc-800 bg-zinc-900/60 hover:border-amber-500/60 hover:bg-zinc-900 hover:shadow-xl hover:shadow-amber-500/10"
+      }`}
     >
       {/* uniform framed thumbnail — same square crop on every photo (mixed sizes + monogram fallbacks) */}
       <FighterAvatar
         id={fighter.id}
         name={fighter.name}
-        className="h-[4.5rem] w-[4.5rem] rounded-2xl ring-2 ring-zinc-700 transition group-hover:ring-amber-500/60 sm:h-28 sm:w-28"
+        className={`h-[4.5rem] w-[4.5rem] rounded-2xl ring-2 transition sm:h-28 sm:w-28 ${
+          mythic ? "ring-fuchsia-400/80 group-hover:ring-fuchsia-300" : "ring-zinc-700 group-hover:ring-amber-500/60"
+        }`}
         imgClassName="transition duration-500 ease-out group-hover:scale-105"
         textClass="text-2xl"
         sizes="(min-width: 640px) 112px, 72px"
       />
 
       <div className="min-w-0 flex-1 sm:mt-1">
+        {mythic ? (
+          <span className="mb-1 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-fuchsia-400 via-purple-400 to-fuchsia-300 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-[0.2em] text-black shadow-md shadow-fuchsia-500/40">
+            🔮 Mythical
+          </span>
+        ) : null}
         <div className="truncate text-base font-black leading-tight sm:text-lg">{fighter.name}</div>
         {fighter.nickname ? (
           <div className="truncate text-xs italic text-zinc-500">&ldquo;{fighter.nickname}&rdquo;</div>
@@ -633,6 +646,8 @@ function ResultScreen({
         <AttrPill label={t.goat.biggestStrength} data={result.biggestStrength} accent="text-emerald-400" />
         <AttrPill label={t.goat.biggestWeakness} data={result.biggestWeakness} accent="text-red-400" />
       </div>
+
+      <ResemblanceCard attributes={a} />
 
       <div className="mt-6 flex flex-col gap-3">
         <button
@@ -938,6 +953,49 @@ function AttrPill({
       <div className={`text-[10px] font-bold tracking-widest ${accent}`}>{label}</div>
       <div className="mt-1 text-sm font-bold">{ATTR_LABEL[data.attribute]}</div>
       <div className="truncate text-[11px] text-zinc-500">from {data.source}</div>
+    </div>
+  );
+}
+
+/** "You fight like X" — the real fighter (±1 weight class) closest to the build. */
+function ResemblanceCard({ attributes }: { attributes: BuildAttributes }) {
+  const { t } = useI18n();
+  const { fighterId, match } = useMemo(() => resemblance(attributes), [attributes]);
+  const f = getPoolFighter(fighterId);
+  return (
+    <div
+      style={{ animationDelay: "120ms" }}
+      className="animate-rise card-sheen mt-4 flex items-center gap-4 rounded-2xl border border-zinc-800 bg-gradient-to-b from-zinc-900 to-black p-4"
+    >
+      <FighterAvatar
+        id={f.id}
+        name={f.name}
+        className="h-14 w-14 shrink-0 rounded-full ring-2 ring-amber-500/50"
+        textClass="text-base"
+        sizes="56px"
+      />
+      <div className="min-w-0 flex-1">
+        <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-500">
+          {t.goat.fightsLike}
+        </div>
+        <div className="truncate text-lg font-black tracking-tight">{f.name}</div>
+        <div className="truncate text-xs text-zinc-500">
+          {f.nickname ? `“${f.nickname}” · ` : ""}
+          {f.division}
+        </div>
+      </div>
+      <div className="shrink-0 text-right">
+        <div className="text-2xl font-black tabular-nums text-amber-300">{match}%</div>
+        <div className="text-[10px] font-semibold uppercase tracking-wide text-zinc-500">
+          {t.goat.match}
+        </div>
+        <div className="mt-1 h-1.5 w-16 overflow-hidden rounded-full bg-zinc-800">
+          <div
+            className="h-full bg-gradient-to-r from-amber-400 to-red-500"
+            style={{ width: `${match}%` }}
+          />
+        </div>
+      </div>
     </div>
   );
 }

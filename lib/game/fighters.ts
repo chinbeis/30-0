@@ -1,5 +1,6 @@
 import type { Fighter } from "./types";
 import { CURRENT_FIGHTERS } from "./fighters-current";
+import { MYTHIC_BY_ID, MYTHIC_PREFIX } from "./fighters-mythic";
 
 // Seed pool for MVP. ~48 marquee fighters across eras/divisions.
 //
@@ -35,7 +36,9 @@ export const FIGHTERS: Fighter[] = [
 
   // --- Middleweight ---
   { id: "silva", name: "Anderson Silva", nickname: "The Spider", division: "Middleweight", era: "2000s", striking: 97, grappling: 82, cardio: 84, durability: 80, fightIq: 95, experience: 95, finishing: 94 },
-  { id: "adesanya", name: "Israel Adesanya", nickname: "The Last Stylebender", division: "Middleweight", era: "Modern", striking: 95, grappling: 70, cardio: 86, durability: 84, fightIq: 92, experience: 86, finishing: 82 },
+  // Nerfed from his title-reign numbers (the peak version lives on as the
+  // "Gyno Adesanya" mythic card) — the current skid is real.
+  { id: "adesanya", name: "Israel Adesanya", nickname: "The Last Stylebender", division: "Middleweight", era: "Modern", striking: 93, grappling: 70, cardio: 84, durability: 80, fightIq: 90, experience: 90, finishing: 78 },
   { id: "whittaker", name: "Robert Whittaker", nickname: "The Reaper", division: "Middleweight", era: "Modern", striking: 89, grappling: 82, cardio: 90, durability: 84, fightIq: 90, experience: 88, finishing: 80 },
   { id: "chimaev", name: "Khamzat Chimaev", nickname: "Borz", division: "Middleweight", era: "Modern", striking: 82, grappling: 98, cardio: 82, durability: 84, fightIq: 86, experience: 76, finishing: 95 },
   { id: "weidman", name: "Chris Weidman", nickname: "The All-American", division: "Middleweight", era: "2010s", striking: 80, grappling: 90, cardio: 84, durability: 80, fightIq: 84, experience: 86, finishing: 80 },
@@ -89,8 +92,54 @@ export const FIGHTERS_BY_ID: Record<string, Fighter> = Object.fromEntries(
   FIGHTERS.map((f) => [f.id, f]),
 );
 
+// ---------------------------------------------------------------------------
+// PRIME variants — the rare gold card: a legend at their absolute peak.
+// A prime id is `<baseId>#prime`; it resolves everywhere (sim, validation,
+// storage) through getFighter, so picks stay plain string ids end-to-end.
+// ---------------------------------------------------------------------------
+
+export const PRIME_SUFFIX = "#prime";
+const PRIME_BOOST = 4; // added to every rating, capped at 99
+
+/** Strip prime/mythic markers — for photo lookups and "same fighter" comparisons. */
+export function baseId(id: string): string {
+  let b = id.endsWith(PRIME_SUFFIX) ? id.slice(0, -PRIME_SUFFIX.length) : id;
+  if (b.startsWith(MYTHIC_PREFIX)) b = b.slice(MYTHIC_PREFIX.length);
+  return b;
+}
+
+const primeCache: Record<string, Fighter> = {};
+
+/** The boosted "Prime X" version of a fighter (memoized, deterministic). */
+export function primeVariant(base: Fighter): Fighter {
+  const cached = primeCache[base.id];
+  if (cached) return cached;
+  const b = (v: number) => Math.min(99, v + PRIME_BOOST);
+  const prime: Fighter = {
+    ...base,
+    id: base.id + PRIME_SUFFIX,
+    name: `Prime ${base.name}`,
+    isPrime: true,
+    striking: b(base.striking),
+    grappling: b(base.grappling),
+    cardio: b(base.cardio),
+    durability: b(base.durability),
+    fightIq: b(base.fightIq),
+    experience: b(base.experience),
+    finishing: b(base.finishing),
+  };
+  primeCache[base.id] = prime;
+  return prime;
+}
+
 export function getFighter(id: string): Fighter {
   const f = FIGHTERS_BY_ID[id];
-  if (!f) throw new Error(`Unknown fighter id: ${id}`);
-  return f;
+  if (f) return f;
+  const mythic = MYTHIC_BY_ID[id];
+  if (mythic) return mythic;
+  if (id.endsWith(PRIME_SUFFIX)) {
+    const base = FIGHTERS_BY_ID[baseId(id)];
+    if (base) return primeVariant(base);
+  }
+  throw new Error(`Unknown fighter id: ${id}`);
 }

@@ -10,6 +10,9 @@ import type { Fighter } from "./types";
 // — those are the "bad picks" that make a build run go sideways.
 
 export const EXTRA_FIGHTERS: Fighter[] = [
+  // Undefeated and undisputed (self-proclaimed). Elite wrestling, pillow hands,
+  // and a well-documented triangle-choke allergy.
+  { id: "sonnen", name: "Chael Sonnen", nickname: "The American Gangster", division: "Middleweight", era: "2010s", striking: 76, grappling: 91, cardio: 86, durability: 80, fightIq: 84, experience: 93, finishing: 66 },
   { id: "sanchez", name: "Diego Sanchez", nickname: "Nightmare", division: "Welterweight", era: "2010s", striking: 74, grappling: 78, cardio: 88, durability: 88, fightIq: 66, experience: 90, finishing: 70 },
   { id: "guida", name: "Clay Guida", nickname: "The Carpenter", division: "Lightweight", era: "2010s", striking: 66, grappling: 82, cardio: 92, durability: 82, fightIq: 72, experience: 86, finishing: 56 },
   { id: "lauzon", name: "Joe Lauzon", nickname: "J-Lau", division: "Lightweight", era: "2010s", striking: 70, grappling: 84, cardio: 76, durability: 66, fightIq: 70, experience: 82, finishing: 84 },

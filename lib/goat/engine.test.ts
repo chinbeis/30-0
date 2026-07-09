@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { buildBuildBoard, validateBuildPicks, GOAT_POOL } from "./board";
-import { simulateCareer, composeFighter, CAREER_LENGTH } from "./engine";
-import { attributeValue, physiqueValue } from "./attributes";
+import { simulateCareer, composeFighter, getPoolFighter, resemblance, CAREER_LENGTH } from "./engine";
+import { attributeValue, divisionSize, physiqueValue } from "./attributes";
 import { getFighter } from "@/lib/game/fighters";
 import type { Fighter } from "@/lib/game/types";
 
@@ -193,5 +193,70 @@ describe("composeFighter", () => {
     expect(a.wrestling).toBe(getFighter("khabib").grappling); // 99
     expect(a.division).toBe("Heavyweight"); // ngannou physique
     expect(a.size).toBe(7);
+  });
+});
+
+describe("mythic injection (GOAT board)", () => {
+  it("~50% of boards carry exactly one mythic, on page 0 of a non-physique round, and it simulates", () => {
+    let withMythic = 0;
+    let played = false;
+    for (let i = 0; i < 300; i++) {
+      const board = buildBuildBoard(`goat-myth-${i}`);
+      const mythics = board.rounds.flatMap((r, ri) =>
+        r.pages.flatMap((page, pi) =>
+          page.filter((f) => f.isMythic).map((f) => ({ f, round: r, ri, pi })),
+        ),
+      );
+      expect(mythics.length).toBeLessThanOrEqual(1);
+      if (!mythics.length) continue;
+      withMythic++;
+      const m = mythics[0];
+      expect(m.pi).toBe(0); // initial deal — everyone sees it
+      expect(m.round.physique).toBe(false);
+      if (!played) {
+        // Draft it + defaults, run the career.
+        const picks = board.rounds.map((r, ri) =>
+          ri === m.ri ? m.f.id : r.pages[0][0].id,
+        );
+        expect(validateBuildPicks(board, picks)).toBe(true);
+        const res = simulateCareer({ picks, seed: `goat-myth-sim-${i}` });
+        expect(res.wins).toBeGreaterThanOrEqual(0);
+        played = true;
+      }
+    }
+    const rate = withMythic / 300;
+    expect(rate).toBeGreaterThan(0.38);
+    expect(rate).toBeLessThan(0.62);
+    expect(played).toBe(true);
+  });
+});
+
+describe("archetypeName", () => {
+  it("a synergy-defined build takes its synergy as the archetype", () => {
+    // High IQ (jones 99), ONE weapon (khabib wrestling 99), everything else bad
+    // → earns the "Scientist" synergy, which should lead the archetype label
+    // even though "Smudge Grappler" also triggers (priority order).
+    const picks = ["rousey", "khabib", "till", "till", "mcgregor", "jones", "rousey"];
+    const r = simulateCareer({ picks, seed: "arch-test" });
+    expect(r.synergies).toContain("Scientist");
+    expect(r.archetypeName).toBe("The Scientist");
+  });
+});
+
+describe("resemblance", () => {
+  it("a build made entirely of one fighter's traits resembles that fighter at 100%", () => {
+    const a = composeFighter(Array(7).fill("khabib"));
+    const r = resemblance(a);
+    expect(r.fighterId).toBe("khabib");
+    expect(r.match).toBe(100);
+  });
+
+  it("only matches fighters within one division size of the build's frame", () => {
+    // Flyweight frame (size 1) must never resemble anyone above Featherweight (size 3).
+    const a = composeFighter(["ngannou", "khabib", "oliveira", "volkanovski", "holloway", "jones", "dj"]);
+    const r = resemblance(a);
+    expect(Math.abs(divisionSize(getPoolFighter(r.fighterId).division) - a.size)).toBeLessThanOrEqual(1);
+    expect(r.match).toBeGreaterThan(0);
+    expect(r.match).toBeLessThanOrEqual(100);
   });
 });

@@ -138,7 +138,7 @@ constant that decides how often a strong roster goes 30-0. **Currently `SCALE =
 
 | Player behavior | 30-0 rate | 29-1 rate |
 |---|---|---|
-| Skilled (always picks best of the 3) | **~3.5%** | ~13.5% |
+| Skilled (always picks best of the 3) | **~3.8%** | ~14.2% |
 | Clueless (random picks) | ~0.2% | — |
 
 (Re-tuned after the roster expanded with current top-10 fighters: `OPP_OVR_MAX`
@@ -323,8 +323,20 @@ These were decided during design; reopen only with a specific reason.
   all-time leaderboard. Build it early. Use percentile, not rank.
 - **Share artifact must be a rendered image card** (OG image / canvas), not text.
   No image = no spread.
-- **No achievements / no Prime fighters in v1.** Primes are a cheap v1.1 add (a
-  ~3% `isPrime` boosted card — field already exists on `Fighter`).
+- ✅ **Prime fighters SHIPPED** (was a v1.1 item): rare gold cards, OLDER-era
+  (non-"Modern") fighters only, id `<baseId>#prime`, +4 all ratings capped 99
+  (`primeVariant` in `fighters.ts`, roll in `board.ts` — 10% of eligible cards
+  ≈ ~1/board). Prime ids resolve through `getFighter` everywhere (sim, picks
+  storage, validation); `baseId()` strips the suffix for photos and
+  "same fighter" checks. No achievements in v1.
+- ✅ **MYTHIC fighters SHIPPED**: 14 hand-authored meme versions ("Cocaine
+  Jones", "Blonde Oliveira", "Balls Hot Lewis"…) in `fighters-mythic.ts`, id
+  `mythic_<baseId>`, signature trait 96-99 with the meme's famous flaw kept.
+  OP by design → rarity is the balance lever: at most ONE per board, on ~50% of boards, in BOTH games (`injectMythic` in `lib/game/board.ts` and
+  `lib/goat/board.ts`; GOAT: page 0 of a non-physique round). The mythic
+  replaces its base fighter's card when present (never two of the same human).
+  Violet card UI (`animate-mythic` + 🔮 chip). Base Adesanya was nerfed when
+  his peak moved to the "Gyno Adesanya" mythic.
 - **Photos = Wikimedia free-licensed** (with monogram fallback), not UFC CDN.
 
 ## Build order / roadmap
@@ -341,7 +353,8 @@ These were decided during design; reopen only with a specific reason.
    text / Web Share API; replace with a rendered `/share/[runId]` image.
 9. **Daily Challenge** — one deterministic board per day (`daily_boards`), daily
    leaderboard / percentile. (Global board already done.)
-10. *(v1.1)* Prime fighters, streaks, larger roster via stats→ratings mapper.
+10. *(v1.1)* ✅ Prime fighters (done — see product decisions). Still open:
+    streaks, larger roster via stats→ratings mapper.
 
 When in doubt, ask: *does this make the "one fight away, run it back" loop tighter
 or more shareable?* If not, it can probably wait.

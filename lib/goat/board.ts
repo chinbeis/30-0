@@ -1,6 +1,7 @@
 import type { Fighter } from "@/lib/game/types";
-import { FIGHTERS } from "@/lib/game/fighters";
+import { FIGHTERS, baseId } from "@/lib/game/fighters";
 import { EXTRA_FIGHTERS } from "@/lib/game/fighters-extended";
+import { MYTHIC_FIGHTERS } from "@/lib/game/fighters-mythic";
 import { rngFromSeed, shuffle } from "@/lib/game/rng";
 import { CATEGORIES } from "./attributes";
 import type { CategoryKey } from "./types";
@@ -63,7 +64,30 @@ export function buildBuildBoard(seed: string): BuildBoard {
       pages: pagesFor(pool, !!cat.physique),
     };
   });
+  injectMythic(seed, rounds);
   return { seed, rounds };
+}
+
+/**
+ * MYTHIC roll — at most ONE mythic option per draft, on ~50% of boards, landing
+ * on the initial deal (page 0) of a random non-physique round. Mythics are OP
+ * (signature trait 96-99), so rarity is the balance lever. Own rng stream so
+ * the per-round shuffles above are untouched. Deterministic per seed.
+ */
+const MYTHIC_CHANCE = 0.5;
+
+function injectMythic(seed: string, rounds: BuildRound[]): void {
+  const rng = rngFromSeed(`${seed}:mythic`);
+  if (rng() >= MYTHIC_CHANCE) return;
+  const mythic = MYTHIC_FIGHTERS[Math.floor(rng() * MYTHIC_FIGHTERS.length)];
+  const eligible = rounds.filter((r) => !r.physique);
+  const round = eligible[Math.floor(rng() * eligible.length)];
+  const page = round.pages[0];
+  // Replace the base version if it's on this page (never two of the same human),
+  // otherwise a random slot.
+  const baseIdx = page.findIndex((f) => f.id === baseId(mythic.id));
+  const idx = baseIdx >= 0 ? baseIdx : Math.floor(rng() * page.length);
+  page[idx] = mythic;
 }
 
 /** A pick is legal if it appears in any page (any roll) of its round. */

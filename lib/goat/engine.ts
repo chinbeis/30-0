@@ -174,28 +174,142 @@ export function composeFighter(picks: string[]): BuildAttributes {
 // Synergies (depth + "broken builds" flavor)
 // ---------------------------------------------------------------------------
 
+// A maxed build could stack every combo below, so the positive sum is capped.
+// More synergies = more PATHS to the cap for specialized builds, not a stronger
+// ceiling. 14 was tuned empirically to keep the skilled 13-0 rate at ~3.5%
+// (matching the pre-expansion calibration) — re-run `npx vitest run lib/goat`
+// and re-tune this cap if you add/change combos.
+const MAX_SYNERGY_BONUS = 14;
+
 function synergyInfo(a: BuildAttributes): { bonus: number; names: string[] } {
   const names: string[] = [];
   let bonus = 0;
   if (a.wrestling >= 88 && a.cardio >= 88) {
-    names.push("Smother");
+    names.push("Rubber Guy");
     bonus += 5;
   }
   if (a.striking >= 90 && a.fightIq >= 88) {
-    names.push("Sniper");
+    names.push("Long Rangy Sniper");
     bonus += 5;
   }
   if (a.submissions >= 88 && a.wrestling >= 85) {
-    names.push("Grappling Wizard");
+    names.push("Spider Web Grappler");
     bonus += 5;
   }
   if (a.chin >= 90 && a.cardio >= 88) {
-    names.push("Cardio Tank");
+    names.push("Cardio Freak");
     bonus += 4;
+  }
+  if (a.striking >= 88 && a.wrestling >= 85) {
+    names.push("Active Grappler");
+    bonus += 4;
+  }
+  if (a.fightIq >= 92 && a.cardio >= 85) {
+    names.push("Technical Maestro");
+    bonus += 4;
+  }
+  if (a.striking >= 92 && a.physique >= 88) {
+    names.push("Big Meaty Overhands");
+    bonus += 4;
+  }
+  if (a.physique >= 90 && a.wrestling >= 85) {
+    names.push("Division Bully");
+    bonus += 3;
+  }
+  if (a.chin >= 90 && a.striking >= 88) {
+    names.push("Eat and Trade");
+    bonus += 3;
+  }
+  if (a.submissions >= 90 && a.fightIq >= 88) {
+    names.push("Feint Merchant");
+    bonus += 3;
+  }
+  // Smudge Grappler — a wrestler who never learned to strike; leans on the mat game.
+  if (a.wrestling >= 90 && a.striking < 80) {
+    names.push("Smudge Grappler");
+    bonus += 4;
+  }
+  // Dirty Boxer — a small-division fighter (fly/bantam frame) with big power.
+  if (a.size <= 3 && a.striking >= 88) {
+    names.push("Ditty Boxer");
+    bonus += 4;
+  }
+  // Scientist — a limited fighter with a giant brain and exactly ONE real weapon.
+  {
+    const weapons = [a.striking, a.wrestling, a.submissions];
+    const good = weapons.filter((v) => v >= 85).length;
+    const bad = weapons.filter((v) => v <= 78).length;
+    if (a.fightIq >= 92 && good === 1 && bad === 2) {
+      names.push("Scientist");
+      bonus += 5;
+    }
+  }
+  // Goofy Goober — nothing above 84 anywhere, but heart counts for something.
+  if (
+    a.striking < 85 &&
+    a.wrestling < 85 &&
+    a.submissions < 85 &&
+    a.cardio < 85 &&
+    a.chin < 85 &&
+    a.fightIq < 85
+  ) {
+    names.push("Goofy Goober");
+    bonus += 3;
+  }
+  bonus = Math.min(bonus, MAX_SYNERGY_BONUS);
+  // Look Do See — every skill is very high. Flavor tag only: these builds already
+  // eat the too-perfect penalty below, which keeps the game from being solved.
+  if (
+    a.striking >= 90 &&
+    a.wrestling >= 90 &&
+    a.submissions >= 90 &&
+    a.cardio >= 90 &&
+    a.chin >= 90 &&
+    a.fightIq >= 90
+  ) {
+    names.push("Look Do See");
   }
   // diminishing returns: too-perfect builds are penalised (helps prevent a solved game)
   if (a.striking >= 88 && a.wrestling >= 88 && a.submissions >= 88) bonus -= 6;
   return { bonus, names };
+}
+
+// ---------------------------------------------------------------------------
+// Resemblance — the real fighter your build most fights like
+// ---------------------------------------------------------------------------
+
+/** Compared in build-attribute space: the six skills + physique, equal weight. */
+const RESEMBLANCE_KEYS: CategoryKey[] = [...TRAIT_KEYS, "physique"];
+
+export interface Resemblance {
+  fighterId: string;
+  /** 0..100 — how close the build sits to that fighter's authored ratings. */
+  match: number;
+}
+
+/**
+ * Find the real fighter (core + extended pool) whose ratings are closest to the
+ * composed build, restricted to a similar weight class: same division size, one
+ * under, or one over. Pure + deterministic (id tiebreak) — safe to call in UI.
+ */
+export function resemblance(a: BuildAttributes): Resemblance {
+  const pool = [...FIGHTERS, ...EXTRA_FIGHTERS].filter(
+    (f) => Math.abs(divisionSize(f.division) - a.size) <= 1,
+  );
+  let bestId = pool[0].id;
+  let bestDiff = Infinity;
+  for (const f of pool) {
+    const diff =
+      RESEMBLANCE_KEYS.reduce((s, k) => s + Math.abs(attributeValue(f, k) - a[k]), 0) /
+      RESEMBLANCE_KEYS.length;
+    if (diff < bestDiff || (diff === bestDiff && f.id.localeCompare(bestId) < 0)) {
+      bestId = f.id;
+      bestDiff = diff;
+    }
+  }
+  // An avg gap of 0 pts = 100%, 10 pts across the board = 80% — reads intuitively.
+  const match = Math.max(0, Math.min(100, Math.round(100 - bestDiff * 2)));
+  return { fighterId: bestId, match };
 }
 
 // ---------------------------------------------------------------------------
@@ -357,7 +471,22 @@ const ATTR_LABEL: Record<CategoryKey, string> = {
   physique: "Physique",
 };
 
-function archetypeName(a: BuildAttributes): string {
+// Identity-defining synergies (most distinctive first). A build that earns one
+// of these IS that archetype — it takes over the "You built" label. Broad combos
+// like Technical Maestro / Cardio Freak stay in the fallback below instead, so
+// every elite build doesn't collapse into the same name.
+const SYNERGY_ARCHETYPES: { synergy: string; name: string }[] = [
+  { synergy: "Look Do See", name: "Look Do See" },
+  { synergy: "Goofy Goober", name: "The Goofy Goober" },
+  { synergy: "Scientist", name: "The Scientist" },
+  { synergy: "Smudge Grappler", name: "The Smudge Grappler" },
+  { synergy: "Dirty Boxer", name: "The Dirty Boxer" },
+];
+
+function archetypeName(a: BuildAttributes, synergies: string[]): string {
+  const special = SYNERGY_ARCHETYPES.find((s) => synergies.includes(s.synergy));
+  if (special) return special.name;
+
   const ranked = TRAIT_KEYS.map((k) => ({ k, v: a[k] })).sort((x, y) => y.v - x.v);
   const top = ranked[0].k;
   const second = ranked[1].k;
@@ -376,6 +505,9 @@ function archetypeName(a: BuildAttributes): string {
     return "The Smothering Machine";
   if (top === "striking" && second === "fightIq") return "The Sniper";
   if (top === "submissions") return "The Submission Wizard";
+  if (top === "fightIq") return "The Technical Maestro";
+  if ((top === "cardio" && second === "chin") || (top === "chin" && second === "cardio"))
+    return "The Cardio Freak";
   return `The ${a2 ? a2 + " " : ""}${a1}`;
 }
 
@@ -404,7 +536,7 @@ function finalize(
 
   const goatScore = computeGoat(a);
   const tier = tierFor(wins);
-  const name = archetypeName(a);
+  const name = archetypeName(a, synergies);
 
   return {
     wins,

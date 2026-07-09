@@ -197,6 +197,15 @@ body {
   animation: glow-pulse 2.2s ease-in-out infinite;
 }
 
+/* Violet aura for MYTHIC cards — rarer than prime gold, and it should feel it. */
+@keyframes mythic-pulse {
+  0%, 100% { box-shadow: 0 0 22px rgba(168, 85, 247, 0.3), 0 0 44px rgba(217, 70, 239, 0.12); }
+  50% { box-shadow: 0 0 40px rgba(168, 85, 247, 0.55), 0 0 70px rgba(217, 70, 239, 0.25); }
+}
+.animate-mythic {
+  animation: mythic-pulse 1.9s ease-in-out infinite;
+}
+
 /* Card sheen — a light sweep on hover, like a foil trading card. */
 .card-sheen {
   position: relative;

@@ -31,7 +31,8 @@ export interface Fighter extends Ratings {
   nickname?: string;
   division: Division;
   era: string; // flavor for debate ("2010s", "Modern", "Pioneer")
-  isPrime?: boolean; // rare boosted card (v1.1) — currently unused by the pool
+  isPrime?: boolean; // rare gold card: an older-era fighter at their peak (+4 all)
+  isMythic?: boolean; // ultra-rare violet card: an authored meme version ("Cocaine Jones")
 }
 
 /** Opponent archetype drives style-matchup modifiers. */

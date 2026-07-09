@@ -44,7 +44,7 @@
   "aldo": {
     "src": "/fighters/aldo.jpg",
     "pageUrl": "https://en.wikipedia.org/wiki/Jos%C3%A9_Aldo",
-    "title": "José Aldo",
+    "title": "Jos\u00e9 Aldo",
     "remoteSrc": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Jos%C3%A9_Aldo%2C_UFC_189_World_Tour_London_%282%29_%28cropped%29.jpg/330px-Jos%C3%A9_Aldo%2C_UFC_189_World_Tour_London_%282%29_%28cropped%29.jpg"
   },
   "holloway": {
@@ -134,7 +134,7 @@
   "rua": {
     "src": "/fighters/rua.png",
     "pageUrl": "https://en.wikipedia.org/wiki/Maur%C3%ADcio_Rua",
-    "title": "Maurício Rua",
+    "title": "Maur\u00edcio Rua",
     "remoteSrc": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/MauricioRua.png/330px-MauricioRua.png"
   },
   "gustafsson": {
@@ -170,7 +170,7 @@
   "werdum": {
     "src": "/fighters/werdum.jpg",
     "pageUrl": "https://en.wikipedia.org/wiki/Fabr%C3%ADcio_Werdum",
-    "title": "Fabrício Werdum",
+    "title": "Fabr\u00edcio Werdum",
     "remoteSrc": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Fabricio_Werdum.jpg/330px-Fabricio_Werdum.jpg"
   },
   "sterling": {
@@ -254,7 +254,7 @@
   "jedrzejczyk": {
     "src": "/fighters/jedrzejczyk.png",
     "pageUrl": "https://en.wikipedia.org/wiki/Joanna_J%C4%99drzejczyk",
-    "title": "Joanna Jędrzejczyk",
+    "title": "Joanna J\u0119drzejczyk",
     "remoteSrc": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Joanna_J%C4%99drzejczyk.png/330px-Joanna_J%C4%99drzejczyk.png"
   },
   "ferguson": {
@@ -416,7 +416,7 @@
   "blachowicz": {
     "src": "/fighters/blachowicz.jpg",
     "pageUrl": "https://en.wikipedia.org/wiki/Jan_B%C5%82achowicz",
-    "title": "Jan Błachowicz",
+    "title": "Jan B\u0142achowicz",
     "remoteSrc": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Jan_Blachowicz_at_UFC_Fight_Night_136.jpg/330px-Jan_Blachowicz_at_UFC_Fight_Night_136.jpg"
   },
   "markhunt": {
@@ -482,7 +482,7 @@
   "yair": {
     "src": "/fighters/yair.jpg",
     "pageUrl": "https://en.wikipedia.org/wiki/Yair_Rodr%C3%ADguez",
-    "title": "Yair Rodríguez",
+    "title": "Yair Rodr\u00edguez",
     "remoteSrc": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Carrera_con_Yair_%22Pantera%22_Rodr%C3%ADguez_-i---i-_%2830657689682%29_cropped.jpg/330px-Carrera_con_Yair_%22Pantera%22_Rodr%C3%ADguez_-i---i-_%2830657689682%29_cropped.jpg"
   },
   "ortega": {
@@ -596,7 +596,7 @@
   "prochazka": {
     "src": "/fighters/prochazka.png",
     "pageUrl": "https://en.wikipedia.org/wiki/Ji%C5%99%C3%AD_Proch%C3%A1zka",
-    "title": "Jiří Procházka",
+    "title": "Ji\u0159\u00ed Proch\u00e1zka",
     "remoteSrc": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/JiriProchazka2022.png/330px-JiriProchazka2022.png"
   },
   "rountree": {
@@ -686,7 +686,7 @@
   "pena": {
     "src": "/fighters/pena.jpg",
     "pageUrl": "https://en.wikipedia.org/wiki/Julianna_Pe%C3%B1a",
-    "title": "Julianna Peña",
+    "title": "Julianna Pe\u00f1a",
     "remoteSrc": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Ceremonial_weigh_ins_-_Amanda_Nunes_vs_Julianna_Pe%C3%B1a_UFC_269_-_YouTube_-_0_23_%28cropped%29.jpg/330px-Ceremonial_weigh_ins_-_Amanda_Nunes_vs_Julianna_Pe%C3%B1a_UFC_269_-_YouTube_-_0_23_%28cropped%29.jpg"
   },
   "pennington": {
@@ -842,5 +842,20 @@
     "pageUrl": null,
     "title": "Roy Nelson",
     "remoteSrc": "https://www.sherdog.com/image_crop/200/300/_images/fighter/20140729080337_1MG_4006.JPG"
+  },
+  "sonnen": {
+    "src": "/fighters/sonnen.jpg",
+    "pageUrl": null,
+    "title": "Chael Sonnen"
+  },
+  "overeem": {
+    "src": "/fighters/overreem.png",
+    "pageUrl": null,
+    "title": "Alistair Overeem"
+  },
+  "mythic_poirier": {
+    "src": "/fighters/airportporrier.jpeg",
+    "pageUrl": null,
+    "title": "Airport Porrier"
   }
 }

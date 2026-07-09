@@ -177,10 +177,22 @@ export function composeFighter(picks: string[]): BuildAttributes {
 function synergyInfo(a: BuildAttributes): { bonus: number; names: string[] } {
   const names: string[] = [];
   let bonus = 0;
-  if (a.wrestling >= 88 && a.cardio >= 88) (names.push("Smother"), (bonus += 5));
-  if (a.striking >= 90 && a.fightIq >= 88) (names.push("Sniper"), (bonus += 5));
-  if (a.submissions >= 88 && a.wrestling >= 85) (names.push("Grappling Wizard"), (bonus += 5));
-  if (a.chin >= 90 && a.cardio >= 88) (names.push("Cardio Tank"), (bonus += 4));
+  if (a.wrestling >= 88 && a.cardio >= 88) {
+    names.push("Smother");
+    bonus += 5;
+  }
+  if (a.striking >= 90 && a.fightIq >= 88) {
+    names.push("Sniper");
+    bonus += 5;
+  }
+  if (a.submissions >= 88 && a.wrestling >= 85) {
+    names.push("Grappling Wizard");
+    bonus += 5;
+  }
+  if (a.chin >= 90 && a.cardio >= 88) {
+    names.push("Cardio Tank");
+    bonus += 4;
+  }
   // diminishing returns: too-perfect builds are penalised (helps prevent a solved game)
   if (a.striking >= 88 && a.wrestling >= 88 && a.submissions >= 88) bonus -= 6;
   return { bonus, names };

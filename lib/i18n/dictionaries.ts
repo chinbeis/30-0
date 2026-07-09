@@ -94,6 +94,59 @@ const en = {
     tagline: "Can You Go 30–0? · Inspired by 82-0",
   },
 
+  howItWorks: {
+    kicker: "The rules",
+    titleA: "How it",
+    titleHighlight: "works",
+    subtitle: "One minute, ten choices, one verdict. Here's the whole game.",
+    step1Title: "Draft 10 fighters",
+    step1Body:
+      "You get 10 rounds. Each round shows 3 random fighters from across MMA history — pick one and move on. No takebacks.",
+    step2Title: "Every fighter fights 3 times",
+    step2Body:
+      "Your 10 picks fight 3 bouts each, for a 30-fight season. The schedule ramps up: tune-ups early, brutal title fights at the end.",
+    step3Title: "We simulate the season",
+    step3Body:
+      "Each fighter has hidden ratings — striking, grappling, cardio, durability, fight IQ, experience, finishing. Style matchups and a little chaos decide every fight.",
+    step4Title: "Find out if you went 30-0",
+    step4Body:
+      "One weak pick can drop all 3 of its fights and end your perfect run. See your record, GOAT score, team MVP, weakest pick, and the story of your season.",
+    tiersTitle: "The tiers",
+    tierLower: "lower",
+    luckTitle: "A note on skill vs. luck",
+    luckBody:
+      "The sim is roughly 70% skill, 30% chaos. A great roster wins most fights, but even a perfect draft only goes 30-0 a small fraction of the time — that's the point. The fun is in getting agonizingly close and running it back.",
+    goatBadge: "Game two",
+    goatTitle: "Can You Become the GOAT?",
+    goatBody:
+      "Steal one trait from a legend in each category, build one fighter, and run a 13-fight gauntlet to triple champ — undefeated, or not at all.",
+    goatCta: "Build your fighter →",
+    playNow: "Play now",
+  },
+
+  about: {
+    kicker: "The project",
+    titleA: "About the",
+    titleHighlight: "game",
+    subtitle: "A fan-made roster game built to start (and settle) MMA arguments.",
+    p1: "Can You Go 30–0? is a quick, replayable game for MMA fans. Draft a roster, simulate a season, and chase the perfect record. It's built to settle — and start — arguments about who the best fighters really are.",
+    inspiredPre: "It's inspired by ",
+    inspiredLink: "82-0",
+    inspiredPost:
+      ", the NBA roster game. We borrowed the psychology — tiny time commitment, no learning curve, endlessly debatable results — not the content.",
+    ratingsTitle: "The ratings",
+    ratingsBody:
+      "Fighter ratings are subjective and editorial — our read on each fighter's striking, grappling, cardio, durability, fight IQ, experience, and finishing. They are not official stats, and you'll probably disagree with some. That's half the fun. Think a fighter is underrated? You might be right.",
+    photosTitle: "Photos & data",
+    photosPre: "Fighter photos come from ",
+    photosLink: "Wikimedia Commons",
+    photosPost:
+      " under their respective free licenses. Where no suitable photo exists, we show a monogram instead.",
+    disclaimer:
+      "This is an unofficial fan project. It is not affiliated with, endorsed by, or sponsored by the UFC, Zuffa, or any athlete. All fighter names and likenesses are the property of their respective owners.",
+    playNow: "Play now",
+  },
+
   game: {
     kicker: "MMA Roster Challenge",
     titleA: "CAN YOU GO",
@@ -183,7 +236,7 @@ const en = {
     vs: "vs",
   },
 
-  common: { save: "Save", close: "Close", copyLink: "Copy link", copied: "Copied! ✓", share: "Share…", preparingLink: "Preparing your link…", fbCaption: "Facebook builds the post from the link preview — we copied your caption, just paste it in.", skip: "Skip" },
+  common: { save: "Save", close: "Close", copyLink: "Copy link", copied: "Copied! ✓", share: "Share…", shareTo: "Share to", yourLink: "Your link", preparingLink: "Preparing your link…", fbCaption: "Facebook builds the post from the link preview — we copied your caption, just paste it in.", skip: "Skip" },
 };
 
 export type Dict = typeof en;
@@ -279,6 +332,59 @@ const pt: Dict = {
     tagline: "Você Consegue 30–0? · Inspirado em 82-0",
   },
 
+  howItWorks: {
+    kicker: "As regras",
+    titleA: "Como",
+    titleHighlight: "funciona",
+    subtitle: "Um minuto, dez escolhas, um veredito. O jogo inteiro está aqui.",
+    step1Title: "Recrute 10 lutadores",
+    step1Body:
+      "Você tem 10 rodadas. Cada rodada mostra 3 lutadores aleatórios de toda a história do MMA — escolha um e siga em frente. Sem voltar atrás.",
+    step2Title: "Cada lutador luta 3 vezes",
+    step2Body:
+      "Suas 10 escolhas fazem 3 lutas cada, numa temporada de 30 lutas. O calendário sobe de nível: aquecimentos no início, disputas de título brutais no fim.",
+    step3Title: "Nós simulamos a temporada",
+    step3Body:
+      "Cada lutador tem atributos ocultos — striking, grappling, cardio, resistência, QI de luta, experiência, finalização. Confrontos de estilo e um pouco de caos decidem cada luta.",
+    step4Title: "Descubra se você fez 30-0",
+    step4Body:
+      "Uma escolha fraca pode perder as 3 lutas e acabar com sua campanha perfeita. Veja sua campanha, pontuação GOAT, MVP do time, escolha mais fraca e a história da temporada.",
+    tiersTitle: "Os níveis",
+    tierLower: "abaixo",
+    luckTitle: "Sobre habilidade vs. sorte",
+    luckBody:
+      "A simulação é cerca de 70% habilidade, 30% caos. Um grande elenco vence a maioria das lutas, mas até um draft perfeito só faz 30-0 numa pequena fração das vezes — e é esse o ponto. A graça é chegar perto demais e tentar de novo.",
+    goatBadge: "Jogo dois",
+    goatTitle: "Você Pode Ser o GOAT?",
+    goatBody:
+      "Roube um atributo de uma lenda em cada categoria, crie um lutador e encare a maratona de 13 lutas até o tricampeonato — invicto, ou nada feito.",
+    goatCta: "Crie seu lutador →",
+    playNow: "Jogar agora",
+  },
+
+  about: {
+    kicker: "O projeto",
+    titleA: "Sobre o",
+    titleHighlight: "jogo",
+    subtitle: "Um jogo feito por fãs para começar (e encerrar) discussões de MMA.",
+    p1: "Você Consegue 30–0? é um jogo rápido e replayável para fãs de MMA. Monte um elenco, simule uma temporada e persiga a campanha perfeita. Ele foi feito para encerrar — e começar — discussões sobre quem são os melhores lutadores de verdade.",
+    inspiredPre: "É inspirado no ",
+    inspiredLink: "82-0",
+    inspiredPost:
+      ", o jogo de elencos da NBA. Pegamos emprestada a psicologia — pouco tempo investido, sem curva de aprendizado, resultados infinitamente debatíveis — não o conteúdo.",
+    ratingsTitle: "Os atributos",
+    ratingsBody:
+      "Os atributos dos lutadores são subjetivos e editoriais — nossa leitura do striking, grappling, cardio, resistência, QI de luta, experiência e finalização de cada um. Não são estatísticas oficiais, e você provavelmente vai discordar de algumas. Essa é metade da graça. Acha que um lutador está subestimado? Você pode ter razão.",
+    photosTitle: "Fotos e dados",
+    photosPre: "As fotos dos lutadores vêm do ",
+    photosLink: "Wikimedia Commons",
+    photosPost:
+      " sob suas respectivas licenças livres. Quando não há foto adequada, mostramos um monograma.",
+    disclaimer:
+      "Este é um projeto de fãs, não oficial. Não é afiliado, endossado ou patrocinado pelo UFC, Zuffa ou qualquer atleta. Todos os nomes e imagens dos lutadores pertencem aos seus respectivos donos.",
+    playNow: "Jogar agora",
+  },
+
   game: {
     kicker: "Desafio de Elenco de MMA",
     titleA: "VOCÊ CONSEGUE",
@@ -368,7 +474,7 @@ const pt: Dict = {
     vs: "vs",
   },
 
-  common: { save: "Salvar", close: "Fechar", copyLink: "Copiar link", copied: "Copiado! ✓", share: "Compartilhar…", preparingLink: "Preparando seu link…", fbCaption: "O Facebook monta o post pela prévia do link — copiamos sua legenda, é só colar.", skip: "Pular" },
+  common: { save: "Salvar", close: "Fechar", copyLink: "Copiar link", copied: "Copiado! ✓", share: "Compartilhar…", shareTo: "Compartilhar em", yourLink: "Seu link", preparingLink: "Preparando seu link…", fbCaption: "O Facebook monta o post pela prévia do link — copiamos sua legenda, é só colar.", skip: "Pular" },
 };
 
 const es: Dict = {
@@ -462,6 +568,59 @@ const es: Dict = {
     tagline: "¿Puedes Hacer 30–0? · Inspirado en 82-0",
   },
 
+  howItWorks: {
+    kicker: "Las reglas",
+    titleA: "Cómo",
+    titleHighlight: "funciona",
+    subtitle: "Un minuto, diez elecciones, un veredicto. Este es todo el juego.",
+    step1Title: "Recluta 10 peleadores",
+    step1Body:
+      "Tienes 10 rondas. Cada ronda muestra 3 peleadores al azar de toda la historia del MMA — elige uno y sigue. Sin vuelta atrás.",
+    step2Title: "Cada peleador pelea 3 veces",
+    step2Body:
+      "Tus 10 elecciones pelean 3 veces cada una, en una temporada de 30 peleas. El calendario sube de nivel: peleas fáciles al inicio, disputas de título brutales al final.",
+    step3Title: "Simulamos la temporada",
+    step3Body:
+      "Cada peleador tiene atributos ocultos — striking, grappling, cardio, resistencia, IQ de pelea, experiencia, definición. Los estilos y un poco de caos deciden cada pelea.",
+    step4Title: "Descubre si hiciste 30-0",
+    step4Body:
+      "Una mala elección puede perder sus 3 peleas y acabar con tu campaña perfecta. Mira tu campaña, puntaje GOAT, MVP del equipo, elección más débil y la historia de tu temporada.",
+    tiersTitle: "Los niveles",
+    tierLower: "menos",
+    luckTitle: "Sobre habilidad vs. suerte",
+    luckBody:
+      "La simulación es aproximadamente 70% habilidad, 30% caos. Una gran plantilla gana la mayoría de las peleas, pero incluso un draft perfecto solo hace 30-0 una pequeña fracción de las veces — ese es el punto. Lo divertido es quedarte agonizantemente cerca y volver a intentarlo.",
+    goatBadge: "Juego dos",
+    goatTitle: "¿Puedes Ser el GOAT?",
+    goatBody:
+      "Roba un atributo de una leyenda en cada categoría, crea un peleador y supera el reto de 13 peleas hasta el tricampeonato — invicto, o nada.",
+    goatCta: "Crea tu peleador →",
+    playNow: "Jugar ahora",
+  },
+
+  about: {
+    kicker: "El proyecto",
+    titleA: "Acerca del",
+    titleHighlight: "juego",
+    subtitle: "Un juego hecho por fans para empezar (y zanjar) discusiones de MMA.",
+    p1: "¿Puedes Hacer 30–0? es un juego rápido y rejugable para fans del MMA. Arma una plantilla, simula una temporada y persigue la campaña perfecta. Está hecho para zanjar — y empezar — discusiones sobre quiénes son realmente los mejores peleadores.",
+    inspiredPre: "Está inspirado en ",
+    inspiredLink: "82-0",
+    inspiredPost:
+      ", el juego de plantillas de la NBA. Tomamos prestada la psicología — poco tiempo, sin curva de aprendizaje, resultados infinitamente debatibles — no el contenido.",
+    ratingsTitle: "Los atributos",
+    ratingsBody:
+      "Los atributos de los peleadores son subjetivos y editoriales — nuestra lectura del striking, grappling, cardio, resistencia, IQ de pelea, experiencia y definición de cada uno. No son estadísticas oficiales, y probablemente no estarás de acuerdo con algunas. Esa es la mitad de la diversión. ¿Crees que un peleador está subestimado? Puede que tengas razón.",
+    photosTitle: "Fotos y datos",
+    photosPre: "Las fotos de los peleadores provienen de ",
+    photosLink: "Wikimedia Commons",
+    photosPost:
+      " bajo sus respectivas licencias libres. Cuando no hay una foto adecuada, mostramos un monograma.",
+    disclaimer:
+      "Este es un proyecto de fans, no oficial. No está afiliado, respaldado ni patrocinado por UFC, Zuffa ni ningún atleta. Todos los nombres e imágenes de los peleadores pertenecen a sus respectivos dueños.",
+    playNow: "Jugar ahora",
+  },
+
   game: {
     kicker: "Desafío de Plantilla de MMA",
     titleA: "¿PUEDES HACER",
@@ -551,7 +710,7 @@ const es: Dict = {
     vs: "vs",
   },
 
-  common: { save: "Guardar", close: "Cerrar", copyLink: "Copiar enlace", copied: "¡Copiado! ✓", share: "Compartir…", preparingLink: "Preparando tu enlace…", fbCaption: "Facebook arma la publicación con la vista previa del enlace — copiamos tu texto, solo pégalo.", skip: "Saltar" },
+  common: { save: "Guardar", close: "Cerrar", copyLink: "Copiar enlace", copied: "¡Copiado! ✓", share: "Compartir…", shareTo: "Compartir en", yourLink: "Tu enlace", preparingLink: "Preparando tu enlace…", fbCaption: "Facebook arma la publicación con la vista previa del enlace — copiamos tu texto, solo pégalo.", skip: "Saltar" },
 };
 
 const DICTS: Record<Locale, Dict> = { en, pt, es };

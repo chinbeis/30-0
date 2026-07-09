@@ -59,7 +59,7 @@ const LADDER: LadderNode[] = [
   { label: "Move Up a Division", opp: 91, kind: "moveup" },
   { label: "Second Title Fight", opp: 98, kind: "title" },
   { label: "Move Up Again", opp: 103, kind: "moveup" },
-  { label: "Triple Champion Fight", opp: 114, kind: "title" }, // the final boss — the wall
+  { label: "Triple Champion Fight", opp: 111, kind: "title" }, // the final boss — the wall
 ];
 
 const ARCHETYPES: Archetype[] = ["striker", "wrestler", "grappler", "balanced"];

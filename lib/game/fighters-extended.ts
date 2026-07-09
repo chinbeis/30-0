@@ -18,7 +18,7 @@ export const EXTRA_FIGHTERS: Fighter[] = [
   { id: "mattbrown", name: "Matt Brown", nickname: "The Immortal", division: "Welterweight", era: "2010s", striking: 84, grappling: 66, cardio: 74, durability: 86, fightIq: 68, experience: 84, finishing: 84 },
   { id: "bonnar", name: "Stephan Bonnar", nickname: "The American Psycho", division: "Light Heavyweight", era: "2000s", striking: 66, grappling: 66, cardio: 74, durability: 88, fightIq: 58, experience: 74, finishing: 60 },
   { id: "forrest", name: "Forrest Griffin", nickname: "", division: "Light Heavyweight", era: "2000s", striking: 76, grappling: 74, cardio: 86, durability: 82, fightIq: 74, experience: 80, finishing: 68 },
-  { id: "roynelson", name: "Roy Nelson", nickname: "Big Country", division: "Heavyweight", era: "2010s", striking: 78, grappling: 76, cardio: 54, durability: 94, fightIq: 68, experience: 84, finishing: 80 },
+  { id: "roynelson", name: "Roy Nelson", nickname: "Big Country", division: "Heavyweight", era: "2010s", striking: 78, grappling: 76, cardio: 54, durability: 97, fightIq: 68, experience: 84, finishing: 80 },
   { id: "dlewis", name: "Derrick Lewis", nickname: "The Black Beast", division: "Heavyweight", era: "Modern", striking: 82, grappling: 50, cardio: 48, durability: 86, fightIq: 60, experience: 80, finishing: 88 },
   { id: "arlovski", name: "Andrei Arlovski", nickname: "The Pitbull", division: "Heavyweight", era: "2000s", striking: 80, grappling: 66, cardio: 72, durability: 60, fightIq: 70, experience: 92, finishing: 76 },
   { id: "cubswanson", name: "Cub Swanson", nickname: "", division: "Featherweight", era: "2010s", striking: 84, grappling: 70, cardio: 82, durability: 68, fightIq: 72, experience: 84, finishing: 82 },
@@ -35,5 +35,5 @@ export const EXTRA_FIGHTERS: Fighter[] = [
   { id: "ealvarez", name: "Eddie Alvarez", nickname: "The Underground King", division: "Lightweight", era: "2010s", striking: 80, grappling: 76, cardio: 82, durability: 84, fightIq: 72, experience: 86, finishing: 80 },
   { id: "blachowicz", name: "Jan Blachowicz", nickname: "", division: "Light Heavyweight", era: "Modern", striking: 82, grappling: 78, cardio: 78, durability: 86, fightIq: 78, experience: 82, finishing: 80 },
   { id: "jds", name: "Junior dos Santos", nickname: "Cigano", division: "Heavyweight", era: "2010s", striking: 84, grappling: 70, cardio: 74, durability: 64, fightIq: 76, experience: 86, finishing: 82 },
-  { id: "markhunt", name: "Mark Hunt", nickname: "The Super Samoan", division: "Heavyweight", era: "2010s", striking: 82, grappling: 50, cardio: 54, durability: 92, fightIq: 66, experience: 86, finishing: 84 },
+  { id: "markhunt", name: "Mark Hunt", nickname: "The Super Samoan", division: "Heavyweight", era: "2010s", striking: 82, grappling: 50, cardio: 54, durability: 97, fightIq: 66, experience: 86, finishing: 84 },
 ];

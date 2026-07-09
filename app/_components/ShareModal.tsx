@@ -153,8 +153,14 @@ export function ShareModal({
         role="dialog"
         aria-modal="true"
         aria-label={title}
-        className="animate-pop relative z-10 my-auto w-full max-w-md rounded-2xl border border-zinc-800 bg-zinc-950 p-5 shadow-2xl outline-none"
+        className="animate-pop relative z-10 my-auto w-full max-w-md overflow-hidden rounded-3xl border border-zinc-800 bg-gradient-to-b from-zinc-950 to-black p-5 shadow-2xl shadow-amber-500/5 outline-none"
       >
+        {/* amber accent edge, echoing the result-screen cards */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-500/60 to-transparent"
+        />
+
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-black tracking-tight">{title}</h2>
           <button
@@ -167,15 +173,25 @@ export function ShareModal({
         </div>
 
         {/* preview card (the fighters) */}
-        <div className="mt-4">{preview}</div>
+        <div className="animate-rise mt-4">{preview}</div>
 
         {/* brag text */}
-        <p className="mt-4 whitespace-pre-line rounded-xl border border-zinc-800 bg-zinc-900/50 p-3 text-sm text-zinc-300">
+        <p
+          style={{ animationDelay: "60ms" }}
+          className="animate-rise mt-4 whitespace-pre-line rounded-xl border border-zinc-800 bg-zinc-900/50 p-3 text-sm leading-relaxed text-zinc-300"
+        >
           {text}
         </p>
 
         {/* share link + inline copy */}
-        <div className="mt-3 flex items-center gap-2 rounded-xl border border-zinc-800 bg-black px-3 py-2">
+        <div
+          style={{ animationDelay: "100ms" }}
+          className="animate-rise mt-4"
+        >
+          <div className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+            {t.common.yourLink}
+          </div>
+          <div className="flex items-center gap-2 rounded-xl border border-zinc-800 bg-black px-3 py-2 transition focus-within:border-amber-500/50">
           {ready ? (
             <input
               ref={inputRef}
@@ -190,17 +206,18 @@ export function ShareModal({
               {t.common.preparingLink}
             </span>
           )}
-          <button
-            onClick={onCopy}
-            disabled={!ready}
-            className={`shrink-0 rounded-lg px-2.5 py-1 text-xs font-bold transition disabled:opacity-40 ${
-              copied
-                ? "bg-emerald-500/20 text-emerald-300"
-                : "border border-zinc-700 text-zinc-200 hover:bg-zinc-900"
-            }`}
-          >
-            {copied ? t.common.copied : t.common.copyLink}
-          </button>
+            <button
+              onClick={onCopy}
+              disabled={!ready}
+              className={`shrink-0 rounded-lg px-2.5 py-1 text-xs font-bold transition disabled:opacity-40 ${
+                copied
+                  ? "bg-emerald-500/20 text-emerald-300"
+                  : "border border-zinc-700 text-zinc-200 hover:bg-zinc-900"
+              }`}
+            >
+              {copied ? t.common.copied : t.common.copyLink}
+            </button>
+          </div>
         </div>
 
         {/* native share sheet — best on mobile (only shown when supported) */}
@@ -208,14 +225,21 @@ export function ShareModal({
           <button
             onClick={onNativeShare}
             disabled={!ready}
-            className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-400 to-red-500 py-3 text-sm font-black text-black transition hover:brightness-110 active:scale-[0.99] disabled:opacity-50"
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-amber-400 to-red-500 py-3 text-sm font-black text-black transition hover:scale-[1.02] hover:brightness-110 active:scale-[0.99] disabled:opacity-50"
           >
             ↗ {t.common.share}
           </button>
         ) : null}
 
         {/* social buttons */}
-        <div className="mt-3 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+        <div
+          style={{ animationDelay: "140ms" }}
+          className="animate-rise mt-4"
+        >
+          <div className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+            {t.common.shareTo}
+          </div>
+          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
           {PLATFORMS.map((p) => (
             <a
               key={p.key}
@@ -245,6 +269,7 @@ export function ShareModal({
               {p.label}
             </a>
           ))}
+          </div>
         </div>
 
         {/* Facebook can't accept pre-filled text — tell the user we copied it. */}

@@ -18,7 +18,7 @@ export const CURRENT_FIGHTERS: Fighter[] = [
   { id: "yan", name: "Petr Yan", nickname: "No Mercy", division: "Bantamweight", era: "Modern", striking: 90, grappling: 82, cardio: 90, durability: 84, fightIq: 88, experience: 84, finishing: 80 },
   { id: "sandhagen", name: "Cory Sandhagen", nickname: "The Sandman", division: "Bantamweight", era: "Modern", striking: 88, grappling: 80, cardio: 88, durability: 80, fightIq: 86, experience: 84, finishing: 80 },
   { id: "songyadong", name: "Song Yadong", nickname: "Kung Fu Kid", division: "Bantamweight", era: "Modern", striking: 86, grappling: 72, cardio: 82, durability: 80, fightIq: 78, experience: 80, finishing: 82 },
-  { id: "vera", name: "Marlon Vera", nickname: "Chito", division: "Bantamweight", era: "Modern", striking: 84, grappling: 80, cardio: 86, durability: 97, fightIq: 80, experience: 84, finishing: 82 },
+  { id: "vera", name: "Marlon Vera", nickname: "Chito", division: "Bantamweight", era: "Modern", striking: 84, grappling: 80, cardio: 86, durability: 99, fightIq: 80, experience: 84, finishing: 82 },
   { id: "bautista", name: "Mario Bautista", nickname: "", division: "Bantamweight", era: "Modern", striking: 80, grappling: 82, cardio: 84, durability: 80, fightIq: 80, experience: 76, finishing: 76 },
   { id: "font", name: "Rob Font", nickname: "", division: "Bantamweight", era: "Modern", striking: 84, grappling: 70, cardio: 86, durability: 72, fightIq: 78, experience: 84, finishing: 74 },
   { id: "cejudo", name: "Henry Cejudo", nickname: "Triple C", division: "Bantamweight", era: "Modern", striking: 84, grappling: 94, cardio: 88, durability: 82, fightIq: 90, experience: 88, finishing: 78 },

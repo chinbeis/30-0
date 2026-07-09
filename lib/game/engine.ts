@@ -27,7 +27,7 @@ export const TOTAL_BOUTS = ROSTER_SIZE * BOUTS_PER_FIGHTER; // 30
 export const SCALE = 4.2;
 
 /** Opponent OVR curve across the 30 bouts (sorted easiest -> final boss).
- *  MAX eased from 90 -> 86 after the roster expanded with many mid-tier current
+ *  MAX eased from 90 -> 88 after the roster expanded with many mid-tier current
  *  fighters (which lowered average roster OVR). Keeps the 30-0 chase alive. */
 const OPP_OVR_MIN = 58; // bout 1
 const OPP_OVR_MAX = 88; // bout 30 (title fight / final boss)

@@ -138,7 +138,7 @@ constant that decides how often a strong roster goes 30-0. **Currently `SCALE =
 
 | Player behavior | 30-0 rate | 29-1 rate |
 |---|---|---|
-| Skilled (always picks best of the 3) | **~3.1%** | ~13.3% |
+| Skilled (always picks best of the 3) | **~3.5%** | ~13.5% |
 | Clueless (random picks) | ~0.2% | — |
 
 (Re-tuned after the roster expanded with current top-10 fighters: `OPP_OVR_MAX`
@@ -199,11 +199,11 @@ engine; reuses `rng.ts` and the fighter data.
   moving up divisions), GOAT score, tiers (Amateur→…→**THE GOAT**), weak-link
   attribution + narrative.
 - **Calibration (tough by design, accounts for rerolls):** skilled build that
-  rerolls optimally still only goes 13-0 ≈ **3.5%**; **12-1 (lost the triple-champ
-  fight) ≈ 11.5%** — the final boss (opp 109) is the wall, near-miss ~3× more
+  rerolls optimally still only goes 13-0 ≈ **3.7%**; **12-1 (lost the triple-champ
+  fight) ≈ 19%** — the final boss (opp 111) is the wall, near-miss ~5× more
   common than glory. Random/no-reroll builds ≈ 0%. Calibration models "best across
   all reroll pages", so the sim stays hard even for reroll-abusers. Knobs: `SCALE`
-  (5.2) + the `LADDER` curve in `engine.ts`. Re-run `npx vitest run lib/goat`;
+  (3.5) + the `LADDER` curve in `engine.ts`. Re-run `npx vitest run lib/goat`;
   keep 12-1 > 13-0.
 - **`EXTRA_FIGHTERS` only widens the GOAT pool** — the 30-0 game still uses
   `FIGHTERS` alone, so its calibration is untouched.

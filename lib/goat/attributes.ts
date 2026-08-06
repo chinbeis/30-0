@@ -64,7 +64,7 @@ const PHYSIQUE_OVERRIDE: Record<string, number> = {
   holloway: 81,
   oliveira: 78,
   sandhagen: 79,
-  diaz: 74, // lanky, durable, not powerful
+  diaz: 80, // lanky, durable, not powerful
   // smaller / softer / aging frames
   roynelson: 58, // round "Big Country" build
   markhunt: 70, // stocky power, low athleticism

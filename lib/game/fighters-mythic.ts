@@ -40,7 +40,7 @@ export const MYTHIC_FIGHTERS: Fighter[] = [
   // Peak title-reign Izzy. The gyno era was the untouchable era.
   { id: "mythic_adesanya", name: "Gyno Adesanya", nickname: "The Last Stylebender", division: "Middleweight", era: "Modern", isMythic: true, striking: 98, grappling: 74, cardio: 90, durability: 95, fightIq: 95, experience: 90, finishing: 93 },
   // Forrest Griffin, backing up, one punch. The Matrix years.
-  { id: "mythic_silva", name: "Superman Punch Anderson Silva", nickname: "The Matrix", division: "Middleweight", era: "2000s", isMythic: true, striking: 99, grappling: 84, cardio: 86, durability: 82, fightIq: 97, experience: 96, finishing: 97 },
+  { id: "mythic_silva", name: "Superman Punch Silva", nickname: "The Matrix", division: "Middleweight", era: "2000s", isMythic: true, striking: 99, grappling: 84, cardio: 86, durability: 82, fightIq: 97, experience: 96, finishing: 97 },
   // Five rounds, fifty judges, zero doubt. The cards always read Volkanovski.
   { id: "mythic_volkanovski", name: "Decision Volkanovski", nickname: "The Great", division: "Featherweight", era: "Modern", isMythic: true, striking: 95, grappling: 88, cardio: 98, durability: 90, fightIq: 99, experience: 99, finishing: 80 },
   // Retired, relaxed, waiting at the gate — and still the most dangerous man

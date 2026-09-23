@@ -182,3 +182,42 @@ export function recordAccent(losses: number): string {
   if (losses <= 3) return "text-sky-400";
   return "text-zinc-300";
 }
+
+// ---- Visible ratings: which bars the draft card shows, and season odds ----
+
+/** The 6 bars on a draft card (experience is folded into OVR + the vet tags). */
+export const CARD_STATS: { key: "striking" | "grappling" | "finishing" | "cardio" | "durability" | "fightIq"; label: string }[] = [
+  { key: "striking", label: "STR" },
+  { key: "grappling", label: "GRP" },
+  { key: "finishing", label: "FIN" },
+  { key: "cardio", label: "CRD" },
+  { key: "durability", label: "CHN" },
+  { key: "fightIq", label: "IQ" },
+];
+
+/** Style lean used for the team mix bar (same thresholds as the engine's styleModifier). */
+export function styleLean(f: Fighter): "striker" | "grappler" | "balanced" {
+  const lean = f.striking - f.grappling;
+  if (lean > 10) return "striker";
+  if (lean < -10) return "grappler";
+  return "balanced";
+}
+
+/**
+ * Season odds derived from the pre-roll win probabilities: expected wins (the
+ * luck meter's baseline) and the chance the roster had of going perfect.
+ */
+export function seasonOdds(result: SeasonResult): { expectedWins: number; perfectOdds: number } {
+  return {
+    expectedWins: result.fights.reduce((s, f) => s + f.winProb, 0),
+    perfectOdds: result.fights.reduce((p, f) => p * f.winProb, 1),
+  };
+}
+
+/** Readable small-probability percent: 0.3%, 4.2%, 38%. */
+export function oddsPct(p: number): string {
+  const v = p * 100;
+  if (v < 0.1) return "<0.1%";
+  if (v < 10) return `${v.toFixed(1)}%`;
+  return `${Math.round(v)}%`;
+}

@@ -27,10 +27,11 @@ export const TOTAL_BOUTS = ROSTER_SIZE * BOUTS_PER_FIGHTER; // 30
 export const SCALE = 4.2;
 
 /** Opponent OVR curve across the 30 bouts (sorted easiest -> final boss).
- *  MAX eased from 90 -> 88 after the roster expanded with many mid-tier current
- *  fighters (which lowered average roster OVR). Keeps the 30-0 chase alive. */
+ *  MAX 88 -> 89 once ratings became VISIBLE in the draft (OVR, stat bars, slot
+ *  matchups): informed players pick better, so the title run hardens to keep a
+ *  reroll-savvy player near ~6% perfect (see board.test.ts "informed"). */
 const OPP_OVR_MIN = 58; // bout 1
-const OPP_OVR_MAX = 88; // bout 30 (title fight / final boss)
+const OPP_OVR_MAX = 89; // bout 30 (title fight / final boss)
 
 // OVR weighting — strikes a balance between offense and the "stay unbeaten" traits.
 const OVR_WEIGHTS: Ratings = {
@@ -65,7 +66,7 @@ export function ovr(f: Ratings): number {
 
 const ARCHETYPES: Archetype[] = ["striker", "wrestler", "grappler", "balanced"];
 
-interface Bout {
+export interface Bout {
   bout: number; // 1..30
   oppOvr: number;
   oppArchetype: Archetype;
@@ -92,7 +93,7 @@ function buildSchedule(rng: Rng): Bout[] {
  * Style matchup modifier (added to the fighter's effective edge).
  * Small by design — believability + debate flavor, not a coin flip.
  */
-function styleModifier(f: Fighter, opp: Archetype): number {
+export function styleModifier(f: Fighter, opp: Archetype): number {
   const strikerLean = f.striking - f.grappling; // + => striker, - => grappler
   switch (opp) {
     case "wrestler":
@@ -184,10 +185,14 @@ function pickMethod(f: Fighter, win: boolean, isUpset: boolean, rng: Rng): Metho
   return "Decision";
 }
 
+/** Pre-roll win probability for a fighter in a bout — the exact number the sim uses. */
+export function winProbability(f: Fighter, bout: Bout): number {
+  return logistic((ovr(f) - bout.oppOvr + styleModifier(f, bout.oppArchetype)) / SCALE);
+}
+
 function simFight(f: Fighter, bout: Bout, opp: Fighter, rng: Rng): FightResult {
   const fOvr = ovr(f);
-  const edge = fOvr - bout.oppOvr + styleModifier(f, bout.oppArchetype);
-  const winProb = logistic(edge / SCALE);
+  const winProb = winProbability(f, bout);
   const win = rng() < winProb;
   const isUpset = !win && fOvr > bout.oppOvr; // favorite who lost
   const method = pickMethod(f, win, isUpset, rng);
@@ -202,6 +207,36 @@ function simFight(f: Fighter, bout: Bout, opp: Fighter, rng: Rng): FightResult {
     method,
     winProb,
   };
+}
+
+// ----------------------------------------------------------------------------
+// Draft-time preview — the schedule is the FIRST thing drawn from the sim rng,
+// so it is fully known from the seed before a single pick is made. The draft UI
+// uses this to show each round's stakes (which bouts, which opponent styles).
+// Pure; consumes its own rng instance, so the real sim is untouched.
+// ----------------------------------------------------------------------------
+
+/** The 30 bouts (difficulty + opponent style) the season for `seed` will use. */
+export function seasonSchedule(seed: string): Bout[] {
+  return buildSchedule(rngFromSeed(seed));
+}
+
+/** Bout indexes (0-based) the pick from draft round `roundIndex` will fight. */
+export function slotBoutIndexes(roundIndex: number): number[] {
+  return Array.from({ length: BOUTS_PER_FIGHTER }, (_, k) => roundIndex + k * ROSTER_SIZE);
+}
+
+/** A fighter's pre-roll win probabilities in a draft slot's 3 bouts. */
+export function slotWinProbs(f: Fighter, schedule: Bout[], roundIndex: number): number[] {
+  return slotBoutIndexes(roundIndex).map((i) => winProbability(f, schedule[i]));
+}
+
+/** Projected wins for a partial or full roster (picks[i] fights slot i). */
+export function projectedWins(picks: string[], schedule: Bout[]): number {
+  return picks.reduce(
+    (sum, id, r) => sum + slotWinProbs(getFighter(id), schedule, r).reduce((a, b) => a + b, 0),
+    0,
+  );
 }
 
 // ----------------------------------------------------------------------------

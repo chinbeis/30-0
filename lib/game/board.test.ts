@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { buildBoard, validatePicks, CHOICES_PER_ROUND } from "./board";
-import { simulateSeason, ovr, ROSTER_SIZE } from "./engine";
+import { buildBoard, validatePicks, CHOICES_PER_ROUND, REROLLS_TOTAL, type Board } from "./board";
+import { simulateSeason, ovr, ROSTER_SIZE, seasonSchedule, slotWinProbs } from "./engine";
 import { getFighter, primeVariant, PRIME_SUFFIX } from "./fighters";
 
 describe("buildBoard", () => {
@@ -131,16 +131,46 @@ const pickMaxOvr = (opts: { id: string }[]) =>
 const pickRandomIdx = (opts: { id: string }[], i: number) =>
   opts[i % opts.length].id;
 
-function playRate(strategy: "skilled" | "random", runs: number) {
+/**
+ * The ratings are VISIBLE in the draft (OVR, stat bars, slot matchups), so the
+ * realistic ceiling is a player who reads everything: picks the card with the
+ * most projected wins for that round's slot, and spends a reroll whenever the
+ * best card on offer projects below `REROLL_BELOW` wins. This is the strategy
+ * the 3-8% band is tuned against.
+ */
+const REROLL_BELOW = 2.6; // ~optimal threshold (swept 2.3-2.85)
+function informedPicks(board: Board, seed: string): string[] {
+  const schedule = seasonSchedule(seed);
+  const exp = (f: Board["rounds"][number]["options"][number], r: number) =>
+    slotWinProbs(f, schedule, r).reduce((a, b) => a + b, 0);
+  let used = 0;
+  return board.rounds.map((round, r) => {
+    let opts = round.options;
+    let best = [...opts].sort((a, b) => exp(b, r) - exp(a, r))[0];
+    // A reroll replaces the whole deal — no going back to the previous cards.
+    while (used < REROLLS_TOTAL && exp(best, r) < REROLL_BELOW) {
+      opts = board.rerollSets[used++];
+      best = [...opts].sort((a, b) => exp(b, r) - exp(a, r))[0];
+    }
+    return best.id;
+  });
+}
+
+function playRate(strategy: "informed" | "skilled" | "random", runs: number) {
   const records: Record<string, number> = {};
   let perfect = 0;
   let oneLoss = 0;
   for (let i = 0; i < runs; i++) {
-    const board = buildBoard(`play-${i}`);
-    const picks = board.rounds.map((r, ri) =>
-      strategy === "skilled" ? pickMaxOvr(r.options) : pickRandomIdx(r.options, ri + i),
-    );
-    const res = simulateSeason({ picks, seed: `play-sim-${i}` });
+    // Board and sim share one seed — exactly like the real game (runId).
+    const seed = `play-${i}`;
+    const board = buildBoard(seed);
+    const picks =
+      strategy === "informed"
+        ? informedPicks(board, seed)
+        : board.rounds.map((r, ri) =>
+            strategy === "skilled" ? pickMaxOvr(r.options) : pickRandomIdx(r.options, ri + i),
+          );
+    const res = simulateSeason({ picks, seed });
     records[res.record] = (records[res.record] ?? 0) + 1;
     if (res.losses === 0) perfect++;
     if (res.losses === 1) oneLoss++;
@@ -149,6 +179,18 @@ function playRate(strategy: "skilled" | "random", runs: number) {
 }
 
 describe("CALIBRATION — real play (picking from random triples)", () => {
+  it("an informed player (reads OVR + slot matchups, rerolls weak rounds) is in the 3-8% band", () => {
+    const { perfect, oneLoss } = playRate("informed", 4000);
+    // eslint-disable-next-line no-console
+    console.log(
+      `\n  [real-play] informed: 30-0 ${(perfect * 100).toFixed(1)}%  |  29-1 ${(oneLoss * 100).toFixed(1)}%`,
+    );
+    expect(validatePicks(buildBoard("play-0"), informedPicks(buildBoard("play-0"), "play-0"))).toBe(true);
+    expect(perfect).toBeGreaterThan(0.03);
+    expect(perfect).toBeLessThan(0.08);
+    expect(oneLoss).toBeGreaterThan(perfect); // the near-miss hook
+  });
+
   it("a skilled player (always picks best available) is in the chase zone", () => {
     const { perfect, oneLoss } = playRate("skilled", 4000);
     // eslint-disable-next-line no-console

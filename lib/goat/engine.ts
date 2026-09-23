@@ -383,6 +383,83 @@ function methodFor(win: boolean, arc: Archetype, a: BuildAttributes, rng: Rng): 
 }
 
 // ---------------------------------------------------------------------------
+// Projection — the same math the sim uses, averaged over the 4 opponent styles
+// (which are only rolled at sim time). Pure, no rng: safe for live draft UI.
+// ---------------------------------------------------------------------------
+
+/** Value assumed for traits not drafted yet (roughly a pool-median pick). */
+export const UNPICKED_VALUE = 80;
+
+/**
+ * Compose a build from a PARTIAL pick list (draft in progress). Missing traits
+ * sit at UNPICKED_VALUE; a missing physique assumes a mid-size (LW) frame.
+ */
+export function composePartial(picks: string[]): BuildAttributes {
+  const val = (i: number, key: CategoryKey) =>
+    picks[i] ? attributeValue(fighterById(picks[i]), key) : UNPICKED_VALUE;
+  const phys = picks[6] ? fighterById(picks[6]) : null;
+  return {
+    striking: val(0, "striking"),
+    wrestling: val(1, "wrestling"),
+    submissions: val(2, "submissions"),
+    cardio: val(3, "cardio"),
+    chin: val(4, "chin"),
+    fightIq: val(5, "fightIq"),
+    physique: phys ? physiqueValue(phys) : UNPICKED_VALUE,
+    division: phys ? phys.division : "Lightweight",
+    size: phys ? divisionSize(phys.division) : 4,
+    sources: {
+      striking: picks[0] ?? "",
+      wrestling: picks[1] ?? "",
+      submissions: picks[2] ?? "",
+      cardio: picks[3] ?? "",
+      chin: picks[4] ?? "",
+      fightIq: picks[5] ?? "",
+      physique: picks[6] ?? "",
+    },
+  };
+}
+
+export interface CareerProjection {
+  /** per-rung win probability (style-averaged), 13 entries */
+  rungs: number[];
+  /** P(win the first title fight, rung 8) */
+  beltOdds: number;
+  /** P(13-0) */
+  goatOdds: number;
+  /** expected wins before the first loss */
+  expectedWins: number;
+  synergies: string[];
+}
+
+export function projectCareer(a: BuildAttributes): CareerProjection {
+  const syn = synergyInfo(a);
+  let moveUps = 0;
+  const rungs = LADDER.map((node) => {
+    if (node.kind === "moveup") moveUps++;
+    const pen = physiquePenalty(a, node.kind, moveUps);
+    const avg =
+      ARCHETYPES.reduce(
+        (sum, arc) => sum + logistic((performance(a, arc).perf + syn.bonus - pen - node.opp) / SCALE),
+        0,
+      ) / ARCHETYPES.length;
+    return avg;
+  });
+  let alive = 1;
+  let expectedWins = 0;
+  let beltOdds = 0;
+  rungs.forEach((p, i) => {
+    alive *= p;
+    expectedWins += alive;
+    if (i === FIRST_TITLE_RUNG) beltOdds = alive;
+  });
+  return { rungs, beltOdds, goatOdds: alive, expectedWins, synergies: syn.names };
+}
+
+/** Index of the first title fight on the ladder (the "you wear gold" moment). */
+const FIRST_TITLE_RUNG = LADDER.findIndex((n) => n.kind === "title");
+
+// ---------------------------------------------------------------------------
 // Career simulation (ends at first loss — it's an undefeated run)
 // ---------------------------------------------------------------------------
 

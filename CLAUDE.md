@@ -134,20 +134,22 @@ strong.
 `SCALE` controls variance. **Lower = more deterministic** (favorites always win,
 near-misses come only from weak picks). **Higher = more upsets.** It is the single
 constant that decides how often a strong roster goes 30-0. **Currently `SCALE =
-4.2`**, which produces (measured by the calibration tests):
+4.2`, `OPP_OVR_MAX = 89`**, which produces (measured by the calibration tests):
 
 | Player behavior | 30-0 rate | 29-1 rate |
 |---|---|---|
-| Skilled (always picks best of the 3) | **~3.8%** | ~14.2% |
-| Clueless (random picks) | ~0.2% | — |
+| **Informed** (reads OVR + slot matchups, rerolls rounds whose best card projects < 2.6 W) | **~6.2%** | ~20.7% |
+| Max-OVR picks, never rerolls | ~2.4% | ~11.4% |
+| Clueless (random picks) | ~0.1% | — |
 
-(Re-tuned after the roster expanded with current top-10 fighters: `OPP_OVR_MAX`
-eased 90→88 to keep the chase alive with the larger, more mid-tier pool.)
+(Ratings became VISIBLE in the draft, so the "informed" strategy in
+`board.test.ts` is now the one the band is tuned against; `OPP_OVR_MAX` went
+88→89 to compensate.)
 
 This is the target zone: perfection is rare enough to chase, near-misses are ~3×
 more common than perfection (the hook). **If you change `SCALE`, the OVR weights,
 fighter ratings, or the opponent curve, re-run the calibration tests and keep the
-skilled-player 30-0 rate roughly in the 3–8% band with 29-1 strictly more common
+informed-player 30-0 rate in the 3–8% band with 29-1 strictly more common
 than 30-0.** Do not let it drift to "everyone hits 30-0" (no chase) or "nobody
 does" (hopeless).
 
@@ -160,6 +162,18 @@ Everything is seeded:
 
 `Date.now()` / `Math.random()` are **banned in `lib/game/**`** — they would break
 reproducibility. Pass seeds/timestamps in from the caller.
+
+### Visible ratings & draft-time preview
+The draft shows each card's **OVR + 6 stat bars** (shared visuals in
+`app/_components/ratings.tsx`). Because the board and the sim share one seed and
+`buildSchedule()` is the first thing drawn from the sim rng, the whole schedule is
+known before pick 1: `seasonSchedule(seed)`, `slotBoutIndexes(round)` (round r
+fights bouts r+1, r+11, r+21), `slotWinProbs`, `projectedWins`, `styleModifier`,
+`winProbability` are pure exports used by the UI (stakes banner, ▲/▼ matchup
+chips, live team panel with projected wins + unbeaten odds). The result screen
+derives a luck meter / perfect-season odds from `fights[].winProb`
+(`seasonOdds` in `app/_game/helpers.ts`). **Changing how `buildSchedule` consumes
+the rng breaks the preview — keep it first.**
 
 ### Result payload (`SeasonResult`)
 `record`, `goatScore` (0–100), `tier` (IMMORTAL / HALL OF FAMER / CHAMPION /
@@ -184,8 +198,11 @@ Submissions, Cardio, Chin, Fight IQ, **Physique**), then run a **13-fight
 undefeated gauntlet** to triple champ. Engine is pure/deterministic like the 30-0
 engine; reuses `rng.ts` and the fighter data.
 
-- `lib/goat/attributes.ts` — category → fighter-rating mapping; hidden ratings,
-  qualitative tags only.
+- `lib/goat/attributes.ts` — category → fighter-rating mapping; the trait's
+  number is shown on each card alongside its qualitative tier tag.
+- `projectCareer(composePartial(picks))` (engine) — pure, style-averaged per-rung
+  win odds + belt/GOAT odds for the live "Your fighter" panel and ladder preview
+  (unpicked traits = `UNPICKED_VALUE`).
 - `lib/goat/board.ts` — 7-round board, **3 rerolls TOTAL for the whole draft**
   (`REROLLS_TOTAL`, a shared budget — NOT per round). Each round holds `pages` =
   initial + up to 3 reroll sets (4 pages, since all 3 could be spent on one round);

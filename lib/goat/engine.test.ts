@@ -1,6 +1,15 @@
 import { describe, it, expect } from "vitest";
 import { buildBuildBoard, validateBuildPicks, GOAT_POOL } from "./board";
-import { simulateCareer, composeFighter, getPoolFighter, resemblance, CAREER_LENGTH } from "./engine";
+import {
+  simulateCareer,
+  composeFighter,
+  composePartial,
+  projectCareer,
+  getPoolFighter,
+  resemblance,
+  CAREER_LENGTH,
+  UNPICKED_VALUE,
+} from "./engine";
 import { attributeValue, divisionSize, physiqueValue } from "./attributes";
 import { getFighter } from "@/lib/game/fighters";
 import type { Fighter } from "@/lib/game/types";
@@ -258,5 +267,37 @@ describe("resemblance", () => {
     expect(Math.abs(divisionSize(getPoolFighter(r.fighterId).division) - a.size)).toBeLessThanOrEqual(1);
     expect(r.match).toBeGreaterThan(0);
     expect(r.match).toBeLessThanOrEqual(100);
+  });
+});
+
+describe("projectCareer (live draft odds)", () => {
+  it("composePartial handles an empty / in-progress draft", () => {
+    const empty = composePartial([]);
+    expect(empty.striking).toBe(UNPICKED_VALUE);
+    expect(empty.size).toBe(4);
+    const p = projectCareer(empty);
+    expect(p.rungs).toHaveLength(CAREER_LENGTH);
+    expect(p.goatOdds).toBeGreaterThanOrEqual(0);
+    expect(p.beltOdds).toBeGreaterThanOrEqual(p.goatOdds);
+    const partial = composePartial(["silva", "khabib"]);
+    expect(partial.striking).toBe(getPoolFighter("silva").striking);
+    expect(partial.cardio).toBe(UNPICKED_VALUE);
+  });
+
+  it("matches the simulated 13-0 rate for a fixed strong build", () => {
+    const picks = ["silva", "khabib", "oliveira", "obrien_dvalishvili", "vera", "jones", "jones"];
+    const proj = projectCareer(composeFighter(picks));
+    // A complete draft composes identically either way.
+    expect(composePartial(picks)).toEqual(composeFighter(picks));
+    const N = 3000;
+    let perfect = 0;
+    let wins = 0;
+    for (let i = 0; i < N; i++) {
+      const r = simulateCareer({ picks, seed: `proj-${i}` });
+      if (r.wins === CAREER_LENGTH) perfect++;
+      wins += r.wins;
+    }
+    expect(Math.abs(proj.goatOdds - perfect / N)).toBeLessThan(0.03);
+    expect(Math.abs(proj.expectedWins - wins / N)).toBeLessThan(0.3);
   });
 });

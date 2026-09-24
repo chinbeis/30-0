@@ -225,7 +225,7 @@ export function ShareModal({
           <button
             onClick={onNativeShare}
             disabled={!ready}
-            className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-amber-400 to-red-500 py-3 text-sm font-black text-black transition hover:scale-[1.02] hover:brightness-110 active:scale-[0.99] disabled:opacity-50"
+            className="btn-fight mt-4 flex w-full items-center justify-center gap-2 py-3 text-sm active:scale-[0.99] disabled:opacity-50"
           >
             ↗ {t.common.share}
           </button>

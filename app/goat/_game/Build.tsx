@@ -291,9 +291,9 @@ function PickScreen({
               key={k}
               className={`h-2 flex-1 rounded-full transition-all duration-500 ${
                 i < roundIndex
-                  ? "bg-gradient-to-r from-amber-400 to-red-500"
+                  ? "bg-fight"
                   : i === roundIndex
-                    ? "animate-now bg-amber-400/60"
+                    ? "animate-now bg-fight/60"
                     : "bg-zinc-800"
               }`}
               title={ATTR_LABEL[k]}
@@ -890,7 +890,7 @@ function ResultScreen({
           </div>
           <div className="h-2 overflow-hidden rounded-full bg-zinc-800">
             <div
-              className="h-full bg-gradient-to-r from-amber-400 to-red-500"
+              className="h-full bg-fight"
               style={{ width: `${result.goatScore}%` }}
             />
           </div>
@@ -957,7 +957,7 @@ function ResultScreen({
       <div className="mt-6 flex flex-col gap-3">
         <button
           onClick={onReplay}
-          className="rounded-full bg-gradient-to-r from-amber-400 to-red-500 py-4 text-lg font-black text-black transition hover:scale-[1.02] active:scale-95"
+          className="btn-fight py-4 active:scale-95 text-base"
         >
           {t.goat.buildAgain}
         </button>
@@ -1283,7 +1283,7 @@ function PortraitMaker({
       <p className="mt-1 text-xs text-zinc-400">Built from your picks.</p>
       <button
         onClick={portraitEnabled ? generate : () => setStatus("default")}
-        className="mt-3 rounded-full bg-gradient-to-r from-amber-400 to-red-500 px-6 py-2.5 text-sm font-black text-black transition hover:scale-105 active:scale-95"
+        className="btn-fight mt-3 px-6 py-2.5 text-sm active:scale-95"
       >
         {portraitEnabled ? "🎨 Generate my fighter" : "Reveal my fighter card"}
       </button>
@@ -1343,7 +1343,7 @@ function ResemblanceCard({ attributes }: { attributes: BuildAttributes }) {
         </div>
         <div className="mt-1 h-1.5 w-16 overflow-hidden rounded-full bg-zinc-800">
           <div
-            className="h-full bg-gradient-to-r from-amber-400 to-red-500"
+            className="h-full bg-fight"
             style={{ width: `${match}%` }}
           />
         </div>

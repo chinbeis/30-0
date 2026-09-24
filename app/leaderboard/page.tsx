@@ -46,26 +46,35 @@ function lbHref(game: Game, range: LeaderboardRange): string {
   return qs ? `/leaderboard?${qs}` : "/leaderboard";
 }
 
-function PlayerBadge({ row }: { row: LeaderboardRow }) {
+function PlayerBadge({ row, size }: { row: LeaderboardRow; size: number }) {
   if (row.playerImage) {
     return (
       <Image
         src={row.playerImage}
         alt={row.playerName}
-        width={40}
-        height={40}
-        className="h-10 w-10 rounded-full object-cover"
+        width={size}
+        height={size}
+        style={{ width: size, height: size }}
+        className="shrink-0 rounded-full object-cover"
       />
     );
   }
   return (
-    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-700 text-sm font-bold text-white">
+    <div
+      style={{ width: size, height: size, fontSize: size * 0.4 }}
+      className="flex shrink-0 items-center justify-center rounded-full bg-zinc-800 font-bold text-zinc-200"
+    >
       {row.playerName.slice(0, 1).toUpperCase()}
     </div>
   );
 }
 
-const MEDAL = ["🥇", "🥈", "🥉"];
+// Podium styling per place: gold / silver / bronze.
+const PLACE = [
+  { ring: "ring-amber-400", text: "text-amber-400", lift: "sm:-mt-6" },
+  { ring: "ring-zinc-300", text: "text-zinc-300", lift: "" },
+  { ring: "ring-orange-400", text: "text-orange-400", lift: "" },
+];
 
 export default async function Leaderboard({
   searchParams,
@@ -83,17 +92,10 @@ export default async function Leaderboard({
   };
 
   return (
-    <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-10">
-      <h1 className="text-center text-4xl font-black tracking-tight sm:text-5xl">
-        {t.leaderboard.title}
-      </h1>
-      <p className="mt-2 text-center text-sm text-zinc-500">
-        {game === "goat" ? t.leaderboard.subtitleGoat : t.leaderboard.subtitle30}
-      </p>
-
-      {/* Game switcher */}
-      <div className="mt-6 flex justify-center">
-        <div className="inline-flex rounded-full border border-zinc-800 bg-zinc-900/60 p-1">
+    <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-8 sm:py-12">
+      <div className="flex items-end justify-between gap-4">
+        <h1 className="font-display text-5xl sm:text-6xl">{t.leaderboard.title}</h1>
+        <div className="flex rounded-md border border-white/10 bg-black/60 p-0.5">
           {GAMES.map((g) => {
             const active = g.key === game;
             return (
@@ -101,10 +103,8 @@ export default async function Leaderboard({
                 key={g.key}
                 href={lbHref(g.key, range)}
                 scroll={false}
-                className={`rounded-full px-6 py-1.5 text-sm font-black transition ${
-                  active
-                    ? "bg-gradient-to-r from-amber-400 to-red-500 text-black"
-                    : "text-zinc-400 hover:text-white"
+                className={`font-display rounded px-4 py-1.5 text-lg transition ${
+                  active ? "bg-fight text-white" : "text-zinc-500 hover:text-white"
                 }`}
               >
                 {g.label}
@@ -114,28 +114,23 @@ export default async function Leaderboard({
         </div>
       </div>
 
-      {/* Time-range filter pills */}
-      <div className="mt-3 flex justify-center">
-        <div className="inline-flex rounded-full border border-zinc-800 bg-zinc-900/60 p-1">
-          {RANGE_KEYS.map((key) => {
-            const active = key === range;
-            return (
-              <Link
-                key={key}
-                href={lbHref(game, key)}
-                scroll={false}
-                className={`rounded-full px-5 py-1.5 text-sm font-bold transition ${
-                  active
-                    ? "bg-zinc-200 text-black"
-                    : "text-zinc-400 hover:text-white"
-                }`}
-              >
-                {rangeLabel[key]}
-              </Link>
-            );
-          })}
-        </div>
-      </div>
+      <nav className="mt-5 flex gap-5 border-b border-white/10 text-sm font-bold uppercase tracking-wider">
+        {RANGE_KEYS.map((key) => {
+          const active = key === range;
+          return (
+            <Link
+              key={key}
+              href={lbHref(game, key)}
+              scroll={false}
+              className={`-mb-px border-b-2 pb-2.5 transition ${
+                active ? "border-fight text-white" : "border-transparent text-zinc-500 hover:text-zinc-200"
+              }`}
+            >
+              {rangeLabel[key]}
+            </Link>
+          );
+        })}
+      </nav>
 
       {/* Only the live-queried list streams behind a skeleton — the header and
           filters above stay instant, so switching filters feels snappy. The key
@@ -143,15 +138,6 @@ export default async function Leaderboard({
       <Suspense key={`${game}-${range}`} fallback={<LeaderboardListSkeleton />}>
         <LeaderboardRows game={game} range={range} />
       </Suspense>
-
-      <div className="mt-10 text-center">
-        <Link
-          href="/"
-          className="inline-block rounded-full border border-zinc-700 px-8 py-3 font-bold text-zinc-200 transition hover:bg-zinc-900"
-        >
-          {t.leaderboard.back}
-        </Link>
-      </div>
     </main>
   );
 }
@@ -179,53 +165,80 @@ async function LeaderboardRows({ game, range }: { game: Game; range: Leaderboard
         <p className="text-zinc-400">
           {range === "all" ? t.leaderboard.noScores : t.leaderboard.noScoresWindow}
         </p>
-        <Link
-          href={game === "goat" ? "/goat" : "/play"}
-          className="mt-5 inline-block rounded-full bg-gradient-to-r from-amber-400 to-red-500 px-8 py-3 font-black text-black transition hover:scale-105"
-        >
+        <Link href={game === "goat" ? "/goat" : "/play"} className="btn-fight mt-5 px-8 py-3 text-sm">
           {t.leaderboard.playNow}
         </Link>
       </div>
     );
   }
 
+  const podium = rows.length >= 3 ? rows.slice(0, 3) : [];
+  const rest = rows.slice(podium.length);
+
   return (
-    <ol className="mt-8 space-y-1.5">
-      {rows.map((row, i) => {
-        const top3 = row.rank <= 3;
-        return (
-          <li
-            key={row.rank}
-            style={{ animationDelay: `${Math.min(i, 12) * 30}ms` }}
-            className={`animate-rise flex items-center gap-3 rounded-xl border px-3 py-3 transition duration-200 hover:-translate-y-0.5 ${
-              row.rank === 1
-                ? "border-amber-500/60 bg-amber-500/10 shadow-lg shadow-amber-500/10"
-                : top3
-                  ? "border-amber-500/40 bg-amber-500/[0.06]"
-                  : "border-zinc-800 bg-zinc-900/40 hover:border-zinc-700"
-            }`}
-          >
-            <span
-              className={`flex w-8 justify-center text-base font-black tabular-nums ${
-                row.rank === 1 ? "text-amber-400" : top3 ? "text-amber-300" : "text-zinc-600"
-              }`}
-            >
-              {top3 ? MEDAL[row.rank - 1] : row.rank}
-            </span>
-            <PlayerBadge row={row} />
-            <div className="min-w-0 flex-1">
-              <div className="truncate font-semibold">{row.playerName}</div>
-              <div className="text-[11px] uppercase tracking-wide text-zinc-500">{row.tier}</div>
-            </div>
-            <div className="text-right">
-              <div className={`text-lg font-black tabular-nums ${recordAccent(row.losses)}`}>
-                {row.wins}-{row.losses}
-              </div>
-              <div className="text-[11px] text-zinc-500">GOAT {row.goatScore}</div>
-            </div>
-          </li>
-        );
-      })}
-    </ol>
+    <>
+      {podium.length > 0 && (
+        <ol className="mt-10 grid grid-cols-3 items-end gap-2 sm:gap-3">
+          {/* Visual order 2-1-3 so the champion sits in the middle. */}
+          {[podium[1], podium[0], podium[2]].map((row, i) => {
+            const place = PLACE[row.rank - 1];
+            return (
+              <li
+                key={row.rank}
+                style={{ animationDelay: `${i * 70}ms` }}
+                className={`animate-rise flex min-w-0 flex-col items-center rounded-lg border border-white/10 bg-black/60 px-2 pt-4 pb-3 text-center backdrop-blur-sm ${place.lift} ${
+                  row.rank === 1 ? "border-amber-400/40" : ""
+                }`}
+              >
+                <span className={`font-display text-3xl ${place.text}`}>{row.rank}</span>
+                <div className={`mt-2 rounded-full ring-2 ring-offset-2 ring-offset-black ${place.ring}`}>
+                  <PlayerBadge row={row} size={row.rank === 1 ? 64 : 52} />
+                </div>
+                <div className="mt-3 w-full truncate text-sm font-semibold">{row.playerName}</div>
+                <div className={`font-display mt-1 text-3xl tabular-nums sm:text-4xl ${recordAccent(row.losses)}`}>
+                  {row.wins}-{row.losses}
+                </div>
+                <div className="mt-1 text-[10px] font-bold uppercase tracking-wider text-zinc-500">
+                  {t.leaderboard.goat} {row.goatScore}
+                </div>
+              </li>
+            );
+          })}
+        </ol>
+      )}
+
+      {rest.length > 0 && (
+        <div className="mt-4 overflow-hidden rounded-lg border border-white/10 bg-black/60 backdrop-blur-sm">
+          <div className="grid grid-cols-[2.5rem_1fr_4.5rem_3.5rem] items-center gap-2 border-b border-white/10 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-zinc-500">
+            <span className="text-center">#</span>
+            <span>{t.leaderboard.player}</span>
+            <span className="text-right">{t.leaderboard.record}</span>
+            <span className="text-right">{t.leaderboard.goat}</span>
+          </div>
+          <ol className="divide-y divide-white/5">
+            {rest.map((row, i) => (
+              <li
+                key={row.rank}
+                style={{ animationDelay: `${Math.min(i, 12) * 25}ms` }}
+                className="animate-rise grid grid-cols-[2.5rem_1fr_4.5rem_3.5rem] items-center gap-2 px-3 py-2.5 transition hover:bg-white/[0.03]"
+              >
+                <span className="text-center text-sm font-bold tabular-nums text-zinc-500">{row.rank}</span>
+                <div className="flex min-w-0 items-center gap-2.5">
+                  <PlayerBadge row={row} size={32} />
+                  <div className="min-w-0">
+                    <div className="truncate text-sm font-semibold">{row.playerName}</div>
+                    <div className="truncate text-[10px] uppercase tracking-wider text-zinc-500">{row.tier}</div>
+                  </div>
+                </div>
+                <span className={`font-display text-right text-2xl tabular-nums ${recordAccent(row.losses)}`}>
+                  {row.wins}-{row.losses}
+                </span>
+                <span className="text-right text-sm font-semibold tabular-nums text-zinc-400">{row.goatScore}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
+    </>
   );
 }

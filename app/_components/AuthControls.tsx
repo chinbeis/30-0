@@ -26,7 +26,7 @@ export function AuthControls({ user, googleEnabled }: { user: User; googleEnable
         {user.image ? (
           <Image src={user.image} alt={label} width={26} height={26} className="rounded-full" />
         ) : (
-          <span className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-amber-500/80 text-xs font-bold text-black">
+          <span className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-fight text-xs font-bold text-white">
             {initial}
           </span>
         )}
@@ -39,7 +39,7 @@ export function AuthControls({ user, googleEnabled }: { user: User; googleEnable
     <>
       <button
         onClick={() => setOpen(true)}
-        className="shrink-0 rounded-full bg-white px-3 py-1 text-xs font-bold text-black transition hover:bg-zinc-200"
+        className="btn-fight shrink-0 px-3 py-1.5 text-[11px]"
       >
         {t.nav.signIn}
       </button>

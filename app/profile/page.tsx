@@ -79,7 +79,7 @@ export default async function ProfilePage() {
           <p className="text-zinc-400">{t.profile.noGames}</p>
           <Link
             href="/"
-            className="mt-4 inline-block rounded-full bg-gradient-to-r from-amber-400 to-red-500 px-8 py-3 font-black text-black transition hover:scale-105"
+            className="btn-fight mt-4 px-8 py-3"
           >
             {t.profile.playNow}
           </Link>

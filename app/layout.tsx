@@ -7,9 +7,11 @@ import { Analytics } from "@vercel/analytics/next";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { getLocale } from "@/lib/i18n/server";
 
+// `wdth` axis enables the condensed poster headlines (`.font-display`).
 const roboto = Roboto({
   variable: "--font-roboto",
   subsets: ["latin", "latin-ext"],
+  axes: ["wdth"],
 });
 
 const robotoMono = Roboto_Mono({

@@ -13,17 +13,9 @@ export default async function About() {
 
   return (
     <main className="mx-auto w-full max-w-2xl flex-1 px-5 py-14 sm:py-16">
-      {/* Hero */}
-      <p className="text-center text-xs font-bold uppercase tracking-[0.35em] text-amber-500">
-        {t.about.kicker}
-      </p>
-      <h1 className="mt-3 text-center text-5xl font-black leading-[0.95] tracking-tighter sm:text-6xl">
-        {t.about.titleA}{" "}
-        <span className="text-shimmer-gold drop-shadow-[0_2px_20px_rgba(245,158,11,0.25)]">
-          {t.about.titleHighlight}
-        </span>
+      <h1 className="font-display text-center text-6xl sm:text-7xl">
+        {t.about.titleA} <span className="text-fight">{t.about.titleHighlight}</span>
       </h1>
-      <p className="mx-auto mt-4 max-w-md text-center text-zinc-400">{t.about.subtitle}</p>
 
       {/* Story */}
       <div className="mx-auto mt-10 max-w-xl space-y-5 text-zinc-300">
@@ -34,7 +26,7 @@ export default async function About() {
             href="https://82-0.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-semibold text-amber-400 transition hover:text-amber-300 hover:underline"
+            className="font-semibold text-white underline decoration-fight decoration-2 underline-offset-2 transition hover:text-fight"
           >
             {t.about.inspiredLink}
           </a>
@@ -44,28 +36,22 @@ export default async function About() {
 
       {/* Ratings + Photos cards */}
       <section className="mt-10 grid gap-4 sm:grid-cols-2">
-        <div className="animate-rise card-sheen rounded-2xl border border-zinc-800 bg-gradient-to-b from-zinc-900 to-black p-5 transition duration-200 hover:-translate-y-0.5 hover:border-amber-500/40">
-          <div className="text-2xl" aria-hidden>
-            📊
-          </div>
-          <h2 className="mt-3 font-black tracking-tight">{t.about.ratingsTitle}</h2>
+        <div className="animate-rise rounded-lg border border-white/10 bg-black/60 p-5 backdrop-blur-sm">
+          <h2 className="font-display text-xl">{t.about.ratingsTitle}</h2>
           <p className="mt-1.5 text-sm leading-relaxed text-zinc-400">{t.about.ratingsBody}</p>
         </div>
         <div
           style={{ animationDelay: "60ms" }}
-          className="animate-rise card-sheen rounded-2xl border border-zinc-800 bg-gradient-to-b from-zinc-900 to-black p-5 transition duration-200 hover:-translate-y-0.5 hover:border-amber-500/40"
+          className="animate-rise rounded-lg border border-white/10 bg-black/60 p-5 backdrop-blur-sm"
         >
-          <div className="text-2xl" aria-hidden>
-            📸
-          </div>
-          <h2 className="mt-3 font-black tracking-tight">{t.about.photosTitle}</h2>
+          <h2 className="font-display text-xl">{t.about.photosTitle}</h2>
           <p className="mt-1.5 text-sm leading-relaxed text-zinc-400">
             {t.about.photosPre}
             <a
               href="https://commons.wikimedia.org"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-semibold text-amber-400 transition hover:text-amber-300 hover:underline"
+              className="font-semibold text-white underline decoration-fight decoration-2 underline-offset-2 transition hover:text-fight"
             >
               {t.about.photosLink}
             </a>
@@ -75,7 +61,7 @@ export default async function About() {
       </section>
 
       {/* Disclaimer */}
-      <div className="mt-6 rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5 text-sm leading-relaxed text-zinc-500">
+      <div className="mt-6 rounded-lg border border-white/10 bg-black/60 p-5 text-sm leading-relaxed text-zinc-500 backdrop-blur-sm">
         {t.about.disclaimer}
       </div>
 
@@ -83,7 +69,7 @@ export default async function About() {
       <div className="mt-12 text-center">
         <Link
           href="/"
-          className="inline-block rounded-full bg-gradient-to-r from-amber-400 to-red-500 px-10 py-3 text-lg font-black text-black transition hover:scale-105 hover:brightness-110"
+          className="btn-fight px-10 py-3.5 text-base"
         >
           {t.about.playNow}
         </Link>

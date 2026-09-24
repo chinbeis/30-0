@@ -1,76 +1,48 @@
+import Image from "next/image";
 import Link from "next/link";
 import { getT } from "@/lib/i18n/server";
 
 export default async function Home() {
   const t = await getT();
   const games = [
-    {
-      href: "/play",
-      emoji: "🥊",
-      badge: t.home.classicBadge,
-      title: t.home.classicTitle,
-      blurb: t.home.classicBlurb,
-      cta: t.home.classicCta,
-    },
-    {
-      href: "/goat",
-      emoji: "🧬",
-      badge: t.home.goatBadge,
-      title: t.home.goatTitle,
-      blurb: t.home.goatBlurb,
-      cta: t.home.goatCta,
-    },
+    { href: "/play", record: "30-0", title: t.home.classicTitle, line: t.home.classicLine },
+    { href: "/goat", record: "13-0", title: t.home.goatTitle, line: t.home.goatLine },
   ];
 
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center px-4 py-14 sm:py-20">
-      <p className="mb-3 text-center text-xs font-bold uppercase tracking-[0.35em] text-amber-500">
-        {t.home.kicker}
-      </p>
-      <h1 className="text-center text-6xl font-black leading-[0.95] tracking-tighter sm:text-7xl">
-        {t.home.titleA}{" "}
-        <span className="text-shimmer-gold drop-shadow-[0_2px_20px_rgba(245,158,11,0.25)]">
-          {t.home.titleHighlight}
-        </span>
-      </h1>
-      <p className="mt-5 max-w-md text-center text-base leading-relaxed text-zinc-400">
-        {t.home.subtitle}
-      </p>
+    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center px-4 py-10 sm:py-16">
+      <h1 className="sr-only">{t.home.classicTitle}</h1>
+      <Image
+        src="/logo/logo-30-0.png"
+        alt="30-0 Undefeated"
+        width={512}
+        height={512}
+        priority
+        className="animate-pop h-44 w-44 drop-shadow-[0_0_40px_rgba(224,40,46,0.35)] sm:h-56 sm:w-56"
+      />
 
-      <div className="mt-12 grid w-full gap-4 sm:grid-cols-2">
-        {games.map((g) => (
+      <div className="mt-10 grid w-full gap-3 sm:grid-cols-2">
+        {games.map((g, i) => (
           <Link
             key={g.href}
             href={g.href}
-            className="group card-sheen relative flex flex-col overflow-hidden rounded-3xl border border-zinc-800 bg-gradient-to-b from-zinc-900 to-black p-6 transition duration-200 hover:-translate-y-1 hover:border-amber-500/60 hover:shadow-2xl hover:shadow-amber-500/10 active:translate-y-0"
+            style={{ animationDelay: `${120 + i * 80}ms` }}
+            className="animate-rise group relative flex flex-col overflow-hidden rounded-lg border border-white/10 bg-black/60 p-5 backdrop-blur-sm transition hover:border-fight/70"
           >
-            <div className="flex items-center gap-2">
-              <span className="text-3xl transition-transform duration-200 group-hover:scale-110" aria-hidden>
-                {g.emoji}
+            <span className="absolute inset-y-0 left-0 w-1 bg-fight" aria-hidden />
+            <span className="font-display text-7xl text-cream tabular-nums sm:text-8xl">
+              {g.record}
+            </span>
+            <h2 className="font-display mt-3 text-2xl text-white">{g.title}</h2>
+            <p className="mt-1 text-sm text-zinc-400">{g.line}</p>
+            <span className="btn-fight mt-5 py-3 text-sm">
+              {t.home.play}
+              <span className="transition-transform group-hover:translate-x-1" aria-hidden>
+                →
               </span>
-              <span className="rounded-full bg-amber-500/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-amber-300">
-                {g.badge}
-              </span>
-            </div>
-            <h2 className="mt-4 text-2xl font-black tracking-tight">{g.title}</h2>
-            <p className="mt-2 flex-1 text-sm leading-relaxed text-zinc-400">{g.blurb}</p>
-            <span className="mt-6 inline-block rounded-full bg-gradient-to-r from-amber-400 to-red-500 px-6 py-3 text-center text-sm font-black text-black transition group-hover:brightness-110">
-              {g.cta}
             </span>
           </Link>
         ))}
-      </div>
-
-      <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm font-semibold text-zinc-400">
-        <Link href="/leaderboard" className="transition hover:text-white">
-          🏆 {t.home.leaderboard}
-        </Link>
-        <Link href="/how-it-works" className="transition hover:text-white">
-          {t.home.howItWorks}
-        </Link>
-        <Link href="/about" className="transition hover:text-white">
-          {t.home.about}
-        </Link>
       </div>
     </main>
   );

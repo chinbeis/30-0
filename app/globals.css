@@ -7,6 +7,10 @@
 @theme inline {
   --font-sans: var(--font-roboto);
   --font-mono: var(--font-roboto-mono);
+  /* Brand — pulled from the 30-0 crest. */
+  --color-fight: #e0282e;
+  --color-fight-hot: #f23a40;
+  --color-cream: #f5ecd7;
 }
 
 html {
@@ -50,14 +54,49 @@ body::before {
 }
 
 ::selection {
-  background: rgba(245, 158, 11, 0.32);
+  background: rgba(224, 40, 46, 0.45);
   color: #fff;
 }
 
 /* Consistent, on-brand keyboard focus ring (mouse clicks stay clean). */
 :focus-visible {
-  outline: 2px solid rgba(245, 158, 11, 0.75);
+  outline: 2px solid rgba(224, 40, 46, 0.85);
   outline-offset: 2px;
+}
+
+/* Components layer so Tailwind utilities (rounded-*, display, etc.) can still
+   override these per use. */
+@layer components {
+  /* Fight-poster headline: condensed, heavy, uppercase. */
+  .font-display {
+    font-stretch: 75%;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+
+  /* Primary action — flat red, squared off (replaces the old gradient pills). */
+  .btn-fight {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 6px;
+    background: var(--color-fight);
+    color: #fff;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.28);
+    transition: background-color 0.15s, transform 0.1s;
+  }
+  .btn-fight:hover {
+    background: var(--color-fight-hot);
+  }
+  .btn-fight:active {
+    transform: translateY(1px);
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.28);
+  }
 }
 
 /* Tighter, denser numerals for records/scores. */
@@ -209,8 +248,8 @@ body::before {
 
 /* Soft breathing glow for champion moments / primary CTA. */
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 24px rgba(245, 158, 11, 0.25); }
-  50% { box-shadow: 0 0 44px rgba(245, 158, 11, 0.5); }
+  0%, 100% { box-shadow: 0 0 20px rgba(224, 40, 46, 0.25); }
+  50% { box-shadow: 0 0 40px rgba(224, 40, 46, 0.5); }
 }
 .animate-glow {
   animation: glow-pulse 2.2s ease-in-out infinite;

@@ -32,7 +32,7 @@ export function LanguageSwitcher() {
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label="Change language"
-        className="flex items-center gap-1.5 rounded-full border border-zinc-800 px-2.5 py-1 text-zinc-300 transition hover:border-zinc-600 hover:text-white"
+        className="flex items-center gap-1.5 rounded-md border border-white/10 px-2.5 py-1 text-zinc-300 transition hover:border-zinc-600 hover:text-white"
       >
         <span className="text-base leading-none" aria-hidden>
           {current.flag}

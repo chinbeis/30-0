@@ -22,23 +22,11 @@ const en = {
   },
 
   home: {
-    kicker: "The MMA roster game",
-    titleA: "Pick your",
-    titleHighlight: "challenge",
-    subtitle: "Two games, ~60 seconds each. No sign-up to play. Go perfect or run it back.",
-    classicBadge: "THE CLASSIC",
     classicTitle: "Can You Go 30-0?",
-    classicBlurb:
-      "Draft a 10-fighter roster. Simulate a 30-fight season. One weak pick caps your run — can you go perfect?",
-    classicCta: "DRAFT YOUR ROSTER",
-    goatBadge: "BUILD-A-FIGHTER",
-    goatTitle: "Can You Become the GOAT?",
-    goatBlurb:
-      "Steal one trait from a legend in each category. Build one fighter. Run the 13-fight gauntlet to triple champ.",
-    goatCta: "BUILD YOUR FIGHTER",
-    leaderboard: "Leaderboard",
-    howItWorks: "How it works",
-    about: "About",
+    classicLine: "Draft 10 fighters. Survive 30 fights.",
+    goatTitle: "Become the GOAT",
+    goatLine: "Build 1 fighter. Win 13 straight.",
+    play: "Play",
   },
 
   login: {
@@ -74,31 +62,27 @@ const en = {
 
   leaderboard: {
     title: "Leaderboard",
-    subtitle30: "The best MMA rosters · ranked by record, then GOAT score",
-    subtitleGoat: "The best fighter builds · ranked by career wins, then GOAT score",
     allTime: "All time",
-    weekly: "Weekly",
-    daily: "Daily",
+    weekly: "Week",
+    daily: "Today",
+    player: "Player",
+    record: "Record",
+    goat: "GOAT",
     noScores: "No scores yet. Be the first.",
-    noScoresWindow: "No scores in this window yet. Be the first.",
+    noScoresWindow: "No scores yet. Be the first.",
     playNow: "Play now",
-    back: "← Back to the game",
     unavailable: "Leaderboard is temporarily unavailable.",
   },
 
   footer: {
     howItWorks: "How it works",
     about: "About",
-    disclaimer:
-      "A fan-made game for MMA fans. Not affiliated with, endorsed by, or sponsored by the UFC, Zuffa, or any fighter. Fighter names and likenesses belong to their respective owners; photos are sourced from Wikipedia / Wikimedia Commons under their respective licenses.",
-    tagline: "Can You Go 30–0? · Inspired by 82-0",
+    disclaimer: "Fan-made. Not affiliated with the UFC or any fighter. Photos: Wikimedia Commons.",
   },
 
   howItWorks: {
-    kicker: "The rules",
     titleA: "How it",
     titleHighlight: "works",
-    subtitle: "One minute, ten choices, one verdict. Here's the whole game.",
     step1Title: "Draft 10 fighters",
     step1Body:
       "You get 10 rounds. Each round shows 3 random fighters from across MMA history — pick one and move on. No takebacks.",
@@ -125,10 +109,8 @@ const en = {
   },
 
   about: {
-    kicker: "The project",
     titleA: "About the",
     titleHighlight: "game",
-    subtitle: "A fan-made roster game built to start (and settle) MMA arguments.",
     p1: "Can You Go 30–0? is a quick, replayable game for MMA fans. Draft a roster, simulate a season, and chase the perfect record. It's built to settle — and start — arguments about who the best fighters really are.",
     inspiredPre: "It's inspired by ",
     inspiredLink: "82-0",
@@ -315,23 +297,11 @@ const pt: Dict = {
   },
 
   home: {
-    kicker: "O jogo de elenco de MMA",
-    titleA: "Escolha seu",
-    titleHighlight: "desafio",
-    subtitle: "Dois jogos, ~60 segundos cada. Sem cadastro para jogar. Seja perfeito ou tente de novo.",
-    classicBadge: "O CLÁSSICO",
     classicTitle: "Você Consegue 30-0?",
-    classicBlurb:
-      "Monte um elenco de 10 lutadores. Simule uma temporada de 30 lutas. Uma escolha fraca limita sua campanha — você consegue ser perfeito?",
-    classicCta: "MONTE SEU ELENCO",
-    goatBadge: "CRIE UM LUTADOR",
-    goatTitle: "Você Pode Ser o GOAT?",
-    goatBlurb:
-      "Roube um atributo de uma lenda em cada categoria. Crie um lutador. Encare a maratona de 13 lutas até o tricampeonato.",
-    goatCta: "CRIE SEU LUTADOR",
-    leaderboard: "Classificação",
-    howItWorks: "Como funciona",
-    about: "Sobre",
+    classicLine: "Monte 10 lutadores. Sobreviva a 30 lutas.",
+    goatTitle: "Seja o GOAT",
+    goatLine: "Crie 1 lutador. Vença 13 seguidas.",
+    play: "Jogar",
   },
 
   login: {
@@ -367,31 +337,27 @@ const pt: Dict = {
 
   leaderboard: {
     title: "Classificação",
-    subtitle30: "Os melhores elencos de MMA · por campanha, depois pontuação GOAT",
-    subtitleGoat: "As melhores criações · por vitórias na carreira, depois pontuação GOAT",
     allTime: "Geral",
-    weekly: "Semanal",
-    daily: "Diária",
+    weekly: "Semana",
+    daily: "Hoje",
+    player: "Jogador",
+    record: "Campanha",
+    goat: "GOAT",
     noScores: "Nenhuma pontuação ainda. Seja o primeiro.",
-    noScoresWindow: "Nenhuma pontuação neste período ainda. Seja o primeiro.",
+    noScoresWindow: "Nenhuma pontuação ainda. Seja o primeiro.",
     playNow: "Jogar agora",
-    back: "← Voltar ao jogo",
     unavailable: "A classificação está temporariamente indisponível.",
   },
 
   footer: {
     howItWorks: "Como funciona",
     about: "Sobre",
-    disclaimer:
-      "Um jogo feito por fãs, para fãs de MMA. Não é afiliado, endossado ou patrocinado pelo UFC, Zuffa ou qualquer lutador. Nomes e imagens dos lutadores pertencem aos seus respectivos donos; as fotos vêm da Wikipedia / Wikimedia Commons sob suas respectivas licenças.",
-    tagline: "Você Consegue 30–0? · Inspirado em 82-0",
+    disclaimer: "Feito por fãs. Sem vínculo com o UFC ou qualquer lutador. Fotos: Wikimedia Commons.",
   },
 
   howItWorks: {
-    kicker: "As regras",
     titleA: "Como",
     titleHighlight: "funciona",
-    subtitle: "Um minuto, dez escolhas, um veredito. O jogo inteiro está aqui.",
     step1Title: "Recrute 10 lutadores",
     step1Body:
       "Você tem 10 rodadas. Cada rodada mostra 3 lutadores aleatórios de toda a história do MMA — escolha um e siga em frente. Sem voltar atrás.",
@@ -418,10 +384,8 @@ const pt: Dict = {
   },
 
   about: {
-    kicker: "O projeto",
     titleA: "Sobre o",
     titleHighlight: "jogo",
-    subtitle: "Um jogo feito por fãs para começar (e encerrar) discussões de MMA.",
     p1: "Você Consegue 30–0? é um jogo rápido e replayável para fãs de MMA. Monte um elenco, simule uma temporada e persiga a campanha perfeita. Ele foi feito para encerrar — e começar — discussões sobre quem são os melhores lutadores de verdade.",
     inspiredPre: "É inspirado no ",
     inspiredLink: "82-0",
@@ -606,23 +570,11 @@ const es: Dict = {
   },
 
   home: {
-    kicker: "El juego de plantillas de MMA",
-    titleA: "Elige tu",
-    titleHighlight: "desafío",
-    subtitle: "Dos juegos, ~60 segundos cada uno. Sin registro para jugar. Sé perfecto o vuelve a intentarlo.",
-    classicBadge: "EL CLÁSICO",
     classicTitle: "¿Puedes Hacer 30-0?",
-    classicBlurb:
-      "Arma una plantilla de 10 peleadores. Simula una temporada de 30 peleas. Una mala elección limita tu campaña: ¿puedes ser perfecto?",
-    classicCta: "ARMA TU PLANTILLA",
-    goatBadge: "CREA UN PELEADOR",
-    goatTitle: "¿Puedes Ser el GOAT?",
-    goatBlurb:
-      "Roba un atributo de una leyenda en cada categoría. Crea un peleador. Supera el reto de 13 peleas hasta el tricampeonato.",
-    goatCta: "CREA TU PELEADOR",
-    leaderboard: "Clasificación",
-    howItWorks: "Cómo funciona",
-    about: "Acerca de",
+    classicLine: "Arma 10 peleadores. Sobrevive 30 peleas.",
+    goatTitle: "Sé el GOAT",
+    goatLine: "Crea 1 peleador. Gana 13 seguidas.",
+    play: "Jugar",
   },
 
   login: {
@@ -658,31 +610,27 @@ const es: Dict = {
 
   leaderboard: {
     title: "Clasificación",
-    subtitle30: "Las mejores plantillas de MMA · por campaña, luego puntaje GOAT",
-    subtitleGoat: "Las mejores creaciones · por victorias de carrera, luego puntaje GOAT",
     allTime: "Histórico",
-    weekly: "Semanal",
-    daily: "Diario",
+    weekly: "Semana",
+    daily: "Hoy",
+    player: "Jugador",
+    record: "Campaña",
+    goat: "GOAT",
     noScores: "Aún no hay puntajes. Sé el primero.",
-    noScoresWindow: "Aún no hay puntajes en este periodo. Sé el primero.",
+    noScoresWindow: "Aún no hay puntajes. Sé el primero.",
     playNow: "Jugar ahora",
-    back: "← Volver al juego",
     unavailable: "La clasificación no está disponible por el momento.",
   },
 
   footer: {
     howItWorks: "Cómo funciona",
     about: "Acerca de",
-    disclaimer:
-      "Un juego hecho por fans, para fans del MMA. No está afiliado, respaldado ni patrocinado por UFC, Zuffa ni ningún peleador. Los nombres e imágenes de los peleadores pertenecen a sus respectivos dueños; las fotos provienen de Wikipedia / Wikimedia Commons bajo sus respectivas licencias.",
-    tagline: "¿Puedes Hacer 30–0? · Inspirado en 82-0",
+    disclaimer: "Hecho por fans. Sin afiliación con UFC ni ningún peleador. Fotos: Wikimedia Commons.",
   },
 
   howItWorks: {
-    kicker: "Las reglas",
     titleA: "Cómo",
     titleHighlight: "funciona",
-    subtitle: "Un minuto, diez elecciones, un veredicto. Este es todo el juego.",
     step1Title: "Recluta 10 peleadores",
     step1Body:
       "Tienes 10 rondas. Cada ronda muestra 3 peleadores al azar de toda la historia del MMA — elige uno y sigue. Sin vuelta atrás.",
@@ -709,10 +657,8 @@ const es: Dict = {
   },
 
   about: {
-    kicker: "El proyecto",
     titleA: "Acerca del",
     titleHighlight: "juego",
-    subtitle: "Un juego hecho por fans para empezar (y zanjar) discusiones de MMA.",
     p1: "¿Puedes Hacer 30–0? es un juego rápido y rejugable para fans del MMA. Arma una plantilla, simula una temporada y persigue la campaña perfecta. Está hecho para zanjar — y empezar — discusiones sobre quiénes son realmente los mejores peleadores.",
     inspiredPre: "Está inspirado en ",
     inspiredLink: "82-0",

@@ -27,17 +27,9 @@ export default async function HowItWorks() {
 
   return (
     <main className="mx-auto w-full max-w-2xl flex-1 px-5 py-14 sm:py-16">
-      {/* Hero */}
-      <p className="text-center text-xs font-bold uppercase tracking-[0.35em] text-amber-500">
-        {t.howItWorks.kicker}
-      </p>
-      <h1 className="mt-3 text-center text-5xl font-black leading-[0.95] tracking-tighter sm:text-6xl">
-        {t.howItWorks.titleA}{" "}
-        <span className="text-shimmer-gold drop-shadow-[0_2px_20px_rgba(245,158,11,0.25)]">
-          {t.howItWorks.titleHighlight}
-        </span>
+      <h1 className="font-display text-center text-6xl sm:text-7xl">
+        {t.howItWorks.titleA} <span className="text-fight">{t.howItWorks.titleHighlight}</span>
       </h1>
-      <p className="mx-auto mt-4 max-w-md text-center text-zinc-400">{t.howItWorks.subtitle}</p>
 
       {/* The 4 steps */}
       <section className="mt-12 grid gap-4 sm:grid-cols-2">
@@ -45,12 +37,12 @@ export default async function HowItWorks() {
           <div
             key={s.title}
             style={{ animationDelay: `${i * 60}ms` }}
-            className="animate-rise card-sheen rounded-2xl border border-zinc-800 bg-gradient-to-b from-zinc-900 to-black p-5 transition duration-200 hover:-translate-y-0.5 hover:border-amber-500/40"
+            className="animate-rise rounded-lg border border-white/10 bg-black/60 p-5 backdrop-blur-sm"
           >
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-red-500 text-base font-black text-black">
+            <div className="font-display text-4xl text-fight">
               {i + 1}
             </div>
-            <h3 className="mt-3 font-black tracking-tight">{s.title}</h3>
+            <h3 className="mt-3 font-display text-xl">{s.title}</h3>
             <p className="mt-1.5 text-sm leading-relaxed text-zinc-400">{s.body}</p>
           </div>
         ))}
@@ -58,7 +50,7 @@ export default async function HowItWorks() {
 
       {/* Tiers */}
       <section className="mt-12">
-        <h2 className="text-center text-xs font-bold uppercase tracking-[0.35em] text-amber-500">
+        <h2 className="font-display text-center text-3xl">
           {t.howItWorks.tiersTitle}
         </h2>
         <ul className="mt-5 space-y-1.5">
@@ -66,13 +58,11 @@ export default async function HowItWorks() {
             <li
               key={tier.label}
               style={{ animationDelay: `${i * 40}ms` }}
-              className={`animate-rise flex items-center justify-between rounded-xl border px-4 py-2.5 transition duration-200 hover:-translate-y-0.5 ${
-                i === 0
-                  ? "border-amber-500/60 bg-amber-500/10 shadow-lg shadow-amber-500/10"
-                  : "border-zinc-800 bg-zinc-900/40 hover:border-zinc-700"
+              className={`animate-rise flex items-center justify-between rounded-md border px-4 py-2.5 backdrop-blur-sm ${
+                i === 0 ? "border-amber-400/40 bg-black/60" : "border-white/10 bg-black/60"
               }`}
             >
-              <span className={`font-black tabular-nums ${tier.color}`}>{tier.record}</span>
+              <span className={`font-display text-2xl tabular-nums ${tier.color}`}>{tier.record}</span>
               <span className="text-xs font-bold uppercase tracking-widest text-zinc-400">
                 {tier.label}
               </span>
@@ -80,7 +70,7 @@ export default async function HowItWorks() {
           ))}
           <li
             style={{ animationDelay: `${TIERS.length * 40}ms` }}
-            className="animate-rise flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-900/40 px-4 py-2.5"
+            className="animate-rise flex items-center justify-between rounded-md border border-white/10 bg-black/60 px-4 py-2.5 backdrop-blur-sm"
           >
             <span className="font-black text-zinc-500">{t.howItWorks.tierLower}</span>
             <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">
@@ -91,8 +81,8 @@ export default async function HowItWorks() {
       </section>
 
       {/* Skill vs luck callout */}
-      <section className="mt-12 rounded-2xl border border-amber-500/30 bg-amber-500/[0.06] p-5">
-        <h2 className="flex items-center gap-2 text-lg font-black tracking-tight">
+      <section className="mt-12 rounded-lg border-l-4 border-fight bg-black/60 p-5 backdrop-blur-sm">
+        <h2 className="flex items-center gap-2 text-lg font-display text-xl">
           <span aria-hidden>🎲</span> {t.howItWorks.luckTitle}
         </h2>
         <p className="mt-2 text-sm leading-relaxed text-zinc-300">{t.howItWorks.luckBody}</p>
@@ -101,19 +91,11 @@ export default async function HowItWorks() {
       {/* Second game */}
       <Link
         href="/goat"
-        className="group card-sheen mt-6 block rounded-2xl border border-zinc-800 bg-gradient-to-b from-zinc-900 to-black p-5 transition duration-200 hover:-translate-y-0.5 hover:border-amber-500/60 hover:shadow-xl hover:shadow-amber-500/10"
+        className="group mt-6 block rounded-lg border border-white/10 bg-black/60 p-5 backdrop-blur-sm transition hover:border-fight/70"
       >
-        <div className="flex items-center gap-2">
-          <span className="text-2xl transition-transform duration-200 group-hover:scale-110" aria-hidden>
-            🧬
-          </span>
-          <span className="rounded-full bg-amber-500/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-amber-300">
-            {t.howItWorks.goatBadge}
-          </span>
-        </div>
-        <h2 className="mt-3 text-xl font-black tracking-tight">{t.howItWorks.goatTitle}</h2>
+        <h2 className="font-display text-2xl">{t.howItWorks.goatTitle}</h2>
         <p className="mt-1.5 text-sm leading-relaxed text-zinc-400">{t.howItWorks.goatBody}</p>
-        <span className="mt-3 inline-block text-sm font-bold text-amber-400 transition group-hover:text-amber-300">
+        <span className="mt-3 inline-block text-sm font-bold uppercase tracking-wider text-fight transition group-hover:text-fight-hot">
           {t.howItWorks.goatCta}
         </span>
       </Link>
@@ -122,7 +104,7 @@ export default async function HowItWorks() {
       <div className="mt-12 text-center">
         <Link
           href="/"
-          className="inline-block rounded-full bg-gradient-to-r from-amber-400 to-red-500 px-10 py-3 text-lg font-black text-black transition hover:scale-105 hover:brightness-110"
+          className="btn-fight px-10 py-3.5 text-base"
         >
           {t.howItWorks.playNow}
         </Link>

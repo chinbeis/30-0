@@ -19,12 +19,12 @@ export async function SiteHeader() {
           aria-label="30-0 home"
         >
           <Image
-            src="/logo/logo.png"
+            src="/logo/logo-30-0.png"
             alt="30-0"
-            width={36}
-            height={36}
+            width={44}
+            height={44}
             priority
-            className="h-9 w-auto"
+            className="h-11 w-auto drop-shadow-[0_0_8px_rgba(224,40,46,0.35)]"
           />
         </Link>
 

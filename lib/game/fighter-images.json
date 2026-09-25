@@ -44,7 +44,7 @@
   "aldo": {
     "src": "/fighters/aldo.jpg",
     "pageUrl": "https://en.wikipedia.org/wiki/Jos%C3%A9_Aldo",
-    "title": "Jos\u00e9 Aldo",
+    "title": "José Aldo",
     "remoteSrc": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Jos%C3%A9_Aldo%2C_UFC_189_World_Tour_London_%282%29_%28cropped%29.jpg/330px-Jos%C3%A9_Aldo%2C_UFC_189_World_Tour_London_%282%29_%28cropped%29.jpg"
   },
   "holloway": {
@@ -134,7 +134,7 @@
   "rua": {
     "src": "/fighters/rua.png",
     "pageUrl": "https://en.wikipedia.org/wiki/Maur%C3%ADcio_Rua",
-    "title": "Maur\u00edcio Rua",
+    "title": "Maurício Rua",
     "remoteSrc": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/MauricioRua.png/330px-MauricioRua.png"
   },
   "gustafsson": {
@@ -170,7 +170,7 @@
   "werdum": {
     "src": "/fighters/werdum.jpg",
     "pageUrl": "https://en.wikipedia.org/wiki/Fabr%C3%ADcio_Werdum",
-    "title": "Fabr\u00edcio Werdum",
+    "title": "Fabrício Werdum",
     "remoteSrc": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Fabricio_Werdum.jpg/330px-Fabricio_Werdum.jpg"
   },
   "sterling": {
@@ -254,7 +254,7 @@
   "jedrzejczyk": {
     "src": "/fighters/jedrzejczyk.png",
     "pageUrl": "https://en.wikipedia.org/wiki/Joanna_J%C4%99drzejczyk",
-    "title": "Joanna J\u0119drzejczyk",
+    "title": "Joanna Jędrzejczyk",
     "remoteSrc": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Joanna_J%C4%99drzejczyk.png/330px-Joanna_J%C4%99drzejczyk.png"
   },
   "ferguson": {
@@ -416,7 +416,7 @@
   "blachowicz": {
     "src": "/fighters/blachowicz.jpg",
     "pageUrl": "https://en.wikipedia.org/wiki/Jan_B%C5%82achowicz",
-    "title": "Jan B\u0142achowicz",
+    "title": "Jan Błachowicz",
     "remoteSrc": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Jan_Blachowicz_at_UFC_Fight_Night_136.jpg/330px-Jan_Blachowicz_at_UFC_Fight_Night_136.jpg"
   },
   "markhunt": {
@@ -482,7 +482,7 @@
   "yair": {
     "src": "/fighters/yair.jpg",
     "pageUrl": "https://en.wikipedia.org/wiki/Yair_Rodr%C3%ADguez",
-    "title": "Yair Rodr\u00edguez",
+    "title": "Yair Rodríguez",
     "remoteSrc": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Carrera_con_Yair_%22Pantera%22_Rodr%C3%ADguez_-i---i-_%2830657689682%29_cropped.jpg/330px-Carrera_con_Yair_%22Pantera%22_Rodr%C3%ADguez_-i---i-_%2830657689682%29_cropped.jpg"
   },
   "ortega": {
@@ -596,7 +596,7 @@
   "prochazka": {
     "src": "/fighters/prochazka.png",
     "pageUrl": "https://en.wikipedia.org/wiki/Ji%C5%99%C3%AD_Proch%C3%A1zka",
-    "title": "Ji\u0159\u00ed Proch\u00e1zka",
+    "title": "Jiří Procházka",
     "remoteSrc": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/JiriProchazka2022.png/330px-JiriProchazka2022.png"
   },
   "rountree": {
@@ -686,7 +686,7 @@
   "pena": {
     "src": "/fighters/pena.jpg",
     "pageUrl": "https://en.wikipedia.org/wiki/Julianna_Pe%C3%B1a",
-    "title": "Julianna Pe\u00f1a",
+    "title": "Julianna Peña",
     "remoteSrc": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Ceremonial_weigh_ins_-_Amanda_Nunes_vs_Julianna_Pe%C3%B1a_UFC_269_-_YouTube_-_0_23_%28cropped%29.jpg/330px-Ceremonial_weigh_ins_-_Amanda_Nunes_vs_Julianna_Pe%C3%B1a_UFC_269_-_YouTube_-_0_23_%28cropped%29.jpg"
   },
   "pennington": {
@@ -857,5 +857,103 @@
     "src": "/fighters/airportporrier.jpeg",
     "pageUrl": null,
     "title": "Airport Porrier"
+  },
+  "brady": {
+    "src": "/fighters/brady.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Sean_Brady_(fighter)",
+    "title": "Sean Brady (fighter)",
+    "remoteSrc": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/SeanBrady.jpg/330px-SeanBrady.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  "bonickal": {
+    "src": "/fighters/bonickal.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Bo_Nickal",
+    "title": "Bo Nickal",
+    "remoteSrc": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/34/Bo_Nickal_%2852791819473%29.jpg/330px-Bo_Nickal_%2852791819473%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  "gable": {
+    "src": "/fighters/gable.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Gable_Steveson",
+    "title": "Gable Steveson",
+    "remoteSrc": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Gable_Steveson_%28USA%29_2018.jpg/330px-Gable_Steveson_%28USA%29_2018.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  "hokit": {
+    "src": "/fighters/hokit.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Josh_Hokit",
+    "title": "Josh Hokit",
+    "remoteSrc": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/UFC_Freedom_250_Press_Conference_%289747953%29_%28cropped%29.jpg/330px-UFC_Freedom_250_Press_Conference_%289747953%29_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  "dridder": {
+    "src": "/fighters/dridder.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Reinier_de_Ridder",
+    "title": "Reinier de Ridder",
+    "remoteSrc": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/Reinier_post_training_2.jpg/330px-Reinier_post_training_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  "ruffy": {
+    "src": "/fighters/ruffy.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Maur%C3%ADcio_Ruffy",
+    "title": "Maurício Ruffy",
+    "remoteSrc": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/UFC_Freedom_250_press_conference_at_the_Lincoln_Memorial_in_Washington%2C_D.C.%2C_Friday%2C_June_12%2C_2026_-_22%28cropped%29.jpg/330px-UFC_Freedom_250_press_conference_at_the_Lincoln_Memorial_in_Washington%2C_D.C.%2C_Friday%2C_June_12%2C_2026_-_22%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  "bsd": {
+    "src": "/fighters/bsd.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Beno%C3%AEt_Saint_Denis",
+    "title": "Benoît Saint Denis",
+    "remoteSrc": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Benoit_Saint_Denis_2023.png/330px-Benoit_Saint_Denis_2023.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  "rosas": {
+    "src": "/fighters/rosas.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Raul_Rosas_Jr.",
+    "title": "Raul Rosas Jr.",
+    "remoteSrc": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/Ra%C3%BAl_Rosas_Jr._2024.png/330px-Ra%C3%BAl_Rosas_Jr._2024.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  "zahabi": {
+    "src": "/fighters/zahabi.jpg",
+    "pageUrl": "https://en.wikipedia.org/wiki/Aiemann_Zahabi",
+    "title": "Aiemann Zahabi",
+    "remoteSrc": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a3/UFC_Freedom_250_Press_Conference_%289747954%29%28cropped%29.jpg/330px-UFC_Freedom_250_Press_Conference_%289747954%29%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  "shara": {
+    "src": "/fighters/shara.png",
+    "pageUrl": "https://en.wikipedia.org/wiki/Sharabutdin_Magomedov",
+    "title": "Sharabutdin Magomedov",
+    "remoteSrc": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Sharabutdin_Magomedov_2024.png/330px-Sharabutdin_Magomedov_2024.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  "prates": {
+    "src": "/fighters/prates.jpg",
+    "pageUrl": "https://commons.wikimedia.org/wiki/File%3ACarlos_Prates_2026.jpg",
+    "title": "Carlos Prates",
+    "remoteSrc": "https://commons.wikimedia.org/wiki/Special:FilePath/Carlos_Prates_2026.jpg?width=400",
+    "via": "wikidata-P18"
+  },
+  "horiguchi": {
+    "src": "/fighters/horiguchi.jpg",
+    "pageUrl": "https://commons.wikimedia.org/wiki/File%3AKyoji_Horiguchi_2017.jpg",
+    "title": "Kyoji Horiguchi",
+    "remoteSrc": "https://commons.wikimedia.org/wiki/Special:FilePath/Kyoji_Horiguchi_2017.jpg?width=400",
+    "via": "wikidata-P18"
+  },
+  "valter": {
+    "src": "/fighters/valter.jpg",
+    "pageUrl": null,
+    "title": "Valter Walker",
+    "via": "manual"
+  },
+  "murzakanov": {
+    "src": "/fighters/murzakanov.jpg",
+    "pageUrl": null,
+    "title": "Azamat Murzakanov",
+    "via": "manual"
+  },
+  "gautier": {
+    "src": "/fighters/gautier.jpg",
+    "pageUrl": null,
+    "title": "Ateba Gautier",
+    "via": "manual"
+  },
+  "talbott": {
+    "src": "/fighters/talbott.webp",
+    "pageUrl": null,
+    "title": "Payton Talbott",
+    "via": "manual"
   }
 }

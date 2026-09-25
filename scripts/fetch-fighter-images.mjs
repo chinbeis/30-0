@@ -57,6 +57,11 @@ const TITLE_OVERRIDES = {
   "Song Yadong": "Song Yadong",
   "Jared Cannonier": "Jared Cannonier",
   "Alexander Volkov": "Alexander Volkov (fighter)",
+  // rising stars
+  "Benoit Saint-Denis": "Benoît Saint-Denis",
+  "Carlos Prates": "Carlos Prates (fighter)",
+  "Josh Hokit": "Josh Hokit",
+  "Valter Walker": "Valter Walker",
 };
 
 const UA = "CanYouGo30-0/0.1 (educational game prototype; contact dev)";

@@ -346,8 +346,8 @@ These were decided during design; reopen only with a specific reason.
   ≈ ~1/board). Prime ids resolve through `getFighter` everywhere (sim, picks
   storage, validation); `baseId()` strips the suffix for photos and
   "same fighter" checks. No achievements in v1.
-- ✅ **MYTHIC fighters SHIPPED**: 14 hand-authored meme versions ("Cocaine
-  Jones", "Blonde Oliveira", "Balls Hot Lewis"…) in `fighters-mythic.ts`, id
+- ✅ **MYTHIC fighters SHIPPED**: 19 hand-authored meme versions ("Cocaine
+  Jones", "Blonde Oliveira", "Balls Hot Lewis", "Sea Level Cain"…) in `fighters-mythic.ts`, id
   `mythic_<baseId>`, signature trait 96-99 with the meme's famous flaw kept.
   OP by design → rarity is the balance lever: at most ONE per board, on ~50% of boards, in BOTH games (`injectMythic` in `lib/game/board.ts` and
   `lib/goat/board.ts`; GOAT: page 0 of a non-physique round). The mythic

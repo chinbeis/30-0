@@ -1,16 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getT } from "@/lib/i18n/server";
-import { getFighter } from "@/lib/game/fighters";
-import { ovr } from "@/lib/game/engine";
 import { fighterImage } from "./_game/helpers";
-import { ratingText } from "./_components/ratings";
 import { PersonalBest } from "./_components/PersonalBest";
 import { SfxZone } from "./_components/SfxZone";
+import { HeroHand, type HandSlot } from "./_components/HeroHand";
 
 // A "dealt hand" in the hero — the same card the draft shows, so the first
 // thing a visitor sees is the actual game, not a marketing illustration.
-const HAND = [
+const HAND: HandSlot[] = [
   { id: "khabib", label: "Khabib", tilt: "-rotate-[8deg] -translate-x-[150%] translate-y-5" },
   { id: "mythic_poirier", tilt: "z-10 -translate-x-1/2" },
   { id: "mcgregor", label: "McGregor", mirror: true, tilt: "rotate-[7deg] translate-x-1/2 translate-y-6" },
@@ -35,57 +33,6 @@ function Photo({
   return (
     <div className={`relative overflow-hidden ${className}`}>
       <Image src={src} alt="" fill sizes={sizes} className={`object-cover object-top ${imgClassName}`} />
-    </div>
-  );
-}
-
-function HandCard({
-  id,
-  label,
-  tilt,
-  mirror = false,
-}: {
-  id: string;
-  label?: string;
-  tilt: string;
-  /** right-hand card: name on the right so the card in front never covers it */
-  mirror?: boolean;
-}) {
-  const f = getFighter(id);
-  const rating = Math.round(ovr(f));
-  return (
-    // Hover: the card straightens, lifts to the front and comes into full color;
-    // the rest of the hand dims (group/hand is on the container).
-    <div
-      className={`group/card absolute left-1/2 top-0 w-28 overflow-hidden rounded-md bg-zinc-950 shadow-2xl shadow-black/80 transition duration-300 ease-out hover:z-20 hover:-translate-y-4 hover:rotate-0 hover:scale-[1.06] group-has-hover/hand:not-hover:opacity-55 sm:w-40 ${
-        f.isMythic
-          ? "ring-2 ring-violet-500 hover:shadow-[0_24px_50px_-12px_rgba(168,85,247,0.65)]"
-          : "ring-1 ring-white/15 hover:ring-fight/70 hover:shadow-[0_24px_50px_-12px_rgba(224,40,46,0.55)]"
-      } ${tilt}`}
-    >
-      <Photo
-        id={id}
-        sizes="160px"
-        className="aspect-[4/5] w-full grayscale-[35%] transition duration-300 group-hover/card:grayscale-0"
-        imgClassName="transition-transform duration-500 ease-out group-hover/card:scale-110"
-      />
-      <div
-        className={`flex items-center justify-between gap-2 border-t border-white/10 px-2.5 py-2 ${
-          mirror ? "flex-row-reverse text-right" : ""
-        }`}
-      >
-        <div className="min-w-0">
-          {f.isMythic && (
-            <p className="text-[9px] font-black uppercase tracking-[0.2em] text-violet-400">
-              Mythic{f.nickname ? ` · ${f.nickname}` : ""}
-            </p>
-          )}
-          <p className="font-display text-sm leading-none text-white sm:text-base">
-            {label ?? f.name}
-          </p>
-        </div>
-        <span className={`font-mono text-lg font-bold tabular-nums ${ratingText(rating)}`}>{rating}</span>
-      </div>
     </div>
   );
 }
@@ -145,13 +92,7 @@ export default async function Home() {
           <p className="mt-5 max-w-md text-base leading-relaxed text-zinc-400 sm:text-lg">{h.sub}</p>
         </div>
 
-        <div className="group/hand relative mx-auto h-52 w-full max-w-md sm:h-72" aria-hidden>
-          {HAND.map((c) => (
-            <SfxZone key={c.id} hover="deal">
-              <HandCard {...c} />
-            </SfxZone>
-          ))}
-        </div>
+        <HeroHand slots={HAND} />
       </section>
 
       {/* Modes */}

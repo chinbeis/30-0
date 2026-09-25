@@ -43,6 +43,14 @@ const en = {
       { k: "Run it back", v: "Missed by one? Same board, new picks. Send it to a friend." },
     ],
     board: "Who's gone 30-0",
+    tapHint: "Tap a card",
+    viewStats: "View stats",
+    draftCta: "Draft on 30-0",
+    close: "Close",
+    prev: "Previous fighter",
+    next: "Next fighter",
+    styles: { striker: "Striker", grappler: "Grappler", balanced: "Balanced" },
+    stat: { striking: "Striking", grappling: "Grappling", finishing: "Finishing", cardio: "Cardio", durability: "Chin", fightIq: "Fight IQ", experience: "Experience" },
   },
 
   login: {
@@ -334,6 +342,14 @@ const pt: Dict = {
       { k: "De novo", v: "Perdeu por uma? Mesmo quadro, novas escolhas. Desafie um amigo." },
     ],
     board: "Quem já fez 30-0",
+    tapHint: "Toque numa carta",
+    viewStats: "Ver atributos",
+    draftCta: "Escalar no 30-0",
+    close: "Fechar",
+    prev: "Lutador anterior",
+    next: "Próximo lutador",
+    styles: { striker: "Trocador", grappler: "Grappler", balanced: "Equilibrado" },
+    stat: { striking: "Trocação", grappling: "Grappling", finishing: "Finalização", cardio: "Cardio", durability: "Queixo", fightIq: "QI de luta", experience: "Experiência" },
   },
 
   login: {
@@ -623,6 +639,14 @@ const es: Dict = {
       { k: "Otra vez", v: "¿Te faltó una? Mismo tablero, nuevos picks. Reta a un amigo." },
     ],
     board: "Quién ha hecho 30-0",
+    tapHint: "Toca una carta",
+    viewStats: "Ver estadísticas",
+    draftCta: "Elegir en 30-0",
+    close: "Cerrar",
+    prev: "Peleador anterior",
+    next: "Siguiente peleador",
+    styles: { striker: "Striker", grappler: "Grappler", balanced: "Equilibrado" },
+    stat: { striking: "Golpeo", grappling: "Grappling", finishing: "Definición", cardio: "Cardio", durability: "Mentón", fightIq: "IQ de pelea", experience: "Experiencia" },
   },
 
   login: {

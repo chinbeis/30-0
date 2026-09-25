@@ -168,6 +168,19 @@ body::before {
   animation: rise 0.4s ease-out both;
 }
 
+/* Stat bars filling in (fighter stats sheet). */
+@keyframes bar-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.animate-bar {
+  animation: bar-fill 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 /* Backdrop fade for modals/overlays. */
 @keyframes fade-in {
   from {

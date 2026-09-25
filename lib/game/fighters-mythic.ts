@@ -16,7 +16,7 @@ export const MYTHIC_PREFIX = "mythic_";
 
 export const MYTHIC_FIGHTERS: Fighter[] = [
   // The 13-second-Aldo era. Wide stance, left hand from hell.
-  { id: "mythic_mcgregor", name: "Karate Stance McGregor", nickname: "Mystic Mac", division: "Lightweight", era: "2010s", isMythic: true, striking: 99, grappling: 76, cardio: 88, durability: 85, fightIq: 95, experience: 94, finishing: 99 },
+  { id: "mythic_mcgregor", name: "Karate Stance McGregor", nickname: "Mystic Mac", division: "Lightweight", era: "2010s", isMythic: true, striking: 99, grappling: 84, cardio: 92, durability: 92, fightIq: 97, experience: 95, finishing: 99 },
   // Ubereem: K-1 champ on a strict horse-meat diet. Ask his opponents.
   { id: "mythic_overeem", name: "Horse Meat Overeem", nickname: "Ubereem", division: "Heavyweight", era: "2010s", isMythic: true, striking: 98, grappling: 88, cardio: 80, durability: 80, fightIq: 88, experience: 98, finishing: 99 },
   // Once Nate starts bleeding, he starts winning. Stockton rules.

@@ -14,12 +14,12 @@ import { MYTHIC_BY_ID, MYTHIC_PREFIX } from "./fighters-mythic";
 
 export const FIGHTERS: Fighter[] = [
   // --- Lightweight ---
-  { id: "khabib", name: "Khabib Nurmagomedov", nickname: "The Eagle", division: "Lightweight", era: "2010s", striking: 82, grappling: 99, cardio: 95, durability: 92, fightIq: 96, experience: 90, finishing: 82 },
+  { id: "khabib", name: "Khabib Nurmagomedov", nickname: "The Eagle", division: "Lightweight", era: "2010s", striking: 88, grappling: 99, cardio: 98, durability: 95, fightIq: 98, experience: 94, finishing: 88 },
   { id: "islam", name: "Islam Makhachev", nickname: "", division: "Lightweight", era: "Modern", striking: 86, grappling: 97, cardio: 94, durability: 90, fightIq: 95, experience: 95, finishing: 80 },
   { id: "oliveira", name: "Charles Oliveira", nickname: "Do Bronx", division: "Lightweight", era: "Modern", striking: 85, grappling: 95, cardio: 88, durability: 74, fightIq: 84, experience: 96, finishing: 97 },
   { id: "poirier", name: "Dustin Poirier", nickname: "The Diamond", division: "Lightweight", era: "Modern", striking: 90, grappling: 82, cardio: 88, durability: 82, fightIq: 88, experience: 94, finishing: 88 },
   { id: "gaethje", name: "Justin Gaethje", nickname: "The Highlight", division: "Lightweight", era: "Modern", striking: 93, grappling: 75, cardio: 87, durability: 84, fightIq: 80, experience: 88, finishing: 90 },
-  { id: "mcgregor", name: "Conor McGregor", nickname: "The Notorious", division: "Lightweight", era: "2010s", striking: 92, grappling: 72, cardio: 74, durability: 76, fightIq: 88, experience: 90, finishing: 94 },
+  { id: "mcgregor", name: "Conor McGregor", nickname: "The Notorious", division: "Lightweight", era: "2010s", striking: 97, grappling: 81, cardio: 86, durability: 88, fightIq: 94, experience: 92, finishing: 97 },
 
   // --- Featherweight ---
   { id: "volkanovski", name: "Alexander Volkanovski", nickname: "The Great", division: "Featherweight", era: "Modern", striking: 90, grappling: 86, cardio: 95, durability: 88, fightIq: 95, experience: 90, finishing: 80 },

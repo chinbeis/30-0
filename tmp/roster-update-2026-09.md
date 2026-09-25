@@ -99,3 +99,15 @@ Tried: the Wikipedia summary API, then Wikidata P18, then a Wikimedia Commons se
 | Informed 30-0 / 29-1 | 6.2% / 20.7% | 5.0% / 19.4% |
 | Max-OVR 30-0 / 29-1 | 2.4% / 11.4% | 1.9% / 10.6% |
 | GOAT skilled 13-0 / 12-1 | 3.9% / 19.3% | 3.5% / 20.0% |
+
+## Follow-up buffs
+
+Ratings order: STR / GRP / CAR / DUR / IQ / EXP / FIN.
+
+| Fighter | Old | New | OVR |
+|---|---|---|---|
+| Conor McGregor | 92/72/74/76/88/90/94 | 97/81/86/88/94/92/97 | 82 → 90 |
+| Karate Stance McGregor (mythic) | 99/76/88/85/95/94/99 | 99/84/92/92/97/95/99 | 90 → 93 |
+| Khabib Nurmagomedov | 82/99/95/92/96/90/82 | 88/99/98/95/98/94/88 | 91 → 94 |
+
+Calibration after: informed 30-0 5.5% / 29-1 20.3%; GOAT skilled 13-0 3.6% / 12-1 20.1%.

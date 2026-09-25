@@ -23,6 +23,7 @@ import { FighterAvatar } from "@/app/_game/FighterAvatar";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { ShareModal } from "@/app/_components/ShareModal";
 import { OvrBadge, StatBar, pct, probText } from "@/app/_components/ratings";
+import { sfx, useDealSound, useOutcomeSound } from "@/app/_components/sfx";
 
 type Phase = "start" | "pick" | "sim" | "result";
 
@@ -136,6 +137,7 @@ export default function Build({
 
   const pick = useCallback(
     (fighterId: string) => {
+      sfx.pick();
       const next = [...picks, fighterId];
       setPicks(next);
       if (next.length === ROUNDS) {
@@ -262,9 +264,16 @@ function PickScreen({
   const options = round.pages[rollIndex];
   // gated by the shared draft-wide budget AND how many pages this round has
   const canRoll = rerollsLeft > 0 && rollIndex < round.pages.length - 1 && !rolling;
+  useDealSound(
+    options.length,
+    options.some((f) => f.isPrime),
+    options.some((f) => f.isMythic),
+    rollIndex,
+  );
 
   const onRoll = () => {
     if (!canRoll) return;
+    sfx.reroll();
     setRolling(true);
     setPreviewId(null);
     setTimeout(() => {
@@ -321,7 +330,10 @@ function PickScreen({
               physique={round.physique}
               index={i}
               disabled={rolling}
-              onPreview={(on) => setPreviewId(on ? f.id : null)}
+              onPreview={(on) => {
+                if (on) sfx.hover();
+                setPreviewId(on ? f.id : null);
+              }}
               onClick={() => !rolling && onPick(f.id)}
             />
           ))}
@@ -648,6 +660,7 @@ function SimScreen({ result, onDone }: { result: CareerResult; onDone: () => voi
   useEffect(() => {
     let cancelled = false;
     let timer: ReturnType<typeof setTimeout>;
+    const bell = setTimeout(() => sfx.bell(2), 0);
     const step = (i: number) => {
       if (cancelled) return;
       if (i >= total) {
@@ -658,6 +671,11 @@ function SimScreen({ result, onDone }: { result: CareerResult; onDone: () => voi
       const delay = (f.kind === "normal" ? 300 : 520) + (f.win ? 0 : 300);
       timer = setTimeout(() => {
         setShown(i + 1);
+        if (f.win) sfx.win(i + 1);
+        else sfx.loss();
+        // crowd swell going into the title fights
+        const nextFight = result.fights[i + 1];
+        if (f.win && f.kind === "normal" && nextFight && nextFight.kind !== "normal") sfx.crowd();
         step(i + 1);
       }, delay);
     };
@@ -665,6 +683,7 @@ function SimScreen({ result, onDone }: { result: CareerResult; onDone: () => voi
     return () => {
       cancelled = true;
       clearTimeout(timer);
+      clearTimeout(bell);
     };
   }, [result, total]);
 
@@ -802,6 +821,8 @@ function ResultScreen({
 }) {
   const { t } = useI18n();
   const a = result.attributes;
+  // 12-1 = lost the triple-champ fight: the GOAT game's near miss
+  useOutcomeSound(result.losses, result.losses === 1 && result.wins === 12);
 
   // ---- leaderboard submission (server-authoritative; mirrors the 30-0 game) ----
   // The result screen only ever renders client-side (it follows a client-only

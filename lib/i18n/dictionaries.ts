@@ -4,7 +4,7 @@ import type { Locale } from "./config";
 // NOTE: engine-generated text (fight stories, GOAT narrative, methods, tier
 // labels) is assembled in lib/game and lib/goat and stays English by design.
 const en = {
-  nav: { play: "Play", leaderboard: "Leaderboard", signIn: "Sign in", signOut: "Sign out", profile: "Profile" },
+  nav: { play: "Play", leaderboard: "Leaderboard", signIn: "Sign in", signOut: "Sign out", profile: "Profile", soundOn: "Mute sound", soundOff: "Turn sound on" },
 
   profile: {
     title: "Your Profile",
@@ -27,6 +27,22 @@ const en = {
     goatTitle: "Become the GOAT",
     goatLine: "Build 1 fighter. Win 13 straight.",
     play: "Play",
+    headA: "Can you go",
+    headB: "?",
+    sub: "Draft ten fighters. Each one fights three times. One bad pick is all it takes.",
+    pickGame: "Pick your game",
+    classicName: "Classic",
+    classicMeta: ["10 picks", "30 fights", "~60 sec"],
+    goatName: "GOAT Builder",
+    goatMeta: ["7 traits", "13 fights", "3 rerolls"],
+    yourBest: "Your best",
+    howTitle: "How a season works",
+    steps: [
+      { k: "Draft", v: "Three fighters a round, take one. Ten rounds." },
+      { k: "Fight", v: "Every pick fights three bouts. The last ten are title fights." },
+      { k: "Run it back", v: "Missed by one? Same board, new picks. Send it to a friend." },
+    ],
+    board: "Who's gone 30-0",
   },
 
   login: {
@@ -279,7 +295,7 @@ const en = {
 export type Dict = typeof en;
 
 const pt: Dict = {
-  nav: { play: "Jogar", leaderboard: "Classificação", signIn: "Entrar", signOut: "Sair", profile: "Perfil" },
+  nav: { play: "Jogar", leaderboard: "Classificação", signIn: "Entrar", signOut: "Sair", profile: "Perfil", soundOn: "Desligar som", soundOff: "Ligar som" },
 
   profile: {
     title: "Seu Perfil",
@@ -302,6 +318,22 @@ const pt: Dict = {
     goatTitle: "Seja o GOAT",
     goatLine: "Crie 1 lutador. Vença 13 seguidas.",
     play: "Jogar",
+    headA: "Você consegue",
+    headB: "?",
+    sub: "Escolha dez lutadores. Cada um luta três vezes. Basta uma escolha ruim.",
+    pickGame: "Escolha o jogo",
+    classicName: "Clássico",
+    classicMeta: ["10 escolhas", "30 lutas", "~60 seg"],
+    goatName: "Monte o GOAT",
+    goatMeta: ["7 atributos", "13 lutas", "3 trocas"],
+    yourBest: "Seu recorde",
+    howTitle: "Como funciona a temporada",
+    steps: [
+      { k: "Escolha", v: "Três lutadores por rodada, fique com um. Dez rodadas." },
+      { k: "Lute", v: "Cada escolha faz três lutas. As últimas dez valem cinturão." },
+      { k: "De novo", v: "Perdeu por uma? Mesmo quadro, novas escolhas. Desafie um amigo." },
+    ],
+    board: "Quem já fez 30-0",
   },
 
   login: {
@@ -552,7 +584,7 @@ const pt: Dict = {
 };
 
 const es: Dict = {
-  nav: { play: "Jugar", leaderboard: "Clasificación", signIn: "Iniciar sesión", signOut: "Cerrar sesión", profile: "Perfil" },
+  nav: { play: "Jugar", leaderboard: "Clasificación", signIn: "Iniciar sesión", signOut: "Cerrar sesión", profile: "Perfil", soundOn: "Silenciar", soundOff: "Activar sonido" },
 
   profile: {
     title: "Tu Perfil",
@@ -575,6 +607,22 @@ const es: Dict = {
     goatTitle: "Sé el GOAT",
     goatLine: "Crea 1 peleador. Gana 13 seguidas.",
     play: "Jugar",
+    headA: "¿Puedes hacer",
+    headB: "?",
+    sub: "Elige diez peleadores. Cada uno pelea tres veces. Basta una mala elección.",
+    pickGame: "Elige tu juego",
+    classicName: "Clásico",
+    classicMeta: ["10 picks", "30 peleas", "~60 seg"],
+    goatName: "Crea al GOAT",
+    goatMeta: ["7 atributos", "13 peleas", "3 cambios"],
+    yourBest: "Tu mejor",
+    howTitle: "Cómo funciona una temporada",
+    steps: [
+      { k: "Elige", v: "Tres peleadores por ronda, quédate con uno. Diez rondas." },
+      { k: "Pelea", v: "Cada pick pelea tres veces. Las últimas diez son por el título." },
+      { k: "Otra vez", v: "¿Te faltó una? Mismo tablero, nuevos picks. Reta a un amigo." },
+    ],
+    board: "Quién ha hecho 30-0",
   },
 
   login: {

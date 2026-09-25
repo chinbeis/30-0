@@ -31,6 +31,7 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { Dict } from "@/lib/i18n/dictionaries";
 import { ShareModal } from "@/app/_components/ShareModal";
 import { OvrBadge, StatBar, pct, probText, ratingText } from "@/app/_components/ratings";
+import { sfx, useDealSound, useOutcomeSound } from "@/app/_components/sfx";
 
 type Phase = "start" | "pick" | "sim" | "result";
 
@@ -126,12 +127,14 @@ export default function Game({
 
   const reroll = useCallback(() => {
     if (!board || rerollsUsed >= REROLLS_TOTAL) return;
+    sfx.reroll();
     setRolled(board.rerollSets[rerollsUsed]);
     setRerollsUsed((n) => n + 1);
   }, [board, rerollsUsed]);
 
   const pick = useCallback(
     (fighterId: string) => {
+      sfx.pick();
       const next = [...picks, fighterId];
       setPicks(next);
       if (next.length === ROSTER_SIZE) {
@@ -228,6 +231,12 @@ function PickScreen({
   const { t } = useI18n();
   const canReroll = rerollsLeft > 0;
   const bouts = slotBoutIndexes(roundIndex).map((i) => schedule[i]);
+  useDealSound(
+    options.length,
+    options.some((f) => f.isPrime),
+    options.some((f) => f.isMythic),
+    rolledKey,
+  );
   return (
     <div className="mx-auto w-full max-w-6xl flex-1 px-4 py-6">
       {challenge ? (
@@ -371,6 +380,7 @@ function FighterCard({
   return (
     <button
       onClick={onClick}
+      onPointerEnter={(e) => e.pointerType === "mouse" && sfx.hover()}
       style={{ animationDelay: `${index * 70}ms` }}
       className={`animate-deal card-sheen group relative flex flex-col gap-3 rounded-2xl border p-4 text-left transition duration-200 hover:-translate-y-1 active:translate-y-0 active:scale-[0.98] ${
         mythic
@@ -604,6 +614,8 @@ function SimScreen({ result, onDone }: { result: SeasonResult; onDone: () => voi
   useEffect(() => {
     let cancelled = false;
     let timer: ReturnType<typeof setTimeout>;
+    let streak = 0;
+    const bell = setTimeout(() => sfx.bell(2), 0);
     const step = (i: number) => {
       if (cancelled) return;
       if (i >= TOTAL_BOUTS) {
@@ -615,6 +627,12 @@ function SimScreen({ result, onDone }: { result: SeasonResult; onDone: () => voi
       const lossBeat = result.fights[i].win ? 0 : 420;
       timer = setTimeout(() => {
         setDone(i + 1);
+        if (result.fights[i].win) sfx.win(++streak);
+        else {
+          streak = 0;
+          sfx.loss();
+        }
+        if (i + 1 === TOTAL_BOUTS - 5) sfx.crowd(); // title run begins
         step(i + 1);
       }, base + lossBeat);
     };
@@ -622,6 +640,7 @@ function SimScreen({ result, onDone }: { result: SeasonResult; onDone: () => voi
     return () => {
       cancelled = true;
       clearTimeout(timer);
+      clearTimeout(bell);
     };
   }, [result]);
 
@@ -759,6 +778,7 @@ function ResultScreen({
   const { t } = useI18n();
   const mvp = getFighter(result.mvpFighterId);
   const weak = getFighter(result.weakestFighterId);
+  useOutcomeSound(result.losses, result.losses === 1);
 
   // ---- leaderboard submission ----
   // ResultScreen only ever mounts client-side (after a played season), so the

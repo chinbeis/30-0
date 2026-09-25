@@ -4,6 +4,8 @@ import { auth, googleEnabled } from "@/auth";
 import { getT } from "@/lib/i18n/server";
 import { AuthControls } from "./AuthControls";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { NavLinks } from "./NavLinks";
+import { SoundToggle } from "./SoundToggle";
 
 export async function SiteHeader() {
   const session = await auth();
@@ -11,44 +13,38 @@ export async function SiteHeader() {
   const t = await getT();
 
   return (
-    <header className="sticky top-0 z-20 border-b border-white/5 bg-black/60 backdrop-blur-md">
-      <div className="mx-auto flex w-full max-w-3xl items-center justify-between gap-2 px-3 py-3 sm:px-4">
-        <Link
-          href="/"
-          className="flex shrink-0 items-center transition-transform hover:scale-105 active:scale-95"
-          aria-label="30-0 home"
-        >
-          <Image
-            src="/logo/logo-30-0.png"
-            alt="30-0"
-            width={44}
-            height={44}
-            priority
-            className="h-11 w-auto drop-shadow-[0_0_8px_rgba(224,40,46,0.35)]"
-          />
-        </Link>
-
-        <nav className="flex min-w-0 items-center gap-1 text-sm font-semibold text-zinc-400 sm:gap-2">
-          <Link
-            href="/"
-            className="rounded-md px-2.5 py-1.5 uppercase tracking-wider text-xs font-bold transition hover:bg-white/5 hover:text-white"
-          >
-            {t.nav.play}
+    <header className="sticky top-0 z-20 border-b border-white/5 bg-black/70 backdrop-blur-md">
+      <div className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between gap-2 px-3 sm:px-4">
+        <div className="flex min-w-0 items-center gap-4 sm:gap-6">
+          <Link href="/" className="flex shrink-0 items-center gap-2" aria-label="30-0 home">
+            <Image
+              src="/logo/logo-30-0.png"
+              alt=""
+              width={36}
+              height={36}
+              preload
+              className="h-9 w-9"
+            />
+            <span className="font-display hidden text-xl leading-none text-white sm:inline">30-0</span>
           </Link>
-          <Link
-            href="/leaderboard"
-            className="truncate rounded-md px-2.5 py-1.5 uppercase tracking-wider text-xs font-bold transition hover:bg-white/5 hover:text-white"
-          >
-            {t.nav.leaderboard}
-          </Link>
+          <nav className="flex min-w-0 items-center">
+            <NavLinks
+              links={[
+                { href: "/", label: t.nav.play, also: ["/play", "/goat", "/challenge"] },
+                { href: "/leaderboard", label: t.nav.leaderboard },
+              ]}
+            />
+          </nav>
+        </div>
 
+        <div className="flex shrink-0 items-center gap-1 sm:gap-2">
+          <SoundToggle labelOn={t.nav.soundOn} labelOff={t.nav.soundOff} />
           <LanguageSwitcher />
-
           <AuthControls
             user={user ? { name: user.name ?? null, image: user.image ?? null } : null}
             googleEnabled={googleEnabled}
           />
-        </nav>
+        </div>
       </div>
     </header>
   );
